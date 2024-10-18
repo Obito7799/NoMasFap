@@ -1,0 +1,97 @@
+   <!DOCTYPE html>  
+    <html lang="es">  
+    <head>  
+        <meta charset="UTF-8">  
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+        <title>Libros de Crecimiento Personal</title>  
+        <link href="https://cdn.tailwindcss.com" rel="stylesheet">  
+        <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>  
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/epub.js/0.3.88/epub.min.js"></script>  
+        <style>  
+            body {  
+                background-color: #f0f4f8;  
+                color: #333;  
+            }  
+            .header {  
+                background-color: #ff6f61;  
+                padding: 20px;  
+                text-align: center;  
+                color: white;  
+            }  
+            .book-card {  
+                background-color: #ffffff;  
+                border-radius: 10px;  
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);  
+                margin: 20px;  
+                padding: 20px;  
+                transition: transform 0.2s;  
+                width: 250px;  
+                text-align: center;  
+            }  
+            .book-card:hover {  
+                transform: scale(1.05);  
+            }  
+            .book-cover {  
+                width: 100%;  
+                height: auto;  
+                border-radius: 10px;  
+            }  
+            .footer {  
+                background-color: #ff6f61;  
+                padding: 10px;  
+                text-align: center;  
+                color: white;  
+                position: relative;  
+                bottom: 0;  
+                width: 100%;  
+            }  
+            #epub-viewer {  
+                width: 100%;  
+                height: 600px;  
+                border: 1px solid #ccc;  
+                margin-top: 20px;  
+            }  
+            .book-container {  
+                display: flex;  
+                flex-wrap: wrap;  
+                justify-content: center;  
+            }  
+        </style>  
+    </head>  
+    <body>  
+        <header class="header">  
+            <h1>Libros de Crecimiento Personal</h1>  
+            <p>Transforma tu vida y deja atrás los hábitos dañinos</p>  
+        </header>  
+        <main class="container mx-auto">  
+            <section class="text-center my-10">  
+                <h2 class="text-2xl font-bold">Nuestros Libros</h2>  
+                <p>Explora nuestra colección de libros en PDF y EPUB.</p>  
+            </section>  
+            <div class="book-container">  
+                <div class="book-card">  
+                    <img src="https://via.placeholder.com/200x300" alt="Portada de Ragnarok" class="book-cover">  
+                    <h3 class="font-semibold mt-2">Ragnarok. El camino de un hombre - Hombres Peligrosos</h3>  
+                    <p>Descripción breve del libro.</p>  
+                    <button onclick="loadEpub('Libros/Ragnarok. El camino de un hombre - Hombres Peligrosos.epub')" class="text-blue-500 mt-2">Leer EPUB</button>  
+                </div>  
+                <!-- Agrega más libros según sea necesario -->  
+            </div>  
+            <div id="epub-viewer"></div>  
+        </main>  
+        <footer class="footer">  
+            <p>&copy; 2023 Libros de Crecimiento Personal. Todos los derechos reservados.</p>  
+        </footer>  
+
+        <script>  
+            function loadEpub(url) {  
+                const book = ePub(url);  
+                const rendition = book.renderTo("epub-viewer", {  
+                    width: "100%",  
+                    height: "600px"  
+                });  
+                rendition.display();  
+            }  
+        </script>  
+    </body>  
+    </html>  
