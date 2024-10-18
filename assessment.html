@@ -5,13 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Camino a la Recuperación</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-firestore-compat.js"></script>
     <style>
         :root {
             --primary-color: #4CAF50;
             --secondary-color: #45a049;
             --accent-color: #f8f9fa;
             --text-color: #333;
-            --background-color: #f5f7fa;
+            --background-color: #1a1a1a;
         }
  
         * {
@@ -136,13 +140,54 @@
             from { opacity: 0; }
             to { opacity: 1; }
         }
+
+        /* Estilos modificados para los botones de login social */
+        .social-login {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1em;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            width: 250px;
+        }
+
+        .google-btn {
+            background: white;
+            color: #757575;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+        }
+
+        .facebook-btn {
+            background: #1877f2;
+            color: white;
+        }
+
+        .social-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .social-icon {
+            width: 20px;
+            height: 20px;
+        }
     </style>
 </head>
 <body>
- 
-    <!-- Contenedor de partículas -->
     <div id="particles-js"></div>
- 
+    
     <div class="container">
         <div class="welcome-screen fade-in" id="welcomeScreen">
             <div class="logo">
@@ -157,8 +202,21 @@
             <div class="motivation-quote" id="dailyQuote">
                 "Cada viaje de mil millas comienza con un solo paso"
             </div>
-            <button class="cta-button" onclick="startTour()">Comenzar mi Viaje</button>
+            
+            <button class="cta-button" onclick="redirectToJourney()">Comenzar mi Viaje</button>
             <button class="cta-button" onclick="startAssessment()">Realizar Evaluación</button>
+            
+            <!-- Botones de login social reposicionados -->
+            <div class="social-login">
+                <button class="social-button google-btn" onclick="signInWithGoogle()">
+                    <img src="https://cdn.cdnlogo.com/logos/g/35/google-icon.svg" alt="Google" class="social-icon">
+                    Continuar con Google
+                </button>
+                <button class="social-button facebook-btn" onclick="signInWithFacebook()">
+                    <img src="https://cdn.cdnlogo.com/logos/f/83/facebook.svg" alt="Facebook" class="social-icon">
+                    Continuar con Facebook
+                </button>
+            </div>
         </div>
  
         <div class="progress-dots">
@@ -168,6 +226,106 @@
         </div>
     </div>
  
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Configuración de Firebase
+        const firebaseConfig = {
+            // Reemplazar con tus credenciales de Firebase
+            apiKey: "tu-api-key",
+            authDomain: "tu-auth-domain",
+            projectId: "tu-project-id",
+            storageBucket: "tu-storage-bucket",
+            messagingSenderId: "tu-messaging-sender-id",
+            appId: "tu-app-id"
+        };
+
+        // Inicializar Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // Función para autenticación con Google
+        function signInWithGoogle() {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            auth.signInWithPopup(provider)
+                .then((result) => {
+                    handleAuthSuccess(result.user);
+                })
+                .catch((error) => {
+                    console.error("Error en autenticación con Google:", error);
+                });
+        }
+
+        // Función para autenticación con Facebook
+        function signInWithFacebook() {
+            const provider = new firebase.auth.FacebookAuthProvider();
+            auth.signInWithPopup(provider)
+                .then((result) => {
+                    handleAuthSuccess(result.user);
+                })
+                .catch((error) => {
+                    console.error("Error en autenticación con Facebook:", error);
+                });
+        }
+
+        // Manejar el éxito de autenticación
+        function handleAuthSuccess(user) {
+            const loginData = {
+                userId: user.uid,
+                email: user.email,
+                loginTime: new Date(),
+                lastActive: new Date()
+            };
+
+            db.collection('userSessions').add(loginData)
+                .then(() => {
+                    console.log("Sesión registrada exitosamente");
+                    redirectToJourney();
+                })
+                .catch((error) => {
+                    console.error("Error al registrar sesión:", error);
+                });
+
+            startActivityMonitor(user);
+        }
+
+        // Monitor de actividad
+        function startActivityMonitor(user) {
+            let lastActive = new Date();
+            const INACTIVE_THRESHOLD = 30 * 60 * 1000; // 30 minutos
+
+            function updateLastActive() {
+                lastActive = new Date();
+                db.collection('userSessions')
+                    .where('userId', '==', user.uid)
+                    .orderBy('loginTime', 'desc')
+                    .limit(1)
+                    .get()
+                    .then((querySnapshot) => {
+                        if (!querySnapshot.empty) {
+                            querySnapshot.docs[0].ref.update({
+                                lastActive: lastActive
+                            });
+                        }
+                    });
+            }
+
+            setInterval(() => {
+                const now = new Date();
+                if (now - lastActive > INACTIVE_THRESHOLD) {
+                    sendInactivityEmail(user.email);
+                }
+            }, 60000);
+
+            ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart'].forEach(
+                event => document.addEventListener(event, updateLastActive)
+            );
+        }
+
+        function redirectToJourney() {
+            window.location.href = "comenzar-mi-viaje.html";
+        }
+
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
         // Configuración de partículas
@@ -273,7 +431,7 @@
             },
             "retina_detect": true
         });
- 
+
         const welcomeMessages = [
             "Hoy es el primer día del resto de tu vida.",
             "Tu decisión de cambio ya es un gran paso adelante.",
@@ -295,15 +453,12 @@
             document.getElementById('dailyQuote').textContent = getRandomMessage(quotes);
         }
  
-        setInterval(updateWelcomeMessage, 5000); // Cambiar mensaje cada 5 segundos
- 
-        function startTour() {
-            alert("¡Comencemos el recorrido!");
-        }
+        setInterval(updateWelcomeMessage, 5000);
  
         function startAssessment() {
-            window.location.href = "test-de-adiccion.html"; // Redireccionar a test-de-adiccion.html
+            window.location.href = "test-de-adiccion.html";
         }
+
     </script>
 </body>
 </html>
