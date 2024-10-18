@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Información sobre Adicciones - Base Científica</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+    <style>
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        .section-content {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .floating-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 100;
+        }
+        .citation {
+            font-size: 0.9rem;
+            color: #666;
+            border-left: 3px solid #3B82F6;
+            padding-left: 1rem;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div id="particles-js"></div>
+
+    <nav class="bg-blue-600 text-white p-4 sticky top-0 z-50">
+        <div class="container mx-auto">
+            <h1 class="text-2xl font-bold">Entendiendo las Adicciones: Una Perspectiva Científica</h1>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-4 py-8">
+        <div class="section-content p-6 mb-8">
+            <h2 class="text-3xl font-bold mb-6 text-blue-800">Efectos Neurológicos de la Adicción a la Pornografía</h2>
+            
+            <div class="mb-8">
+                <h3 class="text-xl font-semibold mb-4 text-blue-700">Cambios Cerebrales Documentados</h3>
+                <p class="mb-4">
+                    Estudios recientes utilizando imágenes por resonancia magnética funcional (fMRI) han demostrado alteraciones significativas en la estructura y función cerebral de personas con consumo excesivo de pornografía, particularmente en:
+                </p>
+                <ul class="list-disc pl-6 mb-4">
+                    <li>Corteza prefrontal (control ejecutivo)</li>
+                    <li>Sistema de recompensa (circuito dopaminérgico)</li>
+                    <li>Amígdala (procesamiento emocional)</li>
+                </ul>
+                <div class="citation">
+                    Fuente: Cambridge University (2021) - "Neural Correlates of Sexual Cue Reactivity"
+                </div>
+            </div>
+
+            <div class="mb-8">
+                <h3 class="text-xl font-semibold mb-4 text-blue-700">Impacto en la Salud Mental</h3>
+                <p class="mb-4">
+                    La investigación del Instituto Karolinska ha identificado correlaciones significativas entre el consumo excesivo de pornografía y:
+                </p>
+                <ul class="list-disc pl-6 mb-4">
+                    <li>Aumento de niveles de ansiedad (incremento del 47%)</li>
+                    <li>Síntomas depresivos (presente en 62% de casos estudiados)</li>
+                    <li>Disminución de la autoestima y satisfacción vital</li>
+                </ul>
+                <div class="citation">
+                    Estudio longitudinal 2019-2023, Instituto Karolinska - "Psychological Impact of Pornography Consumption"
+                </div>
+            </div>
+
+            <div class="mb-8">
+                <h3 class="text-xl font-semibold mb-4 text-blue-700">Efectos en las Relaciones Interpersonales</h3>
+                <p class="mb-4">
+                    La Universidad de Stanford documentó los siguientes impactos en relaciones personales:
+                </p>
+                <ul class="list-disc pl-6 mb-4">
+                    <li>Dificultad para mantener relaciones íntimas significativas</li>
+                    <li>Expectativas irreales sobre relaciones sexuales</li>
+                    <li>Reducción en la satisfacción de pareja</li>
+                </ul>
+                <div class="citation">
+                    Stanford Department of Psychology - "Relationship Satisfaction and Digital Media Consumption"
+                </div>
+            </div>
+        </div>
+
+        <div class="section-content p-6 mb-8">
+            <h2 class="text-3xl font-bold mb-6 text-blue-800">Caminos hacia la Recuperación</h2>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold mb-4 text-blue-700">Estrategias Comprobadas</h3>
+                    <ul class="list-disc pl-6">
+                        <li>Terapia Cognitivo-Conductual (TCC)</li>
+                        <li>Mindfulness y meditación</li>
+                        <li>Grupos de apoyo</li>
+                        <li>Ejercicio regular</li>
+                    </ul>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold mb-4 text-blue-700">Tasas de Recuperación</h3>
+                    <p>
+                        Estudios muestran tasas de recuperación del 72% después de 1 año con tratamiento adecuado.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <a href="comenzar-mi-viaje.html" class="floating-button bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full transition-all duration-300 transform hover:scale-105">
+        Inicio
+    </a>
+
+    <script>
+        particlesJS('particles-js',
+          {
+            "particles": {
+              "number": {
+                "value": 80,
+                "density": {
+                  "enable": true,
+                  "value_area": 800
+                }
+              },
+              "color": {
+                "value": "#3B82F6"
+              },
+              "shape": {
+                "type": "circle"
+              },
+              "opacity": {
+                "value": 0.5,
+                "random": false
+              },
+              "size": {
+                "value": 3,
+                "random": true
+              },
+              "line_linked": {
+                "enable": true,
+                "distance": 150,
+                "color": "#3B82F6",
+                "opacity": 0.4,
+                "width": 1
+              },
+              "move": {
+                "enable": true,
+                "speed": 2,
+                "direction": "none",
+                "random": false,
+                "straight": false,
+                "out_mode": "out",
+                "bounce": false
+              }
+            },
+            "interactivity": {
+              "detect_on": "canvas",
+              "events": {
+                "onhover": {
+                  "enable": true,
+                  "mode": "repulse"
+                },
+                "onclick": {
+                  "enable": true,
+                  "mode": "push"
+                },
+                "resize": true
+              }
+            },
+            "retina_detect": true
+          }
+        );
+    </script>
+</body>
+</html>

@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluación - Camino a la Recuperación</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1d4ed8;
+            --accent-color: #f8f9fa;
+            --text-color: #1f2937;
+            --error-color: #dc2626;
+            --success-color: #059669;
+            --highlight-color: #7c3aed;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--text-color);
+        }
+
+        .assessment-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.2);
+            padding: 40px;
+            backdrop-filter: blur(8px);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: var(--primary-color);
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+
+        .header p {
+            color: var(--text-color);
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        .question-container {
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .question-container.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .question {
+            font-size: 1.3em;
+            color: var(--text-color);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 18px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1em;
+        }
+
+        .option:hover {
+            background: #f1f5f9;
+            border-color: var(--primary-color);
+            transform: translateX(5px);
+        }
+
+        .option.selected {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            transform: scale(1.02);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: #e2e8f0;
+            border-radius: 6px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--highlight-color));
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            gap: 20px;
+        }
+
+        .nav-button {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            min-width: 150px;
+        }
+
+        .nav-button.back {
+            background: #e2e8f0;
+            color: var(--text-color);
+        }
+
+        .nav-button.next {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .results {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .results h2 {
+            color: var(--primary-color);
+            font-size: 2em;
+            margin-bottom: 30px;
+        }
+
+        .result-chart {
+            margin: 30px 0;
+            position: relative;
+            height: 200px;
+        }
+
+        .recommendation {
+            background: #f8fafc;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 30px;
+            text-align: left;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .recommendation h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .recommendation p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .recommendation ul {
+            margin-left: 20px;
+            margin-top: 15px;
+        }
+
+        .recommendation li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .action-button {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .action-button.primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .action-button.secondary {
+            background: var(--highlight-color);
+            color: white;
+        }
+
+        .action-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .assessment-container {
+                padding: 20px;
+            }
+
+            .question {
+                font-size: 1.2em;
+            }
+
+            .option {
+                padding: 15px;
+                font-size: 1em;
+            }
+
+            .nav-button {
+                padding: 12px 20px;
+                font-size: 1em;
+                min-width: 120px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    <div class="assessment-container">
+        <div class="header">
+            <h1>Evaluación de Recuperación</h1>
+            <p>Este test te ayudará a entender mejor tu situación y te proporcionará un plan personalizado para comenzar tu camino hacia la recuperación.</p>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress" id="progressBar"></div>
+        </div>
+
+        <div id="questionContainer" class="question-container active">
+            <!-- Las preguntas se cargarán dinámicamente -->
+        </div>
+
+        <div class="navigation">
+            <button class="nav-button back" id="backButton" onclick="previousQuestion()" disabled>Anterior</button>
+            <button class="nav-button next" id="nextButton" onclick="nextQuestion()">Siguiente</button>
+        </div>
+
+        <div id="results" class="results hidden">
+            <h2>Resultados de tu Evaluación</h2>
+            <div class="result-chart" id="resultChart"></div>
+            <div class="recommendation" id="recommendation"></div>
+            <div class="action-buttons">
+                <a href="comenzar-mi-viaje.html" class="action-button primary">Empezar mi Viaje</a>
+                <a href="mas-informacion-sobre-el-daño-de-las-adicciones.html" class="action-button secondary">Conoce los Efectos</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                id: 1,
+                text: "¿Con qué frecuencia consumes contenido pornográfico?",
+                options: [
+                    "Varias veces al día",
+                    "Una vez al día",
+                    "Algunas veces por semana",
+                    "Ocasionalmente (1-2 veces por mes)"
+                ],
+                weight: 3
+            },
+            {
+                id: 2,
+                text: "¿Cuánto tiempo dedicas en cada sesión de consumo?",
+                options: [
+                    "Más de 2 horas",
+                    "Entre 1 y 2 horas",
+                    "Entre 30 minutos y 1 hora",
+                    "Menos de 30 minutos"
+                ],
+                weight: 2
+            },
+            {
+                id: 3,
+                text: "¿Has notado que necesitas contenido cada vez más extremo para lograr el mismo efecto?",
+                options: [
+                    "Sí, constantemente",
+                    "A veces",
+                    "Rara vez",
+                    "No, nunca"
+                ],
+                weight: 3
+            },
+            {
+                id: 4,
+                text: "¿Has intentado dejar el consumo sin éxito?",
+                options: [
+                    "Múltiples veces sin éxito",
+                    "Algunas veces, con recaídas frecuentes",
+                    "Pocas veces, con períodos de abstinencia",
+                    "Nunca lo he intentado seriamente"
+                ],
+                weight: 2
+            },
+            {
+                id: 5,
+                text: "¿Cómo afecta a tu vida sexual real?",
+                options: [
+                    "Problemas graves de rendimiento/satisfacción",
+                    "Dificultades moderadas",
+                    "Pequeños problemas ocasionales",
+                    "No afecta significativamente"
+                ],
+                weight: 3
+            },
+            {
+                id: 6,
+                text: "¿Has perdido interés en actividades que antes disfrutabas?",
+                options: [
+                    "Sí, completamente",
+                    "Bastante",
+                    "Un poco",
+                    "No, mantengo mis intereses"
+                ],
+                weight: 2
+            },
+            {
+                id: 7,
+                text: "¿Sientes culpa o vergüenza después del consumo?",
+                options: [
+                    "Siempre, de forma intensa",
+                    "Frecuentemente",
+                    "A veces",
+                    "Rara vez o nunca"
+                ],
+                weight: 2
+            },
+            {
+                id: 8,
+                text: "¿Has tenido problemas en relaciones personales debido al consumo?",
+                options: [
+                    "Sí, he perdido relaciones importantes",
+                    "Ha causado conflictos significativos",
+                    "Algunos problemas menores",
+                    "No ha afectado mis relaciones"
+                ],
+                weight: 3
+            },
+            {
+                id: 9,
+                text: "¿El consumo interfiere con tu trabajo o estudios?",
+                options: [
+                    "Sí, de forma grave",
+                    "Interfiere moderadamente",
+                    "Ocasionalmente",
+                    "No interfiere"
+                ],
+                weight: 3
+            },
+            {
+                id: 10,
+                text: "¿Tienes pensamientos intrusivos sobre pornografía durante el día?",
+                options: [
+                    "Constantemente",
+                    "Varias veces al día",
+                    "Ocasionalmente",
+                    "Rara vez o nunca"
+                ],
+                weight: 2
+            }
+        ];
+
+        let currentQuestion = 0;
+        let answers = {};
+
+        function showQuestion(index) {
+            const question = questions[index];
+            const container = document.getElementById('questionContainer');
+            
+            container.innerHTML = `
+                <div class="question">${question.text}</div>
+                <div class="options">
+                    ${question.options.map((option, i) => `
+                        <div class="option" onclick="selectOption(${i})">${option}</div>
+                    `).join('')}
+                </div>
+            `;
+
+            // Si hay una respuesta previa, seleccionarla
+            if (answers[currentQuestion]) {
+                const options = document.querySelectorAll('.option');
+                options[answers[currentQuestion].answer].classList.add('selected');
+            }
+
+            updateProgress();
+            updateNavigationButtons();
+        }
+
+        function selectOption(optionIndex) {
+            const options = document.querySelectorAll('.option');
+            options.forEach(opt => opt.classList.remove('selected'));
+            options[optionIndex].classList.add('selected');
+            
+            answers[currentQuestion] = {
+                questionId: questions[currentQuestion].id,
+                answer: optionIndex,
+                weight: questions[currentQuestion].weight
+            };
+
+            document.getElementById('nextButton').disabled = false;
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                showQuestion(currentQuestion);
+
+} else {
+                showResults();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                showQuestion(currentQuestion);
+            }
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            document.getElementById('progressBar').style.width = `${progress}%`;
+        }
+
+        function updateNavigationButtons() {
+            document.getElementById('backButton').disabled = currentQuestion === 0;
+            document.getElementById('nextButton').disabled = !answers[currentQuestion];
+            document.getElementById('nextButton').textContent = 
+                currentQuestion === questions.length - 1 ? 'Ver Resultados' : 'Siguiente';
+        }
+
+        function calculateResults() {
+            let totalScore = 0;
+            let maxPossibleScore = 0;
+
+            Object.values(answers).forEach(answer => {
+                totalScore += (3 - answer.answer) * answer.weight;
+                maxPossibleScore += 3 * answer.weight;
+            });
+
+            const percentageScore = (totalScore / maxPossibleScore) * 100;
+            
+            let severity;
+            let recommendations = [];
+            let timeEstimate;
+
+            if (percentageScore >= 75) {
+                severity = "grave";
+                timeEstimate = "6-12 meses";
+                recommendations = [
+                    "Buscar ayuda profesional inmediatamente",
+                    "Unirse a un grupo de apoyo",
+                    "Establecer un sistema de bloqueo de contenido",
+                    "Desarrollar un plan de emergencia para momentos de crisis",
+                    "Practicar mindfulness y meditación diariamente",
+                    "Mantener un diario de recuperación"
+                ];
+            } else if (percentageScore >= 50) {
+                severity = "moderado";
+                timeEstimate = "3-6 meses";
+                recommendations = [
+                    "Considerar consejería profesional",
+                    "Establecer límites de uso de dispositivos",
+                    "Desarrollar nuevos hobbies y actividades",
+                    "Practicar ejercicio regular",
+                    "Mantener un registro de triggers y situaciones de riesgo"
+                ];
+            } else {
+                severity = "leve";
+                timeEstimate = "1-3 meses";
+                recommendations = [
+                    "Establecer metas claras de reducción",
+                    "Crear rutinas saludables",
+                    "Aumentar actividades sociales",
+                    "Practicar técnicas de manejo del estrés",
+                    "Mantener un registro de progreso"
+                ];
+            }
+
+            return {
+                severity: percentageScore,
+                severityLevel: severity,
+                estimatedTime: timeEstimate,
+                recommendations: recommendations
+            };
+        }
+
+        function showResults() {
+            const results = calculateResults();
+            const resultContainer = document.getElementById('results');
+            const questionContainer = document.getElementById('questionContainer');
+            const navigation = document.querySelector('.navigation');
+
+            questionContainer.classList.add('hidden');
+            navigation.classList.add('hidden');
+            resultContainer.classList.remove('hidden');
+
+            const recommendation = document.getElementById('recommendation');
+            recommendation.innerHTML = `
+                <h3>Análisis Detallado de tu Situación</h3>
+                <div class="severity-indicator" style="
+                    background: ${results.severity >= 75 ? '#dc2626' : results.severity >= 50 ? '#f59e0b' : '#10b981'};
+                    padding: 15px;
+                    border-radius: 10px;
+                    color: white;
+                    margin-bottom: 20px;
+                    text-align: center;
+                    font-size: 1.2em;
+                    font-weight: bold;
+                ">
+                    Nivel de Afectación: ${results.severity.toFixed(1)}%
+                </div>
+                <p><strong>Nivel de Severidad:</strong> ${results.severityLevel.charAt(0).toUpperCase() + results.severityLevel.slice(1)}</p>
+                <p><strong>Tiempo Estimado de Recuperación:</strong> ${results.estimatedTime}</p>
+                <div style="margin-top: 25px;">
+                    <h4 style="color: var(--primary-color); margin-bottom: 15px;">Plan de Acción Recomendado:</h4>
+                    <ul>
+                        ${results.recommendations.map(rec => `<li>${rec}</li>`).join('')}
+                    </ul>
+                </div>
+                <div style="margin-top: 25px; padding: 15px; background: #f0f9ff; border-radius: 10px;">
+                    <h4 style="color: var(--primary-color); margin-bottom: 10px;">Mensaje de Esperanza</h4>
+                    <p>Reconocer que necesitas ayuda es el primer paso hacia la recuperación. No estás solo en este camino, y con el apoyo y las herramientas adecuadas, la recuperación es posible. Cada día es una nueva oportunidad para mejorar.</p>
+                </div>
+            `;
+
+            // Guardar resultados en localStorage
+            localStorage.setItem('assessmentResults', JSON.stringify({
+                timestamp: new Date().toISOString(),
+                results: results,
+                answers: answers
+            }));
+
+            // Scroll suave hacia los resultados
+            resultContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Configuración de particles.js con colores más vibrantes
+        particlesJS('particles-js',
+          {
+            "particles": {
+              "number": {
+                "value": 80,
+                "density": {
+                  "enable": true,
+                  "value_area": 800
+                }
+              },
+              "color": {
+                "value": "#2563eb"
+              },
+              "shape": {
+                "type": "circle"
+              },
+              "opacity": {
+                "value": 0.5,
+                "random": false
+              },
+              "size": {
+                "value": 3,
+                "random": true
+              },
+              "line_linked": {
+                "enable": true,
+                "distance": 150,
+                "color": "#7c3aed",
+                "opacity": 0.4,
+                "width": 1
+              },
+              "move": {
+                "enable": true,
+                "speed": 6,
+                "direction": "none",
+                "random": false,
+                "straight": false,
+                "out_mode": "out",
+                "bounce": false
+              }
+            },
+            "interactivity": {
+              "detect_on": "canvas",
+              "events": {
+                "onhover": {
+                  "enable": true,
+                  "mode": "repulse"
+                },
+                "onclick": {
+                  "enable": true,
+                  "mode": "push"
+                },
+                "resize": true
+              }
+            },
+            "retina_detect": true
+          }
+        );
+
+        // Iniciar la evaluación
+        showQuestion(0);
+    </script>
+</body>
+</html>
+
+
