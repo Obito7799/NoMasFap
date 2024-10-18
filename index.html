@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperación y Libertad</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --warning-color: #FFA500;
+            --danger-color: #FF4444;
+            --severe-color: #CC0000;
+            --text-color: #333;
+            --light-text: #fff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #1a1a1a;
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .welcome-screen {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+            text-align: center;
+            margin: 40px auto;
+            max-width: 800px;
+            transform: translateY(50px);
+            opacity: 0;
+            animation: slideUp 0.8s ease forwards;
+        }
+
+        @keyframes slideUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .name-input-container {
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .name-input {
+            padding: 15px 25px;
+            font-size: 1.2em;
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            width: 100%;
+            max-width: 400px;
+            margin: 10px auto;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .name-input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 15px rgba(76, 175, 80, 0.2);
+        }
+
+        .start-button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 20px 0;
+        }
+
+        .start-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .warning-container {
+            background: #fff3cd;
+            border: 1px solid #ffeeba;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .statistics-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .severity-indicator {
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .severity-icon {
+            width: 30px;
+            height: 30px;
+        }
+
+        /* Estilos para el audio player */
+        .audio-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            border-radius: 50px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .audio-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .audio-button:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        /* Estilos para las alertas de severidad */
+        .severity-low {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .severity-medium {
+            background-color: var(--warning-color);
+            color: black;
+        }
+
+        .severity-high {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        .severity-critical {
+            background-color: var(--severe-color);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    
+    <div class="container">
+        <div class="welcome-screen" id="welcomeScreen">
+            <h1>Bienvenido al Programa de Recuperación</h1>
+            
+            <div class="name-input-container">
+                <input type="text" class="name-input" id="userName" placeholder="Ingresa tu nombre para comenzar" />
+            </div>
+
+            <button class="start-button" onclick="startAssessment()">Comenzar Mi Recuperación</button>
+
+            <div class="warning-container">
+                <h3>Información Importante</h3>
+                <p>Este programa está diseñado para ayudarte a superar adicciones que pueden estar afectando seriamente tu vida. Todos los datos son confidenciales y anónimos.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="audio-controls">
+        <button class="audio-button" onclick="toggleAudio()" id="audioButton">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+            </svg>
+        </button>
+    </div>
+
+    <script>
+        // Configuración de partículas
+        particlesJS('particles-js', {
+            particles: {
+                number: {
+                    value: 80,
+                    density: {
+                        enable: true,
+                        value_area: 800
+                    }
+                },
+                color: {
+                    value: '#4CAF50'
+                },
+                shape: {
+                    type: 'circle'
+                },
+                opacity: {
+                    value: 0.5,
+                    random: false
+                },
+                size: {
+                    value: 3,
+                    random: true
+                },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: '#4CAF50',
+                    opacity: 0.4,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: 'none',
+                    random: false,
+                    straight: false,
+                    out_mode: 'out',
+                    bounce: false
+                }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: {
+                    onhover: {
+                        enable: true,
+                        mode: 'repulse'
+                    },
+                    onclick: {
+                        enable: true,
+                        mode: 'push'
+                    },
+                    resize: true
+                }
+            },
+            retina_detect: true
+        });
+
+        // Audio ambient
+        let audio = new Audio();
+        audio.src = 'https://cdnjs.cloudflare.com/ajax/libs/sound-effects/1.0.0/meditation.mp3'; // Ejemplo de URL
+        audio.loop = true;
+        
+        function toggleAudio() {
+            if (audio.paused) {
+                audio.play();
+                document.getElementById('audioButton').style.color = '#4CAF50';
+            } else {
+                audio.pause();
+                document.getElementById('audioButton').style.color = '#333';
+            }
+        }
+
+        // Manejo del nombre de usuario y navegación
+        function startAssessment() {
+            const userName = document.getElementById('userName').value.trim();
+            if (!userName) {
+                alert('Por favor, ingresa tu nombre para continuar');
+                return;
+            }
+            
+            localStorage.setItem('userName', userName);
+            window.location.href = 'assessment.html';
+        }
+
+        // Estadísticas y datos informativos
+        const statistics = {
+            dailyUsers: "42% de los hombres entre 18-35 años",
+            mentalHealth: "78% reporta depresión severa",
+            relationships: "89% tiene problemas en relaciones",
+            productivity: "64% reporta bajo rendimiento laboral",
+            recovery: "92% mejora con apoyo adecuado"
+        };
+
+        // Sistema de severidad
+        function getSeverityLevel(score) {
+            if (score < 30) return {
+                level: 'low',
+                message: 'Nivel de Riesgo Bajo',
+                color: 'var(--primary-color)'
+            };
+            else if (score < 50) return {
+                level: 'medium',
+                message: 'Nivel de Riesgo Medio',
+                color: 'var(--warning-color)'
+            };
+            else if (score < 75) return {
+                level: 'high',
+                message: 'Nivel de Riesgo Alto',
+                color: 'var(--danger-color)'
+            };
+            return {
+                level: 'critical',
+                message: 'Nivel de Riesgo Crítico',
+                color: 'var(--severe-color)'
+            };
+        }
+    </script>
+</body>
+</html>
