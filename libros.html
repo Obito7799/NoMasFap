@@ -1,32 +1,64 @@
-<!DOCTYPE html>  
-<html lang="es">  
-<head>  
-    <meta charset="UTF-8">  
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-    <title>Biblioteca de Libros</title>  
-    <link rel="stylesheet" href="styles.css">  
-    <link rel="preconnect" href="https://fonts.googleapis.com">  
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>  
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">  
-</head>  
-<body>  
-    <header>  
-        <h1>Bienvenido a la Biblioteca de Libros</h1>  
-        <p>Explora y disfruta de una variedad de libros en formatos PDF y EPUB.</p>  
-    </header>  
-    <main>  
-        <h2>Libros Disponibles</h2>  
-        <ul class="book-list">  
-            <li>  
-                <a href="Libros/Ragnarok/El camino de un hombre - Hombres Peligrosos.epub" target="_blank">  
-                    El camino de un hombre - Hombres Peligrosos (EPUB)  
-                </a>  
-            </li>  
-            <!-- Agregar más libros aquí -->  
-        </ul>  
-    </main>  
-    <footer>  
-        <p>&copy; 2023 Tu Nombre. Todos los derechos reservados.</p>  
-    </footer>  
-</body>  
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lectura de Libros - Ragnarok</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+        }
+
+        .reader-container {
+            background-color: #fff;
+            width: 70%;
+            height: 80vh;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #reader {
+            flex-grow: 1;
+            overflow: auto;
+        }
+
+        .header {
+            background-color: #66cc88;
+            padding: 10px;
+            text-align: center;
+            color: white;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div class="reader-container">
+        <div class="header">Lectura de Libros - Ragnarok</div>
+        <div id="reader"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/epub.js/0.3.88/epub.min.js"></script>
+    <script>
+        const bookPath = 'Libros/Ragnarok. El camino de un hombre - Hombres Peligrosos.epub'; // Ruta del archivo EPUB
+        const book = ePub(bookPath);
+        const rendition = book.renderTo("reader", {
+            width: "100%",
+            height: "100%",
+        });
+
+        rendition.display();
+    </script>
+</body>
 </html>
