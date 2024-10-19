@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lectura de Libros - Ragnarok</title>
-    <!-- Estilos de Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* Estilos básicos del cuerpo */
+        /* Estilos del cuerpo */
         body {
             font-family: 'Montserrat', sans-serif;
             margin: 0;
@@ -21,7 +20,7 @@
             transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        /* Contenedor principal del lector */
+        /* Contenedor principal */
         .reader-container {
             background-color: #fff;
             width: 80%;
@@ -31,9 +30,10 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
+            position: relative;
         }
 
-        /* Encabezado del lector */
+        /* Encabezado */
         .header {
             background-color: #66cc88;
             padding: 20px;
@@ -43,13 +43,7 @@
             font-weight: bold;
         }
 
-        /* Contenedor del lector y el menú de navegación */
-        .content {
-            display: flex;
-            height: 100%;
-        }
-
-        /* Barra lateral con la tabla de contenido */
+        /* Barra lateral */
         .sidebar {
             width: 20%;
             background-color: #333;
@@ -58,7 +52,6 @@
             padding: 15px;
             display: flex;
             flex-direction: column;
-            transition: background-color 0.3s ease;
         }
 
         .sidebar h2 {
@@ -73,11 +66,6 @@
             text-decoration: none;
             margin: 5px 0;
             font-size: 16px;
-            transition: color 0.3s ease;
-        }
-
-        .sidebar a:hover {
-            color: #fff;
         }
 
         /* Área del lector */
@@ -88,7 +76,22 @@
             transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        /* Botón para cambiar entre el modo claro y oscuro */
+        /* Botón de lectura */
+        .read-button {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background-color: #66cc88;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        /* Botón para cambiar modo oscuro */
         .mode-toggle {
             position: absolute;
             top: 20px;
@@ -100,11 +103,6 @@
             cursor: pointer;
             color: white;
             font-weight: bold;
-            transition: background-color 0.3s ease;
-        }
-
-        .mode-toggle:hover {
-            background-color: #57b37a;
         }
 
         /* Modo oscuro */
@@ -137,14 +135,15 @@
 </head>
 <body>
     <div class="reader-container">
-        <div class="header">Lectura de Libros - Ragnarok</div>
+        <div class="header">Lectura de Libros - Ragnarok. El camino de un hombre</div>
         <div class="content">
             <div class="sidebar">
                 <h2>Capítulos</h2>
-                <div id="toc"></div> <!-- Aquí se cargará la tabla de contenido -->
+                <div id="toc"></div> <!-- Tabla de contenido -->
             </div>
-            <div id="reader"></div> <!-- Lector del libro -->
+            <div id="reader"></div> <!-- Área de lectura -->
         </div>
+        <button class="read-button" id="readButton">Leer</button>
     </div>
 
     <button class="mode-toggle" id="modeToggle">Modo Oscuro</button>
@@ -154,23 +153,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.5.207/pdf.min.js"></script>
 
     <script>
-        // Variables globales
-        const bookPath = 'Libros/Ragnarok. El camino de un hombre - Hombres Peligrosos.epub'; // Ruta del EPUB
+        // Variables
+        const bookPath = 'Libros/Ragnarok. El camino de un hombre - Hombres Peligrosos.epub';
         const readerElement = document.getElementById("reader");
         const tocElement = document.getElementById("toc");
         let rendition;
 
-        // Cargar el archivo EPUB y su tabla de contenido
+        // Cargar EPUB
         const book = ePub(bookPath);
         rendition = book.renderTo(readerElement, {
             width: "100%",
             height: "100%",
         });
-
-        // Mostrar el libro
         rendition.display();
 
-        // Cargar la tabla de contenido
+        // Cargar tabla de contenido
         book.loaded.navigation.then(function(toc) {
             toc.forEach(function(chapter) {
                 const chapterLink = document.createElement("a");
@@ -184,52 +181,17 @@
             });
         });
 
-        // Función para cambiar entre modo oscuro y claro
+        // Botón de "Leer"
+        document.getElementById("readButton").addEventListener("click", function() {
+            rendition.display(); // Mostrar el libro desde el principio
+        });
+
+        // Cambiar entre modo claro y oscuro
         const modeToggle = document.getElementById("modeToggle");
         modeToggle.addEventListener("click", function() {
             document.body.classList.toggle("dark-mode");
-            if (document.body.classList.contains("dark-mode")) {
-                modeToggle.textContent = "Modo Claro";
-            } else {
-                modeToggle.textContent = "Modo Oscuro";
-            }
+            modeToggle.textContent = document.body.classList.contains("dark-mode") ? "Modo Claro" : "Modo Oscuro";
         });
-
-        // Cargar PDF (Si decides implementar para PDF)
-        /*
-        function loadPDF(pdfPath) {
-            var loadingTask = pdfjsLib.getDocument(pdfPath);
-            loadingTask.promise.then(function(pdf) {
-                console.log('PDF loaded');
-                // Fetch the first page
-                var pageNumber = 1;
-                pdf.getPage(pageNumber).then(function(page) {
-                    console.log('Page loaded');
-                    var scale = 1.5;
-                    var viewport = page.getViewport({ scale: scale });
-
-                    // Prepare canvas using PDF page dimensions
-                    var canvas = document.createElement('canvas');
-                    var context = canvas.getContext('2d');
-                    canvas.height = viewport.height;
-                    canvas.width = viewport.width;
-                    readerElement.appendChild(canvas);
-
-                    // Render PDF page into canvas context
-                    var renderContext = {
-                        canvasContext: context,
-                        viewport: viewport
-                    };
-                    var renderTask = page.render(renderContext);
-                    renderTask.promise.then(function () {
-                        console.log('Page rendered');
-                    });
-                });
-            });
-        }
-
-        // loadPDF('ruta_del_pdf.pdf'); // Carga un PDF si es necesario
-        */
     </script>
 </body>
 </html>
