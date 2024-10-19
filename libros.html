@@ -3,194 +3,186 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lectura de Libros - Ragnarok</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <title>Biblioteca Personal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Estilos del cuerpo */
-        body {
-            font-family: 'Montserrat', sans-serif;
+        :root {
+            --primary-color: #66cc88;
+            --text-color: #333;
+            --bg-color: #f5f5f5;
+            --card-bg: #ffffff;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .dark-mode {
+            --primary-color: #57b37a;
+            --text-color: #e0e0e0;
+            --bg-color: #1a1a1a;
+            --card-bg: #2d2d2d;
+            --shadow-color: rgba(0, 0, 0, 0.3);
+        }
+
+        * {
             margin: 0;
             padding: 0;
-            background-color: #f5f5f5;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            height: 100vh;
-            color: #333;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
         }
 
-        /* Contenedor principal */
-        .reader-container {
-            background-color: #fff;
-            width: 80%;
-            height: 85vh;
-            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
-            border-radius: 12px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            position: relative;
+        .header-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-color), #4a90e2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        /* Encabezado */
-        .header {
-            background-color: #66cc88;
-            padding: 20px;
-            text-align: center;
-            color: white;
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-        /* Barra lateral */
-        .sidebar {
-            width: 20%;
-            background-color: #333;
-            color: white;
-            overflow-y: auto;
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .sidebar h2 {
-            font-size: 18px;
-            margin-bottom: 10px;
-            border-bottom: 2px solid #66cc88;
-            padding-bottom: 5px;
-        }
-
-        .sidebar a {
-            color: #66cc88;
-            text-decoration: none;
-            margin: 5px 0;
-            font-size: 16px;
-        }
-
-        /* Área del lector */
-        #reader {
-            flex-grow: 1;
-            overflow: auto;
-            padding: 20px;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-        /* Botón de lectura */
-        .read-button {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            background-color: #66cc88;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-
-        /* Botón para cambiar modo oscuro */
         .mode-toggle {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background-color: #66cc88;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
-            cursor: pointer;
+            background: var(--primary-color);
             color: white;
-            font-weight: bold;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            box-shadow: 0 4px 15px var(--shadow-color);
         }
 
-        /* Modo oscuro */
-        body.dark-mode {
-            background-color: #2b2b2b;
-            color: #e0e0e0;
+        .mode-toggle:hover {
+            transform: translateY(-2px);
         }
 
-        body.dark-mode .reader-container {
-            background-color: #333;
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
         }
 
-        body.dark-mode .header {
-            background-color: #444;
+        .book-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px var(--shadow-color);
         }
 
-        body.dark-mode .sidebar {
-            background-color: #222;
+        .book-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px var(--shadow-color);
         }
 
-        body.dark-mode .sidebar a {
-            color: #57b37a;
+        .book-cover {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, var(--primary-color), #4a90e2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            font-weight: 700;
         }
 
-        body.dark-mode #reader {
-            background-color: #444;
-            color: #e0e0e0;
+        .book-info {
+            text-align: center;
+        }
+
+        .book-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        .read-button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .read-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px var(--shadow-color);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .header-title {
+                font-size: 2rem;
+            }
+
+            .books-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="reader-container">
-        <div class="header">Lectura de Libros - Ragnarok. El camino de un hombre</div>
-        <div class="content">
-            <div class="sidebar">
-                <h2>Capítulos</h2>
-                <div id="toc"></div> <!-- Tabla de contenido -->
+    <div class="container">
+        <header>
+            <h1 class="header-title">Mi Biblioteca</h1>
+            <button class="mode-toggle" id="modeToggle">Modo Oscuro</button>
+        </header>
+
+        <div class="books-grid">
+            <!-- Libro ejemplo -->
+            <div class="book-card">
+                <div class="book-cover">📚</div>
+                <div class="book-info">
+                    <h2 class="book-title">Ragnarok: El camino de un hombre</h2>
+                    <a href="Libros/Ragnarok. El camino de un hombre - Hombres Peligrosos.epub" class="read-button">Leer Ahora</a>
+                </div>
             </div>
-            <div id="reader"></div> <!-- Área de lectura -->
+
+            <!-- Aquí puedes agregar más libros siguiendo el mismo formato -->
         </div>
-        <button class="read-button" id="readButton">Leer</button>
     </div>
 
-    <button class="mode-toggle" id="modeToggle">Modo Oscuro</button>
-
-    <!-- Cargar epub.js y pdf.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/epub.js/0.3.88/epub.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.5.207/pdf.min.js"></script>
-
     <script>
-        // Variables
-        const bookPath = 'Libros/Ragnarok. El camino de un hombre - Hombres Peligrosos.epub';
-        const readerElement = document.getElementById("reader");
-        const tocElement = document.getElementById("toc");
-        let rendition;
-
-        // Cargar EPUB
-        const book = ePub(bookPath);
-        rendition = book.renderTo(readerElement, {
-            width: "100%",
-            height: "100%",
-        });
-        rendition.display();
-
-        // Cargar tabla de contenido
-        book.loaded.navigation.then(function(toc) {
-            toc.forEach(function(chapter) {
-                const chapterLink = document.createElement("a");
-                chapterLink.href = "#";
-                chapterLink.textContent = chapter.label;
-                chapterLink.addEventListener("click", function(event) {
-                    event.preventDefault();
-                    rendition.display(chapter.href);
-                });
-                tocElement.appendChild(chapterLink);
-            });
-        });
-
-        // Botón de "Leer"
-        document.getElementById("readButton").addEventListener("click", function() {
-            rendition.display(); // Mostrar el libro desde el principio
-        });
-
-        // Cambiar entre modo claro y oscuro
-        const modeToggle = document.getElementById("modeToggle");
-        modeToggle.addEventListener("click", function() {
-            document.body.classList.toggle("dark-mode");
-            modeToggle.textContent = document.body.classList.contains("dark-mode") ? "Modo Claro" : "Modo Oscuro";
+        // Funcionalidad del modo oscuro
+        const modeToggle = document.getElementById('modeToggle');
+        modeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            modeToggle.textContent = document.body.classList.contains('dark-mode') 
+                ? 'Modo Claro' 
+                : 'Modo Oscuro';
         });
     </script>
 </body>
