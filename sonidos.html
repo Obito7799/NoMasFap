@@ -5,159 +5,343 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Relájate y Duerme</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        :root {
+            --primary-color: #046307;
+            --secondary-color: #ffffff;
+            --text-color: #333333;
+            --icon-color: #4CAF50;
+        }
+
+        .dark-mode {
+            --primary-color: #1a1a1a;
+            --secondary-color: #333333;
+            --text-color: #ffffff;
+            --icon-color: #6ed771;
+        }
+
+        * {
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #6A0C93; /* Fondo morado */
-            color: white;
-            transition: background 0.5s ease;
+            box-sizing: border-box;
+            transition: background-color 0.3s, color 0.3s;
         }
-        #container {
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--primary-color);
+            color: var(--text-color);
+        }
+
+        .interface {
+            display: none;
+            min-height: 100vh;
+            padding: 20px;
             text-align: center;
-            display: none;
         }
-        #welcome, #nameInput, #sleepProblems, #needs, #contentPreferences, #mainInterface {
-            display: none;
+
+        .active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
-        .icon {
-            width: 50px;
-            margin: 10px;
+
+        .card {
+            background-color: var(--secondary-color);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 90%;
         }
-        button {
-            background-color: #fff;
-            color: #6A0C93;
+
+        .btn {
+            background-color: var(--icon-color);
+            color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 12px 24px;
+            border-radius: 25px;
             cursor: pointer;
             font-size: 16px;
             margin: 10px;
+            transition: transform 0.2s;
         }
-        button:hover {
-            background-color: #eee;
+
+        .btn:hover {
+            transform: scale(1.05);
         }
-        .fixed-buttons {
+
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .icon-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+
+        .icon-btn i {
+            font-size: 32px;
+            color: var(--icon-color);
+            margin-bottom: 8px;
+        }
+
+        #darkModeToggle {
             position: fixed;
-            bottom: 20px;
-            left: 20px;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .audio-player {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--secondary-color);
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .player-controls {
             display: flex;
             gap: 10px;
         }
-        #musicHealing {
+
+        input[type="text"], input[type="email"] {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid var(--icon-color);
+            margin: 10px 0;
+            width: 100%;
+            max-width: 300px;
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+        }
+
+        .tab-container {
             display: flex;
-            overflow-x: auto;
-            padding: 20px;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
         }
-        #musicHealing div {
-            min-width: 150px;
-            text-align: center;
-            margin-right: 10px;
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
         }
-        #sleepHypnosis {
+
+        .tab.active {
+            border-bottom-color: var(--icon-color);
+        }
+
+        .content-list {
             display: flex;
-            overflow-x: auto;
-            padding: 20px;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 400px;
+            overflow-y: auto;
         }
-        #sleepHypnosis div {
-            min-width: 150px;
-            text-align: center;
-            margin-right: 10px;
-        }
-        .active {
-            background-color: #ccc;
-        }
-        .hidden {
-            display: none;
+
+        .content-item {
+            padding: 10px;
+            background-color: var(--secondary-color);
+            border-radius: 5px;
+            cursor: pointer;
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <div id="container">
-        <div id="welcome">
+    <button id="darkModeToggle" class="btn">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <!-- Interfaz de Bienvenida -->
+    <div id="welcome" class="interface active">
+        <div class="card">
             <h1>¡Bienvenido!</h1>
-            <p>Relájate y Duerme Profundamente Hoy.</p>
-            <img class="icon" src="https://img.icons8.com/color/48/000000/yoga.png" alt="Meditación">
-            <img class="icon" src="https://img.icons8.com/color/48/000000/music.png" alt="Música">
-            <img class="icon" src="https://img.icons8.com/color/48/000000/narration.png" alt="Narración">
-            <p>Relájate y duerme profundamente hoy.</p>
-            <button onclick="showNext('nameInput')">Empezar</button>
+            <h2>Relájate y Duerme Profundamente Hoy</h2>
+            <div class="icon-grid">
+                <div class="icon-btn">
+                    <i class="fas fa-meditation"></i>
+                    <span>Meditación</span>
+                </div>
+                <div class="icon-btn">
+                    <i class="fas fa-music"></i>
+                    <span>Música</span>
+                </div>
+                <div class="icon-btn">
+                    <i class="fas fa-book"></i>
+                    <span>Historias</span>
+                </div>
+            </div>
+            <button class="btn" onclick="showInterface('name')">Empezar</button>
         </div>
+    </div>
 
-        <div id="nameInput">
-            <h2>¿Cómo? ¿Te llamas?</h2>
-            <input type="text" id="userName" placeholder="Ingresa tu nombre">
-            <button onclick="saveName()">Continuar</button>
+    <!-- Interfaz de Nombre -->
+    <div id="name" class="interface">
+        <div class="card">
+            <h2>¿Cómo te llamas?</h2>
+            <input type="text" id="userName" placeholder="Tu nombre">
+            <button class="btn" onclick="saveName()">Continuar</button>
         </div>
+    </div>
 
-        <div id="sleepProblems">
+    <!-- Interfaz de Problemas de Sueño -->
+    <div id="sleepIssues" class="interface">
+        <div class="card">
             <h2>¿Tienes problemas para dormir?</h2>
-            <button onclick="showNext('needs')">Sí</button>
-            <button onclick="showNext('needs')">No</button>
+            <button class="btn" onclick="showInterface('needs')">Sí</button>
+            <button class="btn" onclick="showInterface('needs')">No</button>
         </div>
+    </div>
 
-        <div id="needs">
+    <!-- Interfaz de Necesidades -->
+    <div id="needs" class="interface">
+        <div class="card">
             <h2>¿Cuáles son tus necesidades?</h2>
-            <button>💤 Dormir más rápido</button>
-            <button>😴 Sueño profundo</button>
-            <button>🌼 Relajación</button>
-            <button>👶 Ayudar a tus hijos a dormir</button>
-            <button>😌 Reducir el estrés</button>
-            <button>💪 Más energía</button>
-            <button>🧠 Concentración</button>
-            <button onclick="showNext('contentPreferences')">Siguiente</button>
+            <div class="icon-grid">
+                <button class="icon-btn" onclick="selectNeed('sleep')">
+                    <i class="fas fa-bed"></i>
+                    <span>Dormir más rápido</span>
+                </button>
+                <button class="icon-btn" onclick="selectNeed('deep-sleep')">
+                    <i class="fas fa-moon"></i>
+                    <span>Sueño profundo</span>
+                </button>
+                <!-- Más opciones... -->
+            </div>
+            <button class="btn" onclick="showInterface('preferences')">Continuar</button>
         </div>
+    </div>
 
-        <div id="contentPreferences">
-            <h2>¿Cuáles son tus contenidos favoritos para dormir?</h2>
-            <button>🎶 Música</button>
-            <button>💤 Sonidos relajantes</button>
-            <button>🧘 Meditación</button>
-            <button>📖 Historias</button>
-            <button>🧘‍♂️ Ejercicios de respiración</button>
-            <button onclick="showNext('mainInterface')">Continuar</button>
-        </div>
-
-        <div id="mainInterface">
-            <h1>Interfaz Principal</h1>
-            <div style="background-image: url('https://wallpaperaccess.com/full/1146635.jpg'); height: 100vh; background-size: cover;">
-                <h2>Menú Principal</h2>
-                <div id="musicHealing">
-                    <div>🎵 Música Curativa</div>
-                    <div>🎵 Hipnosis del Sueño</div>
-                </div>
-                <div class="fixed-buttons">
-                    <button id="playPauseBtn">Play/Pause</button>
-                    <button onclick="showNext('welcome')">Inicio</button>
-                    <button onclick="showNext('sounds')">Sonidos</button>
-                </div>
+    <!-- Interfaz Principal -->
+    <div id="main" class="interface">
+        <div class="card">
+            <div class="tab-container">
+                <div class="tab active" onclick="switchTab('sounds')">Sonidos</div>
+                <div class="tab" onclick="switchTab('music')">Música</div>
+            </div>
+            <div id="soundsContent" class="content-list">
+                <!-- Lista de sonidos -->
+            </div>
+            <div id="musicContent" class="content-list" style="display: none;">
+                <!-- Lista de música -->
             </div>
         </div>
     </div>
 
+    <!-- Reproductor de Audio -->
+    <div class="audio-player">
+        <div class="player-controls">
+            <button class="btn" onclick="togglePlay()">
+                <i class="fas fa-play"></i>
+            </button>
+            <button class="btn" onclick="showInterface('main')">
+                <i class="fas fa-home"></i>
+            </button>
+            <button class="btn" onclick="showInterface('sounds')">
+                <i class="fas fa-volume-up"></i>
+            </button>
+        </div>
+        <audio id="audioPlayer">
+            <source src="" type="audio/mpeg">
+        </audio>
+    </div>
+
     <script>
-        // Función para mostrar la siguiente interfaz
-        function showNext(nextId) {
-            const sections = ['welcome', 'nameInput', 'sleepProblems', 'needs', 'contentPreferences', 'mainInterface'];
-            sections.forEach(section => {
-                document.getElementById(section).style.display = 'none';
+        // Variables globales
+        let currentUser = '';
+        let isDarkMode = false;
+        const audio = document.getElementById('audioPlayer');
+
+        // Función para cambiar modo oscuro
+        document.getElementById('darkModeToggle').addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode', isDarkMode);
+        });
+
+        // Función para mostrar interfaces
+        function showInterface(id) {
+            document.querySelectorAll('.interface').forEach(inf => {
+                inf.classList.remove('active');
             });
-            document.getElementById(nextId).style.display = 'block';
+            document.getElementById(id).classList.add('active');
         }
 
-        // Guardar el nombre del usuario
+        // Función para guardar nombre
         function saveName() {
-            const userName = document.getElementById('userName').value;
-            alert(`¡Hola, ${userName}!`);
-            showNext('sleepProblems');
+            const nameInput = document.getElementById('userName');
+            currentUser = nameInput.value;
+            if (currentUser.trim() !== '') {
+                showInterface('sleepIssues');
+            }
         }
 
-        // Inicializar la página
-        document.getElementById('container').style.display = 'flex';
-        showNext('welcome');
+        // Función para cambiar pestañas
+        function switchTab(tab) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.content-list').forEach(c => c.style.display = 'none');
+            
+            if (tab === 'sounds') {
+                document.querySelector('.tab:first-child').classList.add('active');
+                document.getElementById('soundsContent').style.display = 'block';
+            } else {
+                document.querySelector('.tab:last-child').classList.add('active');
+                document.getElementById('musicContent').style.display = 'block';
+            }
+        }
+
+        // Función para reproducir audio
+        function togglePlay() {
+            if (audio.paused) {
+                audio.play();
+                document.querySelector('.player-controls .fa-play').classList.replace('fa-play', 'fa-pause');
+            } else {
+                audio.pause();
+                document.querySelector('.player-controls .fa-pause').classList.replace('fa-pause', 'fa-play');
+            }
+        }
+
+        // Inicialización de la lista de música
+        const musicList = [
+            { title: "Firme y con Seguridad", artist: "Gacoh" },
+            // Agregar más canciones aquí
+        ];
+
+        // Cargar lista de música
+        function loadMusicList() {
+            const musicContent = document.getElementById('musicContent');
+            musicList.forEach(song => {
+                const div = document.createElement('div');
+                div.className = 'content-item';
+                div.textContent = `${song.title} - ${song.artist}`;
+                div.onclick = () => {
+                    audio.src = song.title === "Firme y con Seguridad" ? 
+                        "NoMasFap/musica/musica/Firme y con Seguridad - Gacoh (youtube).mp3" : "";
+                    togglePlay();
+                };
+                musicContent.appendChild(div);
+            });
+        }
+
+        // Cargar contenido inicial
+        loadMusicList();
     </script>
 </body>
 </html>
