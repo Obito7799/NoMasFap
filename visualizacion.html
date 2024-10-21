@@ -16,16 +16,16 @@
       z-index: -1;  
     }  
     body.dark {  
-      background-color: #000000;  
-      color: #ffffff;  
+      background-color: #121212; /* Negro más profundo */  
+      color: #ffffff; /* Texto blanco en modo oscuro */  
     }  
     .dark .bg-white {  
-      background-color: #1a1a1a;  
-      color: #ffffff;  
+      background-color: #1a1a1a; /* Fondo oscuro para tarjetas */  
+      color: #ffffff; /* Texto blanco en tarjetas */  
     }  
   </style>  
 </head>  
-<body class="bg-gray-100 font-sans">  
+<body class="bg-gray-100 font-sans transition-colors duration-300">  
   <div id="particles-js"></div>  
   <div class="max-w-6xl mx-auto py-16 px-4 sm:px-6 lg:px-8 relative z-10">  
     <h1 class="text-5xl font-bold text-gray-900 mb-8">Visualización Interactiva</h1>  
@@ -33,8 +33,8 @@
       Explora y practica diversas técnicas de visualización para reducir el estrés, la ansiedad y lograr un estado de profunda relajación.  
     </p>  
 
-    <button id="toggle-theme" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-8">  
-      Cambiar a Modo Oscuro  
+    <button id="toggle-theme" class="text-2xl mb-8 focus:outline-none">  
+      <span id="theme-icon">☀️</span> <!-- Icono de sol por defecto -->  
     </button>  
 
     <nav class="mb-8">  
@@ -160,9 +160,14 @@
   <script>  
     // Función para alternar entre modo claro y oscuro  
     const toggleThemeButton = document.getElementById('toggle-theme');  
+    const themeIcon = document.getElementById('theme-icon');  
     toggleThemeButton.addEventListener('click', () => {  
       document.body.classList.toggle('dark');  
-      toggleThemeButton.textContent = document.body.classList.contains('dark') ? 'Cambiar a Modo Claro' : 'Cambiar a Modo Oscuro';  
+      if (document.body.classList.contains('dark')) {  
+        themeIcon.textContent = '🌙'; // Icono de luna  
+      } else {  
+        themeIcon.textContent = '☀️'; // Icono de sol  
+      }  
     });  
 
     particlesJS.load('particles-js', {  
