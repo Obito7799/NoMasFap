@@ -1,83 +1,147 @@
 <!DOCTYPE html>  
-<html lang="es">  
-<head>  
-    <meta charset="UTF-8">  
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-    <title>Mi Tablero de Metas</title>  
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">  
-    <link rel="stylesheet" href="styles.css">  
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>  
-</head>  
-<body class="bg-gray-100">  
-    <header class="bg-blue-600 text-white p-4 flex justify-between items-center shadow-lg">  
-        <img src="assets/logo.png" alt="Logo" class="h-12">  
-        <h1 class="text-3xl font-bold">Mi Tablero de Metas</h1>  
-        <nav>  
-            <a href="#dashboard" class="text-white mx-2 hover:underline">Tablero</a>  
-            <a href="#goal-planner" class="text-white mx-2 hover:underline">Planificador</a>  
-            <a href="#community" class="text-white mx-2 hover:underline">Comunidad</a>  
-            <a href="#daily-goal" class="text-white mx-2 hover:underline">Meta del Día</a>  
-        </nav>  
-    </header>  
-    <main class="p-6">  
-        <section id="dashboard" class="mb-8">  
-            <h2 class="text-2xl mb-4 font-semibold">Tablero de Visualización</h2>  
-            <div class="border border-gray-300 p-4 rounded-lg shadow-md">  
-                <p class="mb-2">Arrastra y suelta imágenes y citas que deseas incluir aquí.</p>  
-                <div id="visualization-board" class="border border-dashed border-gray-400 h-64 flex items-center justify-center rounded-lg">  
-                    <p class="text-gray-500">Arrastra y suelta aquí</p>  
+    <html lang="es">  
+    <head>  
+        <meta charset="UTF-8">  
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+        <meta name="description" content="Descubre cómo las técnicas de visualización, imágenes y videos inspiradores pueden ayudarte a transformar tu vida. Aprende a reprogramar tu mente, superar malos hábitos y atraer una versión más saludable y exitosa de ti mismo.">  
+        <title>Visualiza tu Mejor Versión</title>  
+        <script src="https://cdn.tailwindcss.com"></script>  
+        <style>  
+            .bg-hero {  
+                background-image: url('https://example.com/imagen-de-fondo.jpg');  
+            }  
+        </style>  
+    </head>  
+    <body class="bg-gray-100 dark:bg-gray-900 transition duration-300">  
+        <header class="bg-hero bg-cover bg-center h-screen flex items-center justify-center">  
+            <div class="text-center text-white bg-black bg-opacity-50 p-8 rounded-lg">  
+                <h1 class="text-5xl font-bold">Transforma tu Mente, Transforma tu Vida</h1>  
+                <h2 class="text-2xl mt-4">Usa el poder de la visualización para alcanzar tu máximo potencial.</h2>  
+                <a href="#metodos" class="mt-8 inline-block px-6 py-3 bg-blue-500 hover:bg-blue-700 text-white font-semibold rounded transition duration-300">Comienza tu viaje ahora</a>  
+            </div>  
+        </header>  
+
+        <main class="container mx-auto p-8">  
+            <button id="toggle-theme" class="absolute top-4 right-4 px-4 py-2 bg-gray-800 text-white rounded transition duration-300">Modo Oscuro</button>  
+
+            <section id="que-es" class="my-12">  
+                <h2 class="text-4xl font-bold text-blue-600">El Poder de la Visualización</h2>  
+                <p class="mt-4 text-gray-700 dark:text-gray-300">La visualización es una técnica poderosa que nos ayuda a influir en nuestro comportamiento y emociones mediante la creación de imágenes mentales positivas.</p>  
+                <div class="mt-6">  
+                    <img src="https://example.com/grafico-visualizacion.jpg" alt="Gráfico de Visualización" class="w-full rounded-lg shadow-lg">  
                 </div>  
-            </div>  
-        </section>  
+            </section>  
 
-        <section id="goal-planner" class="mb-8">  
-            <h2 class="text-2xl mb-4 font-semibold">Planificador de Metas</h2>  
-            <div class="border border-gray-300 p-4 rounded-lg shadow-md">  
-                <p>Establece tus metas aquí.</p>  
-                <input type="text" id="goal-input" placeholder="Escribe tu meta" class="border p-2 w-full mb-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">  
-                <button id="add-goal" class="bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 transition duration-200">Agregar Meta</button>  
-                <ul id="goal-list" class="mt-4"></ul>  
-            </div>  
-        </section>  
+            <section id="ejercicio-guiado" class="my-12">  
+                <h2 class="text-4xl font-bold text-blue-600">Visualiza tu Mejor Versión</h2>  
+                <p class="mt-4 text-gray-700 dark:text-gray-300">Importante imaginarte en tu mejor versión para crear una imagen clara de tus metas.</p>  
+                <div class="mt-6">  
+                    <button class="px-6 py-3 bg-green-500 hover:bg-green-700 text-white font-semibold rounded transition duration-300">Iniciar Ejercicio Guiado</button>  
+                </div>  
+            </section>  
 
-        <section id="daily-goal" class="mb-8">  
-            <h2 class="text-2xl mb-4 font-semibold">Meta del Día</h2>  
-            <div class="border border-gray-300 p-4 rounded-lg shadow-md">  
-                <input type="text" id="daily-goal-input" placeholder="Escribe tu meta del día" class="border p-2 w-full mb-2 rounded-lg">  
-                <button id="add-daily-goal" class="bg-green-600 text-white p-2 rounded-lg hover:bg-green-700 transition duration-200">Agregar Meta del Día</button>  
-                <ul id="daily-goal-list" class="mt-4"></ul>  
-            </div>  
-        </section>  
+            <section id="cambiar-imagenes" class="my-12">  
+                <h2 class="text-4xl font-bold text-blue-600">Cambia tus Imágenes Mentales</h2>  
+                <p class="mt-4 text-gray-700 dark:text-gray-300">Reemplaza imágenes negativas por positivas que fomenten decisiones saludables.</p>  
+                <div class="mt-6">  
+                    <div class="flex overflow-x-auto space-x-4">  
+                        <img src="https://example.com/imagen-negativa.jpg" alt="Imagen Negativa" class="w-64 rounded-lg shadow-lg">  
+                        <img src="https://example.com/imagen-positiva.jpg" alt="Imagen Positiva" class="w-64 rounded-lg shadow-lg">  
+                    </div>  
+                </div>  
+            </section>  
 
-        <section id="progress-tracker" class="mb-8">  
-            <h2 class="text-2xl mb-4 font-semibold">Rastreador de Progreso</h2>  
-            <div class="border border-gray-300 p-4 rounded-lg shadow-md">  
-                <p>Visualiza tu progreso aquí con gráficos dinámicos.</p>  
-                <canvas id="progress-chart" class="w-full h-64"></canvas>  
-            </div>  
-        </section>  
+            <section id="galeria-videos" class="my-12">  
+                <h2 class="text-4xl font-bold text-blue-600">Explora Visualizaciones Relajantes y Motivacionales</h2>  
+                <p class="mt-4 text-gray-700 dark:text-gray-300">Galería de videos ambientales que ayudan a reducir el estrés y mejorar el estado de ánimo.</p>  
+                <div class="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">  
+                    <video controls class="rounded-lg shadow-lg">  
+                        <source src="https://example.com/video1.mp4" type="video/mp4">  
+                        Tu navegador no soporta el video.  
+                    </video>  
+                    <video controls class="rounded-lg shadow-lg">  
+                        <source src="https://example.com/video2.mp4" type="video/mp4">  
+                        Tu navegador no soporta el video.  
+                    </video>  
+                    <video controls class="rounded-lg shadow-lg">  
+                        <source src="https://example.com/video3.mp4" type="video/mp4">  
+                        Tu navegador no soporta el video.  
+                    </video>  
+                </div>  
+            </section>  
 
-        <section id="community" class="mb-8">  
-            <h2 class="text-2xl mb-4 font-semibold">Comunidades Interactivas</h2>  
-            <div class="border border-gray-300 p-4 rounded-lg shadow-md">  
-                <p>Únete a grupos de apoyo y discusión.</p>  
-                <textarea id="community-message" placeholder="Escribe un mensaje..." class="border p-2 w-full mb-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"></textarea>  
-                <button id="send-message" class="bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 transition duration-200">Enviar Mensaje</button>  
-                <ul id="community-messages" class="mt-4"></ul>  
-            </div>  
-        </section>  
+            <section id="caja-inspiracion" class="my-12">  
+                <h2 class="text-4xl font-bold text-blue-600">Tu Caja Visual de Inspiración</h2>  
+                <p class="mt-4 text-gray-700 dark:text-gray-300">Crea una colección personalizada de imágenes que te inspiren.</p>  
+                <div class="mt-6">  
+                    <button class="px-6 py-3 bg-purple-500 hover:bg-purple-700 text-white font-semibold rounded transition duration-300">Crear Caja de Inspiración</button>  
+                </div>  
+            </section>  
 
-        <section id="daily-content" class="mb-8">  
-            <h2 class="text-2xl mb-4 font-semibold">Contenido Exclusivo Diario</h2>  
-            <div class="border border-gray-300 p-4 rounded-lg shadow-md">  
-                <p>Publicaciones motivacionales diarias.</p>  
-                <div id="daily-posts" class="mt-4"></div>  
-            </div>  
-        </section>  
-    </main>  
-    <footer class="bg-blue-600 text-white text-center p-4">  
-        <p>Copyright © 2023 Mi Tablero de Metas</p>  
-    </footer>  
-    <script src="script.js"></script>  
-</body>  
-</html>
+            <section id="testimonios" class="my-12">  
+                <h2 class="text-4xl font-bold text-blue-600">Historias de Transformación</h2>  
+                <p class="mt-4 text-gray-700 dark:text-gray-300">Testimonios de personas que han transformado sus vidas.</p>  
+                <div class="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">  
+                    <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg">  
+                        <p>"La visualización cambió mi vida para siempre!"</p>  
+                        <p class="font-semibold">- Juan Pérez</p>  
+                    </div>  
+                    <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg">  
+                        <p>"Ahora puedo ver mis metas claramente."</p>  
+                        <p class="font-semibold">- María López</p>  
+                    </div>  
+                    <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg">  
+                        <p>"He superado mis miedos gracias a estas técnicas."</p>  
+                        <p class="font-semibold">- Carlos García</p>  
+                    </div>  
+                </div>  
+            </section>  
+
+            <section id="gratitud" class="my-12">  
+                <h2 class="text-4xl font-bold text-blue-600">Práctica de Gratitud</h2>  
+                <p class="mt-4 text-gray-700 dark:text-gray-300">Ejercicio interactivo para escribir lo que agradeces.</p>  
+                <div class="mt-6">  
+                    <input type="text" placeholder="Escribe algo por lo que estás agradecido" class="border border-gray-300 dark:border-gray-600 p-2 rounded-lg w-full">  
+                    <button class="mt-4 px-6 py-3 bg-yellow-500 hover:bg-yellow-700 text-white font-semibold rounded transition duration-300">Enviar Gratitud</button>  
+                </div>  
+            </section>  
+
+            <section id="cambio-mentalidad" class="my-12">  
+                <h2 class="text-4xl font-bold text-blue-600">Cambia Tu Mentalidad</h2>  
+                <p class="mt-4 text-gray-700 dark:text-gray-300">Reemplaza pensamientos negativos con afirmaciones positivas.</p>  
+                <div class="mt-6">  
+                    <input type="text" placeholder="Escribe un pensamiento negativo" class="border border-gray-300 dark:border-gray-600 p-2 rounded-lg w-full">  
+                    <button class="mt-4 px-6 py-3 bg-red-500 hover:bg-red-700 text-white font-semibold rounded transition duration-300">Reemplazar Pensamiento</button>  
+                </div>  
+            </section>  
+
+            <section id="meditacion" class="my-12">  
+                <h2 class="text-4xl font-bold text-blue-600">Meditación Guiada y Videos de Relajación</h2>  
+                <p class="mt-4 text-gray-700 dark:text-gray-300">Ofrece recursos adicionales para mantener la mente en calma.</p>  
+                <div class="mt-6">  
+                    <button class="px-6 py-3 bg-teal-500 hover:bg-teal-700 text-white font-semibold rounded transition duration-300">Acceder a Meditaciones</button>  
+                </div>  
+            </section>  
+
+            <section id="blog" class="my-12">  
+                <h2 class="text-4xl font-bold text-blue-600">Consejos para Mejorar tu Bienestar Mental</h2>  
+                <p class="mt-4 text-gray-700 dark:text-gray-300">Artículos relacionados con técnicas de visualización y mindfulness.</p>  
+                <div class="mt-6">  
+                    <button class="px-6 py-3 bg-indigo-500 hover:bg-indigo-700 text-white font-semibold rounded transition duration-300">Visitar Blog</button>  
+                </div>  
+            </section>  
+        </main>  
+
+        <footer class="bg-gray-800 text-white text-center p-4">  
+            <p>&copy; 2023 Visualiza tu Mejor Versión. Todos los derechos reservados.</p>  
+        </footer>  
+
+        <script>  
+            const toggleThemeButton = document.getElementById('toggle-theme');  
+            toggleThemeButton.addEventListener('click', () => {  
+                document.body.classList.toggle('dark');  
+                toggleThemeButton.textContent = document.body.classList.contains('dark') ? 'Modo Claro' : 'Modo Oscuro';  
+            });  
+        </script>  
+    </body>  
+    </html>  
