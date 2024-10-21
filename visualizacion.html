@@ -1,0 +1,83 @@
+<!DOCTYPE html>  
+<html lang="es">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>Mi Tablero de Metas</title>  
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">  
+    <link rel="stylesheet" href="styles.css">  
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>  
+</head>  
+<body class="bg-gray-100">  
+    <header class="bg-blue-600 text-white p-4 flex justify-between items-center shadow-lg">  
+        <img src="assets/logo.png" alt="Logo" class="h-12">  
+        <h1 class="text-3xl font-bold">Mi Tablero de Metas</h1>  
+        <nav>  
+            <a href="#dashboard" class="text-white mx-2 hover:underline">Tablero</a>  
+            <a href="#goal-planner" class="text-white mx-2 hover:underline">Planificador</a>  
+            <a href="#community" class="text-white mx-2 hover:underline">Comunidad</a>  
+            <a href="#daily-goal" class="text-white mx-2 hover:underline">Meta del Día</a>  
+        </nav>  
+    </header>  
+    <main class="p-6">  
+        <section id="dashboard" class="mb-8">  
+            <h2 class="text-2xl mb-4 font-semibold">Tablero de Visualización</h2>  
+            <div class="border border-gray-300 p-4 rounded-lg shadow-md">  
+                <p class="mb-2">Arrastra y suelta imágenes y citas que deseas incluir aquí.</p>  
+                <div id="visualization-board" class="border border-dashed border-gray-400 h-64 flex items-center justify-center rounded-lg">  
+                    <p class="text-gray-500">Arrastra y suelta aquí</p>  
+                </div>  
+            </div>  
+        </section>  
+
+        <section id="goal-planner" class="mb-8">  
+            <h2 class="text-2xl mb-4 font-semibold">Planificador de Metas</h2>  
+            <div class="border border-gray-300 p-4 rounded-lg shadow-md">  
+                <p>Establece tus metas aquí.</p>  
+                <input type="text" id="goal-input" placeholder="Escribe tu meta" class="border p-2 w-full mb-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">  
+                <button id="add-goal" class="bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 transition duration-200">Agregar Meta</button>  
+                <ul id="goal-list" class="mt-4"></ul>  
+            </div>  
+        </section>  
+
+        <section id="daily-goal" class="mb-8">  
+            <h2 class="text-2xl mb-4 font-semibold">Meta del Día</h2>  
+            <div class="border border-gray-300 p-4 rounded-lg shadow-md">  
+                <input type="text" id="daily-goal-input" placeholder="Escribe tu meta del día" class="border p-2 w-full mb-2 rounded-lg">  
+                <button id="add-daily-goal" class="bg-green-600 text-white p-2 rounded-lg hover:bg-green-700 transition duration-200">Agregar Meta del Día</button>  
+                <ul id="daily-goal-list" class="mt-4"></ul>  
+            </div>  
+        </section>  
+
+        <section id="progress-tracker" class="mb-8">  
+            <h2 class="text-2xl mb-4 font-semibold">Rastreador de Progreso</h2>  
+            <div class="border border-gray-300 p-4 rounded-lg shadow-md">  
+                <p>Visualiza tu progreso aquí con gráficos dinámicos.</p>  
+                <canvas id="progress-chart" class="w-full h-64"></canvas>  
+            </div>  
+        </section>  
+
+        <section id="community" class="mb-8">  
+            <h2 class="text-2xl mb-4 font-semibold">Comunidades Interactivas</h2>  
+            <div class="border border-gray-300 p-4 rounded-lg shadow-md">  
+                <p>Únete a grupos de apoyo y discusión.</p>  
+                <textarea id="community-message" placeholder="Escribe un mensaje..." class="border p-2 w-full mb-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"></textarea>  
+                <button id="send-message" class="bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 transition duration-200">Enviar Mensaje</button>  
+                <ul id="community-messages" class="mt-4"></ul>  
+            </div>  
+        </section>  
+
+        <section id="daily-content" class="mb-8">  
+            <h2 class="text-2xl mb-4 font-semibold">Contenido Exclusivo Diario</h2>  
+            <div class="border border-gray-300 p-4 rounded-lg shadow-md">  
+                <p>Publicaciones motivacionales diarias.</p>  
+                <div id="daily-posts" class="mt-4"></div>  
+            </div>  
+        </section>  
+    </main>  
+    <footer class="bg-blue-600 text-white text-center p-4">  
+        <p>Copyright © 2023 Mi Tablero de Metas</p>  
+    </footer>  
+    <script src="script.js"></script>  
+</body>  
+</html>
