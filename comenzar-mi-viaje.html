@@ -1,357 +1,470 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Journey - Tu Camino de Recuperación</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+<!DOCTYPE html>  
+<html lang="es">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>Journey - Tu Camino de Recuperación</title>  
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>  
+    <style>  
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');  
 
-        :root {
-            --primary-color: #4F46E5;
-            --secondary-color: #7C3AED;
-            --accent-color: #EC4899;
-            --background-color: #F3F4F6;
-            --card-background: #FFFFFF;
-            --text-primary: #1F2937;
-            --text-secondary: #4B5563;
-        }
+        :root {  
+            --primary-color: #1F2937;  
+            --secondary-color: #4B5563;  
+            --accent-color: #EC4899;  
+            --background-color: #F3F4F6;  
+            --card-background: #FFFFFF;  
+            --text-primary: #FFFFFF;  
+            --text-secondary: #D1D5DB;  
+            --border-radius: 10px;  
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.2);  
+        }  
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
+        * {  
+            margin: 0;  
+            padding: 0;  
+            box-sizing: border-box;  
+            font-family: 'Poppins', sans-serif;  
+        }  
 
-        body {
-            background: var(--background-color);
-            color: var(--text-primary);
-            min-height: 100vh;
-        }
+        body {  
+            background: var(--background-color);  
+            color: var(--text-primary);  
+            min-height: 100vh;  
+            line-height: 1.6;  
+            font-weight: 400;  
+        }  
 
-        #particles-js {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            opacity: 0.6;
-        }
+        #particles-js {  
+            position: fixed;  
+            width: 100%;  
+            height: 100%;  
+            z-index: 0;  
+            opacity: 0.5;  
+        }  
 
-        .container {
-            position: relative;
-            z-index: 1;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+        .container {  
+            position: relative;  
+            z-index: 1;  
+            max-width: 1200px;  
+            margin: 0 auto;  
+            padding: 40px;  
+        }  
 
-        .header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+        .header {  
+            background: rgba(0, 0, 0, 0.8);  
+            border-radius: var(--border-radius);  
+            padding: 20px;  
+            margin-bottom: 30px;  
+            box-shadow: var(--shadow);  
+            display: flex;  
+            justify-content: space-between;  
+            align-items: center;  
+        }  
 
-        .progress-section {
-            display: flex;
-            align-items: center;
-            gap: 30px;
-        }
+        .header h1 {  
+            font-size: 2.5rem;  
+            color: var(--accent-color);  
+            text-align: center;  
+            flex: 1;  
+        }  
 
-        .daily-progress {
-            text-align: center;
-        }
+        .progress-section {  
+            display: flex;  
+            align-items: center;  
+            gap: 30px;  
+        }  
 
-        .progress-dots {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 8px;
-        }
+        .daily-progress {  
+            text-align: center;  
+        }  
 
-        .dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #E5E7EB;
-            transition: all 0.3s ease;
-        }
+        .progress-dots {  
+            display: flex;  
+            gap: 8px;  
+            margin-bottom: 8px;  
+        }  
 
-        .dot.active {
-            background: var(--accent-color);
-            transform: scale(1.2);
-        }
+        .dot {  
+            width: 12px;  
+            height: 12px;  
+            border-radius: 50%;  
+            background: #E5E7EB;  
+            transition: all 0.3s ease;  
+        }  
 
-        .coins {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 600;
-            color: var(--primary-color);
-            font-size: 1.2rem;
-        }
+        .dot.active {  
+            background: var(--accent-color);  
+            transform: scale(1.2);  
+        }  
 
-        .main-content {
-            display: grid;
-            gap: 30px;
-        }
+        .coins {  
+            display: flex;  
+            align-items: center;  
+            gap: 10px;  
+            font-weight: 600;  
+            color: var(--accent-color);  
+            font-size: 1.2rem;  
+        }  
 
-        .tree-container {
-            background: var(--card-background);
-            border-radius: 20px;
-            padding: 30px;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
+        .main-content {  
+            display: grid;  
+            gap: 30px;  
+        }  
 
-        .tree {
-            width: 200px;
-            height: 300px;
-            margin: 0 auto;
-            position: relative;
-        }
+        .hero {  
+            background: var(--primary-color);  
+            color: var(--text-primary);  
+            padding: 40px;  
+            border-radius: var(--border-radius);  
+            text-align: center;  
+            box-shadow: var(--shadow);  
+        }  
 
-        .tree-trunk {
-            width: 40px;
-            height: 120px;
-            background: #8B4513;
-            margin: 0 auto;
-            border-radius: 10px;
-            position: relative;
-            transform-origin: bottom;
-            animation: sway 3s ease-in-out infinite;
-        }
+        .hero h2 {  
+            font-size: 2rem;  
+            margin-bottom: 20px;  
+        }  
 
-        .tree-crown {
-            width: 160px;
-            height: 160px;
-            background: #2F855A;
-            border-radius: 50%;
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            animation: breathe 4s ease-in-out infinite;
-        }
+        .hero p {  
+            font-size: 1.2rem;  
+            margin-bottom: 20px;  
+        }  
 
-        .daily-message {
-            margin-top: 30px;
-            font-size: 1.2rem;
-            color: var(--text-secondary);
-            font-style: italic;
-        }
+        .button-grid {  
+            display: grid;  
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));  
+            gap: 20px;  
+            padding: 20px 0;  
+        }  
 
-        .button-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 20px;
-            padding: 20px 0;
-        }
+        .feature-button {  
+            background: var(--card-background);  
+            border-radius: var(--border-radius);  
+            padding: 20px;  
+            text-align: center;  
+            text-decoration: none;  
+            color: var(--primary-color);  
+            transition: all 0.3s ease;  
+            box-shadow: var(--shadow);  
+            display: flex;  
+            flex-direction: column;  
+            align-items: center;  
+            gap: 10px;  
+        }  
 
-        .feature-button {
-            background: var(--card-background);
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-            text-decoration: none;
-            color: var(--text-primary);
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
+        .feature-button:hover {  
+            transform: translateY(-5px);  
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);  
+            background: linear-gradient(145deg, var(--accent-color), var(--secondary-color));  
+            color: var(--text-primary);  
+        }  
 
-        .feature-button:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-            background: linear-gradient(145deg, var(--primary-color), var(--secondary-color));
-            color: white;
-        }
+        .feature-button i {  
+            font-size: 2rem;  
+            margin-bottom: 10px;  
+            transition: all 0.3s ease;  
+        }  
 
-        .feature-button i {
-            font-size: 2rem;
-            margin-bottom: 10px;
-            transition: all 0.3s ease;
-        }
+        .feature-button:hover i {  
+            transform: scale(1.2);  
+        }  
 
-        .feature-button:hover i {
-            transform: scale(1.2);
-        }
+        .testimonials {  
+            background: var(--card-background);  
+            border-radius: var(--border-radius);  
+            padding: 20px;  
+            box-shadow: var(--shadow);  
+            text-align: center;  
+        }  
 
-        @keyframes sway {
-            0%, 100% { transform: rotate(0deg); }
-            50% { transform: rotate(2deg); }
-        }
+        .testimonial {  
+            margin: 10px 0;  
+            font-style: italic;  
+            color: var(--text-secondary);  
+        }  
 
-        @keyframes breathe {
-            0%, 100% { transform: translateX(-50%) scale(1); }
-            50% { transform: translateX(-50%) scale(1.05); }
-        }
+        .footer {  
+            margin-top: 40px;  
+            text-align: center;  
+            font-size: 0.9rem;  
+            color: var(--text-secondary);  
+        }  
 
-        @media (max-width: 768px) {
-            .header {
-                flex-direction: column;
-                gap: 20px;
-            }
+        .gamification {  
+            background: var(--secondary-color);  
+            color: var(--text-primary);  
+            padding: 20px;  
+            border-radius: var(--border-radius);  
+            text-align: center;  
+            box-shadow: var(--shadow);  
+            margin-top: 30px;  
+        }  
 
-            .button-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-    </style>
-</head>
-<body>
-    <div id="particles-js"></div>
-    <div class="container">
-        <header class="header">
-            <div class="user-section" id="userSection">
-                <div id="g_id_onload"
-                     data-client_id="TU_CLIENT_ID"
-                     data-callback="handleCredentialResponse">
-                </div>
-                <div class="g_id_signin" data-type="standard"></div>
-            </div>
-            <div class="progress-section">
-                <div class="daily-progress">
-                    <div class="progress-dots">
-                        <span class="dot active"></span>
-                        <span class="dot active"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                    </div>
-                    <p>Progreso Diario</p>
-                </div>
-                <div class="coins">
-                    <i class="fas fa-coins"></i>
-                    <span id="coinCount">125</span>
-                </div>
-            </div>
-        </header>
+        .gamification h3 {  
+            margin-bottom: 15px;  
+        }  
 
-        <main class="main-content">
-            <div class="tree-container">
-                <div class="tree">
-                    <div class="tree-trunk"></div>
-                    <div class="tree-crown"></div>
-                </div>
-                <div class="daily-message" id="dailyMessage">
-                    "Cada paso en tu viaje te acerca a tu mejor versión"
-                </div>
-            </div>
+        .gamification p {  
+            margin-bottom: 20px;  
+        }  
 
-            <div class="button-grid">
-                <a href="meditacion.html" class="feature-button meditation">
-                    <i class="fas fa-om"></i>
-                    <span>Meditación</span>
-                </a>
-                <a href="libros.html" class="feature-button books">
-                    <i class="fas fa-book-reader"></i>
-                    <span>Libros</span>
-                </a>
-                <a href="tienda.html" class="feature-button store">
-                    <i class="fas fa-store"></i>
-                    <span>Tienda</span>
-                </a>
-                <a href="sonidos.html" class="feature-button sounds">
-                    <i class="fas fa-music"></i>
-                    <span>Sonidos</span>
-                </a>
-                <a href="visualizacion.html" class="feature-button visualization">
-                    <i class="fas fa-eye"></i>
-                    <span>Visualización</span>
-                </a>
-                <a href="mejor-version.html" class="feature-button better-self">
-                    <i class="fas fa-star"></i>
-                    <span>Mejor Versión</span>
-                </a>
-                <a href="configuraciones.html" class="feature-button settings">
-                    <i class="fas fa-cog"></i>
-                    <span>Configuración</span>
-                </a>
-            </div>
-        </main>
-    </div>
+        .gamification button {  
+            background: var(--accent-color);  
+            color: var(--text-primary);  
+            border: none;  
+            padding: 10px 20px;  
+            border-radius: var(--border-radius);  
+            cursor: pointer;  
+            transition: background 0.3s ease;  
+        }  
 
-    <script>
-        // Configuración de particles.js
-        particlesJS('particles-js',
-          {
-            "particles": {
-              "number": {
-                "value": 80,
-                "density": {
-                  "enable": true,
-                  "value_area": 800
-                }
-              },
-              "color": {
-                "value": "#4F46E5"
-              },
-              "shape": {
-                "type": "circle"
-              },
-              "opacity": {
-                "value": 0.5,
-                "random": false
-              },
-              "size": {
-                "value": 3,
-                "random": true
-              },
-              "line_linked": {
-                "enable": true,
-                "distance": 150,
-                "color": "#4F46E5",
-                "opacity": 0.4,
-                "width": 1
-              },
-              "move": {
-                "enable": true,
-                "speed": 2,
-                "direction": "none",
-                "random": false,
-                "straight": false,
-                "out_mode": "out",
-                "bounce": false
-              }
-            },
-            "interactivity": {
-              "detect_on": "canvas",
-              "events": {
-                "onhover": {
-                  "enable": true,
-                  "mode": "repulse"
-                },
-                "onclick": {
-                  "enable": true,
-                  "mode": "push"
-                },
-                "resize": true
-              }
-            },
-            "retina_detect": true
-          }
-        );
+        .gamification button:hover {  
+            background: #D53F8C;  
+        }  
 
-        // Animación de los puntos de progreso
-        document.querySelectorAll('.dot').forEach((dot, index) => {
-            if (index < 2) {
-                dot.classList.add('active');
-            }
-        });
-    </script>
-</body>
+        .resources {  
+            background: var(--card-background);  
+            border-radius: var(--border-radius);  
+            padding: 20px;  
+            box-shadow: var(--shadow);  
+            text-align: center;  
+        }  
+
+        .resources h3 {  
+            margin-bottom: 15px;  
+        }  
+
+        .resource-item {  
+            margin: 10px 0;  
+            text-align: left;  
+        }  
+
+        .resource-item a {  
+            color: var(--primary-color);  
+            text-decoration: none;  
+            font-weight: 600;  
+        }  
+
+        .resource-item a:hover {  
+            text-decoration: underline;  
+        }  
+
+        .forum {  
+            background: var(--secondary-color);  
+            color: var(--text-primary);  
+            padding: 20px;  
+            border-radius: var(--border-radius);  
+            box-shadow: var(--shadow);  
+            margin-top: 30px;  
+        }  
+
+        .forum h3 {  
+            margin-bottom: 15px;  
+        }  
+
+        .forum p {  
+            margin-bottom: 20px;  
+        }  
+
+        .forum button {  
+            background: var(--accent-color);  
+            color: var(--text-primary);  
+            border: none;  
+            padding: 10px 20px;  
+            border-radius: var(--border-radius);  
+            cursor: pointer;  
+            transition: background 0.3s ease;  
+        }  
+
+        .forum button:hover {  
+            background: #D53F8C;  
+        }  
+
+        @media (max-width: 768px) {  
+            .header {  
+                flex-direction: column;  
+                gap: 20px;  
+            }  
+
+            .hero {  
+                padding: 20px;  
+            }  
+
+            .button-grid {  
+                grid-template-columns: repeat(2, 1fr);  
+            }  
+        }  
+    </style>  
+</head>  
+<body>  
+    <div id="particles-js"></div>  
+    <div class="container">  
+        <header class="header">  
+            <h1>Journey - Tu Camino de Recuperación</h1>  
+            <div class="progress-section">  
+                <div class="daily-progress">  
+                    <div class="progress-dots">  
+                        <span class="dot active"></span>  
+                        <span class="dot active"></span>  
+                        <span class="dot"></span>  
+                        <span class="dot"></span>  
+                        <span class="dot"></span>  
+                    </div>  
+                    <p>Progreso Diario</p>  
+                </div>  
+                <div class="coins">  
+                    <i class="fas fa-coins"></i>  
+                    <span id="coinCount">125</span>  
+                </div>  
+            </div>  
+        </header>  
+
+        <div class="hero">  
+            <h2>Transforma tu vida hoy</h2>  
+            <p>Únete a nuestra comunidad y descubre herramientas efectivas para superar la adicción y mejorar tu bienestar.</p>  
+            <a href="registro.html" class="feature-button">Comienza Ahora</a>  
+        </div>  
+
+        <main class="main-content">  
+            <section class="button-grid">  
+                <a href="meditacion.html" class="feature-button meditation">  
+                    <i class="fas fa-om"></i>  
+                    <span>Meditación</span>  
+                </a>  
+                <a href="libros.html" class="feature-button books">  
+                    <i class="fas fa-book-reader"></i>  
+                    <span>Libros</span>  
+                </a>  
+                <a href="tienda.html" class="feature-button store">  
+                    <i class="fas fa-store"></i>  
+                    <span>Tienda</span>  
+                </a>  
+                <a href="sonidos.html" class="feature-button sounds">  
+                    <i class="fas fa-music"></i>  
+                    <span>Sonidos</span>  
+                </a>  
+                <a href="visualizacion.html" class="feature-button visualization">  
+                    <i class="fas fa-eye"></i>  
+                    <span>Visualización</span>  
+                </a>  
+                <a href="mejor-version.html" class="feature-button better-self">  
+                    <i class="fas fa-star"></i>  
+                    <span>Mejor Versión</span>  
+                </a>  
+                <a href="configuraciones.html" class="feature-button settings">  
+                    <i class="fas fa-cog"></i>  
+                    <span>Configuración</span>  
+                </a>  
+            </section>  
+
+            <section class="testimonials">  
+                <h2>Testimonios</h2>  
+                <div class="testimonial">"Este programa ha cambiado mi vida. Me siento más fuerte y enfocado."</div>  
+                <div class="testimonial">"La comunidad y el apoyo que he recibido son invaluables. Gracias por todo."</div>  
+                <div class="testimonial">"He aprendido a manejar mis emociones y a encontrar paz interior."</div>  
+            </section>  
+
+            <section class="gamification">  
+                <h3>¡Gana Recompensas!</h3>  
+                <p>Completa desafíos diarios y gana monedas para canjear en nuestra tienda.</p>  
+                <button onclick="alert('¡Desafío completado!')">Completa un Desafío</button>  
+            </section>  
+
+            <section class="resources">  
+                <h3>Recursos Útiles</h3>  
+                <div class="resource-item">  
+                    <a href="articulo1.html">Artículo: Cómo superar la adicción a la pornografía</a>  
+                </div>  
+                <div class="resource-item">  
+                    <a href="video1.html">Video: Técnicas de meditación para hombres</a>  
+                </div>  
+                <div class="resource-item">  
+                    <a href="guia1.html">Guía: Desarrollo personal y crecimiento emocional</a>  
+                </div>  
+            </section>  
+
+            <section class="forum">  
+                <h3>Foro de Comunidad</h3>  
+                <p>Únete a la conversación y comparte tus experiencias con otros hombres en nuestra comunidad.</p>  
+                <button onclick="alert('¡Acceso al foro!')">Ir al Foro</button>  
+            </section>  
+        </main>  
+
+        <footer class="footer">  
+            <p>&copy; 2023 Journey. Todos los derechos reservados.</p>  
+            <p>Comprometidos con tu bienestar y recuperación.</p>  
+        </footer>  
+    </div>  
+
+    <script>  
+        // Configuración de particles.js  
+        particlesJS('particles-js',  
+          {  
+            "particles": {  
+              "number": {  
+                "value": 80,  
+                "density": {  
+                  "enable": true,  
+                  "value_area": 800  
+                }  
+              },  
+              "color": {  
+                "value": "#4F46E5"  
+              },  
+              "shape": {  
+                "type": "circle"  
+              },  
+              "opacity": {  
+                "value": 0.5,  
+                "random": false  
+              },  
+              "size": {  
+                "value": 3,  
+                "random": true  
+              },  
+              "line_linked": {  
+                "enable": true,  
+                "distance": 150,  
+                "color": "#4F46E5",  
+                "opacity": 0.4,  
+                "width": 1  
+              },  
+              "move": {  
+                "enable": true,  
+                "speed": 2,  
+                "direction": "none",  
+                "random": false,  
+                "straight": false,  
+                "out_mode": "out",  
+                "bounce": false  
+              }  
+            },  
+            "interactivity": {  
+              "detect_on": "canvas",  
+              "events": {  
+                "onhover": {  
+                  "enable": true,  
+                  "mode": "repulse"  
+                },  
+                "onclick": {  
+                  "enable": true,  
+                  "mode": "push"  
+                },  
+                "resize": true  
+              }  
+            },  
+            "retina_detect": true  
+          }  
+        );  
+
+        // Animación de los puntos de progreso  
+        document.querySelectorAll('.dot').forEach((dot, index) => {  
+            if (index < 2) {  
+                dot.classList.add('active');  
+            }  
+        });  
+    </script>  
+</body>  
 </html>
