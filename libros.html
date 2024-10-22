@@ -64,12 +64,20 @@
             justify-content: space-between;
             align-items: center;
             height: var(--header-height);
+            min-height: 60px;
         }
 
         .header-title {
             font-size: 1.8rem;
             color: var(--primary-color);
             font-weight: 700;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        /* Clase para el efecto de desvanecimiento */
+        .header-title.fade-out {
+            opacity: 0;
+            transform: translateY(-10px); /* Menor desplazamiento en móviles */
         }
 
         .header-nav {
@@ -299,6 +307,7 @@
             
             .header-title {
                 font-size: 1.4rem;
+                transition: opacity 0.2s ease, transform 0.2s ease;
             }
 
             .btn {
@@ -340,8 +349,8 @@
 </head>
 <body>
     <header>
-        <div class="header-content">
-            <h1 class="header-title">Mi Biblioteca</h1>
+        <div class="header-content" id="headerContent">
+            <h1 class="header-title" id="headerTitle">Mi Biblioteca</h1>
             <nav class="header-nav">
                 <button class="btn" id="modeToggle">
                     <i class="fas fa-moon btn-icon"></i>
@@ -397,6 +406,42 @@
     </div>
 
     <script>
+        // Añade esto al inicio de tus scripts existentes
+        document.addEventListener('DOMContentLoaded', function() {
+            const headerTitle = document.getElementById('headerTitle');
+            let lastScrollPosition = 0;
+            let ticking = false;
+
+            // Función para manejar el scroll
+            function handleScroll() {
+                const currentScroll = window.pageYOffset;
+            
+            // Mostrar/ocultar título basado en la posición del scroll
+                if (currentScroll > 100) { // Ajusta este valor según prefieras
+                    headerTitle.classList.add('fade-out');
+                } else {
+                headerTitle.classList.remove('fade-out');
+                }
+
+                lastScrollPosition = currentScroll;
+                ticking = false;
+           }
+
+              // Evento de scroll con optimización de rendimiento
+           window.addEventListener('scroll', function() {
+               if (!ticking) {
+                   window.requestAnimationFrame(function() {
+                       handleScroll();
+                   });
+                   ticking = true;
+               }
+            });
+ 
+            // Asegurarse de que el título sea visible al cargar la página
+            headerTitle.classList.remove('fade-out');
+        });
+
+        
         // Configuración de libros
         const books = {
             free: [
