@@ -40,6 +40,9 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             transition: all 0.3s ease;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         /* Header Styles */
@@ -49,6 +52,8 @@
             position: fixed;
             width: 100%;
             z-index: 1000;
+            top: 0;
+            left: 0;
         }
 
         .header-content {
@@ -58,6 +63,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            height: var(--header-height);
         }
 
         .header-title {
@@ -102,8 +108,9 @@
         /* Main Content */
         main {
             max-width: 1400px;
-            margin: 7rem auto 2rem;
+            margin: calc(var(--header-height) + 2rem) auto 2rem; /* Ajusta el margen superior */
             padding: 0 2rem;
+            min-height: calc(100vh - var(--header-height)); /* Asegura altura mínima */
         }
 
         .section-title {
@@ -174,13 +181,14 @@
         .book-title {
             font-size: 1rem;
             font-weight: 600;
-            margin-bottom: 0.8rem;
+            margin-bottom: 0.5rem;
             line-height: 1.4;
             height: 2.8em;
             overflow: hidden;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
+            color: var(--text-color); /* Asegura color correcto */
         }
 
         /* Reader Styles */
@@ -285,21 +293,48 @@
 
         @media (max-width: 768px) {
             .header-content {
-                padding: 1rem;
+                padding: 0.5rem 1rem;
+                height: auto;
+            }
+            
+            .header-title {
+                font-size: 1.4rem;
+            }
+
+            .btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
             }
 
             main {
                 padding: 0 1rem;
+                margin-top: calc(var(--header-height));
             }
 
             .books-grid {
-                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                gap: 1rem;
             }
 
             .book-cover {
-                height: 220px;
+                height: 200px;
             }
         }
+
+        @media (max-width: 480px) {
+            .header-nav .btn span {
+                display: none; /* Oculta el texto del botón */
+            }
+
+            .header-nav .btn {
+             padding: 0.6rem;
+            }
+
+            .header-nav .btn-icon {
+             margin: 0;
+            }
+         }
+        
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
