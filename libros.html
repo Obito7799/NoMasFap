@@ -3,23 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Biblioteca Personal</title>
+    <meta name="description" content="Biblioteca personal digital para gestionar y leer tus libros favoritos">
+    <title>Biblioteca Personal | Mi Colección Digital</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #66cc88;
-            --text-color: #333;
-            --bg-color: #f5f5f5;
+            --primary-color: #d53032;
+            --primary-hover: #bf2c2e;
+            --text-color: #2c3e50;
+            --bg-color: #f8f9fa;
             --card-bg: #ffffff;
-            --shadow-color: rgba(0, 0, 0, 0.1);
+            --shadow-color: rgba(0, 0, 0, 0.08);
+            --card-border: rgba(0, 0, 0, 0.06);
+            --header-height: 80px;
         }
 
         .dark-mode {
-            --primary-color: #57b37a;
-            --text-color: #ffffff;
-            --bg-color: #000000; /* Negro AMOLED */
-            --card-bg: #1a1a1a;
-            --shadow-color: rgba(0, 0, 0, 0.5);
+            --primary-color: #d53032;
+            --primary-hover: #bf2c2e;
+            --text-color: #ecf0f1;
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --shadow-color: rgba(0, 0, 0, 0.3);
+            --card-border: rgba(255, 255, 255, 0.1);
         }
 
         * {
@@ -32,29 +38,45 @@
             font-family: 'Poppins', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
-            transition: all 0.3s ease;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            min-height: 100vh;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 2rem;
+            padding: 0 2rem;
         }
 
         header {
+            background-color: var(--card-bg);
+            box-shadow: 0 2px 10px var(--shadow-color);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            height: var(--header-height);
+            transition: background-color 0.3s ease;
+        }
+
+        .header-content {
+            height: var(--header-height);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 2rem 0;
-            margin-bottom: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
         }
 
         .header-title {
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 700;
-            background: linear-gradient(135deg, var(--primary-color), #4a90e2);
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px var(--shadow-color);
         }
 
         .mode-toggle {
@@ -62,51 +84,81 @@
             color: white;
             border: none;
             padding: 0.8rem 1.5rem;
-            border-radius: 30px;
-            font-size: 1rem;
+            border-radius: 12px;
+            font-size: 0.9rem;
             font-weight: 500;
             cursor: pointer;
-            transition: transform 0.2s ease;
-            box-shadow: 0 4px 15px var(--shadow-color);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .mode-toggle:hover {
+            background: var(--primary-hover);
             transform: translateY(-2px);
+        }
+
+        .mode-toggle i {
+            font-size: 1.2rem;
+        }
+
+        main {
+            margin-top: calc(var(--header-height) + 2rem);
+            padding: 2rem 0;
         }
 
         .books-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 2rem;
+            padding: 1rem 0;
         }
 
         .book-card {
             background: var(--card-bg);
-            border-radius: 20px;
-            padding: 2rem;
+            border-radius: 16px;
+            padding: 1.5rem;
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
             transition: all 0.3s ease;
-            box-shadow: 0 10px 30px var(--shadow-color);
+            border: 1px solid var(--card-border);
+            position: relative;
+            overflow: hidden;
         }
 
         .book-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 40px var(--shadow-color);
+            box-shadow: 0 15px 30px var(--shadow-color);
         }
 
         .book-cover {
             width: 100%;
-            height: 300px;
-            background: linear-gradient(135deg, var(--primary-color), #4a90e2);
-            border-radius: 10px;
+            height: 360px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             font-size: 3rem;
-            font-weight: 700;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .book-cover::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                to bottom,
+                transparent 0%,
+                rgba(0, 0, 0, 0.2) 100%
+            );
         }
 
         .book-info {
@@ -114,19 +166,20 @@
         }
 
         .book-title {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: 600;
             margin-bottom: 1rem;
             line-height: 1.4;
+            color: var(--text-color);
         }
 
         .read-button {
             background: var(--primary-color);
             color: white;
             border: none;
-            padding: 1rem 2rem;
-            border-radius: 30px;
-            font-size: 1rem;
+            padding: 0.8rem 1.8rem;
+            border-radius: 12px;
+            font-size: 0.95rem;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s ease;
@@ -135,30 +188,35 @@
         }
 
         .read-button:hover {
+            background: var(--primary-hover);
             transform: translateY(-2px);
             box-shadow: 0 5px 15px var(--shadow-color);
         }
 
-        /* Estilo para el visor de libros */
         .book-viewer {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.95);
             display: none;
             z-index: 1000;
+            backdrop-filter: blur(8px);
         }
 
         .book-viewer.active {
-            display: block;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .book-viewer iframe {
-            width: 100%;
-            height: 100%;
+            width: 95%;
+            height: 95%;
             border: none;
+            border-radius: 12px;
+            background: white;
         }
 
         .close-viewer {
@@ -166,80 +224,163 @@
             top: 20px;
             right: 20px;
             color: white;
-            font-size: 24px;
+            font-size: 2rem;
             cursor: pointer;
             z-index: 1001;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary-color);
+            border-radius: 50%;
+            transition: all 0.2s ease;
+        }
+
+        .close-viewer:hover {
+            background: var(--primary-hover);
+            transform: rotate(90deg);
         }
 
         @media (max-width: 768px) {
             .container {
-                padding: 1rem;
+                padding: 0 1rem;
+            }
+
+            .header-content {
+                padding: 0 1rem;
             }
 
             .header-title {
-                font-size: 2rem;
+                font-size: 1.5rem;
             }
 
             .books-grid {
                 grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .book-card {
+                padding: 1rem;
+            }
+
+            .book-cover {
+                height: 300px;
             }
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="container">
-        <header>
+    <header>
+        <div class="header-content">
             <h1 class="header-title">Mi Biblioteca</h1>
-            <button class="mode-toggle" id="modeToggle">Modo Oscuro</button>
-        </header>
+            <button class="mode-toggle" id="modeToggle">
+                <i class="fas fa-moon"></i>
+                <span>Modo Oscuro</span>
+            </button>
+        </div>
+    </header>
 
-        <div class="books-grid">
-            <!-- Libro ejemplo -->
-            <div class="book-card">
-                <div class="book-cover">📚</div>
-                <div class="book-info">
-                    <h2 class="book-title">Ragnarok: El camino de un hombre</h2>
-                    <button onclick="openBook('Libros/Ragnarok. El camino de un hombre - Hombres Peligrosos.epub')" class="read-button">Leer Ahora</button>
+    <main>
+        <div class="container">
+            <div class="books-grid">
+                <!-- Libro 1 -->
+                <div class="book-card">
+                    <div class="book-cover">📚</div>
+                    <div class="book-info">
+                        <h2 class="book-title">Ragnarok: El camino de un hombre</h2>
+                        <button onclick="openBook('Libros/Ragnarok. El camino de un hombre - Hombres Peligrosos.epub')" class="read-button">Leer Ahora</button>
+                    </div>
+                </div>
+
+                <!-- Libro 2 -->
+                <div class="book-card">
+                    <div class="book-cover">📚</div>
+                    <div class="book-info">
+                        <h2 class="book-title">Mentalidad de Titán</h2>
+                        <button onclick="openBook('Libros/Mentalidad de Titán.epub')" class="read-button">Leer Ahora</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 
     <!-- Visor de libros -->
     <div id="bookViewer" class="book-viewer">
-        <div class="close-viewer" onclick="closeViewer()">✕</div>
+        <div class="close-viewer" onclick="closeViewer()">×</div>
         <iframe id="bookFrame"></iframe>
     </div>
 
     <script>
-        // Funcionalidad del modo oscuro
+        // Gestión del modo oscuro con persistencia
         const modeToggle = document.getElementById('modeToggle');
+        const icon = modeToggle.querySelector('i');
+        const text = modeToggle.querySelector('span');
+
+        // Cargar preferencia guardada
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateModeToggle(true);
+        }
+
         modeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-            modeToggle.textContent = document.body.classList.contains('dark-mode') 
-                ? 'Modo Claro' 
-                : 'Modo Oscuro';
+            const isDarkMode = document.body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', isDarkMode);
+            updateModeToggle(isDarkMode);
         });
 
-        // Funcionalidad del visor de libros
+        function updateModeToggle(isDarkMode) {
+            if (isDarkMode) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                text.textContent = 'Modo Claro';
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                text.textContent = 'Modo Oscuro';
+            }
+        }
+
+        // Funcionalidad del visor de libros mejorada
         function openBook(bookUrl) {
             const viewer = document.getElementById('bookViewer');
             const frame = document.getElementById('bookFrame');
             
-            // Aquí necesitarás configurar una ruta a tu visor de EPUB/PDF
-            // Por ejemplo, si usas un visor como PDF.js o epub.js
-            frame.src = /visor?file=${encodeURIComponent(bookUrl)};
+            // Asegúrate de que esta ruta coincida con tu configuración del servidor
+            frame.src = `/visor?file=${encodeURIComponent(bookUrl)}`;
             viewer.classList.add('active');
             document.body.style.overflow = 'hidden';
+
+            // Animación suave de aparición
+            viewer.style.opacity = 0;
+            requestAnimationFrame(() => {
+                viewer.style.transition = 'opacity 0.3s ease';
+                viewer.style.opacity = 1;
+            });
         }
 
         function closeViewer() {
             const viewer = document.getElementById('bookViewer');
             const frame = document.getElementById('bookFrame');
-            frame.src = '';
-            viewer.classList.remove('active');
-            document.body.style.overflow = 'auto';
+            
+            // Animación suave de desaparición
+            viewer.style.opacity = 0;
+            
+            setTimeout(() => {
+                frame.src = '';
+                viewer.classList.remove('active');
+                document.body.style.overflow = 'auto';
+                viewer.style.opacity = '';
+            }, 300);
         }
+
+        // Cerrar visor con tecla Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && document.getElementById('bookViewer').classList.contains('active')) {
+                closeViewer();
+            }
+        });
     </script>
 </body>
 </html>
