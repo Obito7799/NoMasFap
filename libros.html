@@ -6,6 +6,7 @@
     <meta name="description" content="Biblioteca personal digital premium para gestionar y leer tus libros favoritos">
     <title>Biblioteca Personal Premium | Mi Colección Digital</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/epubjs/dist/epub.min.js"></script>
     <style>
@@ -65,19 +66,29 @@
             align-items: center;
             height: var(--header-height);
             min-height: 60px;
+            transition: all 0.3s ease;
+            background-color: var(--card-bg);
+        }
+
+        .header-content.fade-out {
+            background-color: transparent;
+            box-shadow: none;
         }
 
         .header-title {
-            font-size: 1.8rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
             color: var(--primary-color);
             font-weight: 700;
-            transition: opacity 0.3s ease, transform 0.3s ease;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+            font-style: italic;
         }
 
         /* Clase para el efecto de desvanecimiento */
         .header-title.fade-out {
             opacity: 0;
-            transform: translateY(-10px); /* Menor desplazamiento en móviles */
+            transform: translateY(-20px); /* Menor desplazamiento en móviles */
         }
 
         .header-nav {
@@ -105,12 +116,12 @@
 
         .btn:hover {
             background: var(--primary-hover);
-            transform: translateY(-2px);
+            transform: translateY(-20px) scale(0.8);
             box-shadow: 0 4px 12px rgba(213, 48, 50, 0.2);
         }
 
         .btn-icon {
-            font-size: 1.1rem;
+            font-size: 0.9rem;
         }
 
         /* Main Content */
@@ -306,13 +317,13 @@
             }
             
             .header-title {
-                font-size: 1.4rem;
+                font-size: 1.6rem;
                 transition: opacity 0.2s ease, transform 0.2s ease;
             }
 
             .btn {
-                padding: 0.6rem 1rem;
-                font-size: 0.9rem;
+                padding: 0.4rem 0.6rem;
+                font-size: 0.75rem;
             }
 
             main {
@@ -336,11 +347,11 @@
             }
 
             .header-nav .btn {
-             padding: 0.6rem;
+             padding: 0.3rem;
             }
 
             .header-nav .btn-icon {
-             margin: 0;
+             margin: 0.8rem;
             }
          }
         
@@ -408,7 +419,9 @@
     <script>
         // Añade esto al inicio de tus scripts existentes
         document.addEventListener('DOMContentLoaded', function() {
+            const headerContent = document.getElementById('headerContent');
             const headerTitle = document.getElementById('headerTitle');
+            const modeToggle = document.getElementById('modeToggle');
             let lastScrollPosition = 0;
             let ticking = false;
 
@@ -417,10 +430,14 @@
                 const currentScroll = window.pageYOffset;
             
             // Mostrar/ocultar título basado en la posición del scroll
-                if (currentScroll > 100) { // Ajusta este valor según prefieras
+                if (currentScroll > 50) { // Ajusta este valor según prefieras
+                    headerContent.classList.add('fade-out');
                     headerTitle.classList.add('fade-out');
+                    modeToggle.classList.add('fade-out');
                 } else {
-                headerTitle.classList.remove('fade-out');
+                    headerContent.classList.remove('fade-out');
+                    headerTitle.classList.remove('fade-out');
+                    modeToggle.classList.remove('fade-out');
                 }
 
                 lastScrollPosition = currentScroll;
@@ -438,7 +455,9 @@
             });
  
             // Asegurarse de que el título sea visible al cargar la página
+            headerContent.classList.remove('fade-out');
             headerTitle.classList.remove('fade-out');
+            modeToggle.classList.remove('fade-out');
         });
 
         
