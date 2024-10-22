@@ -1,107 +1,347 @@
 <!DOCTYPE html>
-<html class="no-js">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>ePubJS Examples</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width">
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <style type="text/css">
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperación y Libertad</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --warning-color: #FFA500;
+            --danger-color: #FF4444;
+            --severe-color: #CC0000;
+            --text-color: #333;
+            --light-text: #fff;
+        }
 
-          body {
+        * {
             margin: 0;
-			background: #fafafa;
-			font-family: serif;
-			color: #333;
-			position: absolute;
-			height: 100%;
-			width: 100%;
-			min-height: 800px;
-          }
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-          h1 {
-            text-align: center;
-            font-size: 1.5em;
-            line-height: 1.33em;
-            text-align: center;
-            padding-bottom: 0em;
-            text-align: center;
-            text-transform: uppercase;
-            font-weight: normal;
-            letter-spacing: 4px;
-            padding-top: 60px;
-          }
+        body {
+            min-height: 100vh;
+            background: #1a1a1a;
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
 
-          ol {
-            margin: 28px auto;
-          }
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
 
-          a {
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .welcome-screen {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+            text-align: center;
+            margin: 40px auto;
+            max-width: 800px;
+            transform: translateY(50px);
+            opacity: 0;
+            animation: slideUp 0.8s ease forwards;
+        }
+
+        @keyframes slideUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .name-input-container {
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .name-input {
+            padding: 15px 25px;
             font-size: 1.2em;
-            line-height: 1.33em;
-            color: #000;
-          }
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            width: 100%;
+            max-width: 400px;
+            margin: 10px auto;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
 
-          #main {
-			width: 100%
-		  }
-		  
-		  #example-wrapper {
-            width: 695px;
-			overflow: hidden;
-            border: 1px solid #ccc;
-            margin: 28px auto;
-            background: #fff;
-            border-radius: 5px;
-          }
-              
-          #example-viewer {
-            width: 680px;
-			height: 100%;
-            margin: -30px 10px 0 0;
-            -moz-box-shadow:      inset 10px 0 20px rgba(0,0,0,.1);
-            -webkit-box-shadow:   inset 10px 0 20px rgba(0,0,0,.1);
-            box-shadow:           inset 10px 0 20px rgba(0,0,0,.1);
-          }
-        </style>
+        .name-input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 15px rgba(76, 175, 80, 0.2);
+        }
 
+        .start-button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 20px 0;
+        }
 
-    </head>
-    <body>
-        <div id="main">  
-		  <div id="example-wrapper">
-            <div id="example-viewer">
+        .start-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
 
-              <h1>Examples</h1>
-              <ol>
-                <li><a href="spreads.html">Spreads</a><p>
-				Display an ebook two pages at a time. Also includes code to provide table-of-contents in a select object above the rendered ebook.  Sections of the ebook are displayed separately so if a section has a single page or an odd number of pages it will display with a blank page on the right.</p></li>
-                <li><a href="archived.html">Archived</a><p>
-				Display ebook from an XXXX.epub file rather than an unzipped folder. This may be substantially slower for large ebooks.</p></li>
-                <li><a href="scrolled.html">Scrolled Doc</a><p>
-				Displays each "section" or "chapter" of the ebook in its entirety as a single page of variable height that you can scroll up and down. Includes code to provide navigation links above and below the rendered section to go to the previous or next section.</p></li>
-                <li><a href="continuous-spreads.html">Spreads Continuous</a><p>
-				The view is the same as 1) above except that the entire document is rendered at once without breaks so if a section has one page, the next section is shown beginning on the right-hand-page rather than a blank page. </p></li>
-                <li><a href="continuous-scrolled.html">Scrolled Continuous</a><p>
-				The view is the same as 3) except the entire ebook is rendered in the browser at once so there are no navigation links above and below each chapter. This version may take longer to render and uses more memory since the whole ebook is loaded into memory. This version has no links to navigate or jump between chapters.</p></li>
-                <li><a href="swipe.html">Swipe</a><p>
-				This example includes a function in the script to link "swipe" events on touchscreens, particularly mobile devices, to navigate forward and back. Note that swipes do not work in Chrome Desktop even if you turn on device emulation in the "inspect" toolbar. </p></li>
-                <li><a href="input.html">Open from File</a><p>
-				Allows you to select an epub file from your local computer that gets rendered in the browser.</p></li>
-                <li><a href="renderless.html">Renderless</a><p>
-				The name for this example is misleading since the book certainly does render. What's unique in this example is that the book's table of contents is read in and a list of sections in developed, then each section is rendered as it is called for by a section.render() call, but there's no master book.renderTo() call.  Functionlly this seems exactly the same as 1) and 3).</p></li>
-                <li><a href="hooks.html">Hooks</a><p>
-				This example shows how to insert external javascript and external css files into a book after the book has been loaded into memory.  This might, for example, allow you to override internal css from the ebook to change fonts and text-size by either replacing a css file from the ebook or calling a javascript that gets added to the inside of the ebook such as adding jQuery inside the ebook.  For example: this could be used to have + and - buttons that increase or decrease the font-size in the ebook. When the + or - button is pressed it could call to insert and execute a script to replace the font-size of paragraph elements with one slightly larger or smaller.  This example doesn't actually implement any such thing, it just shows how to insert the code, or insert a css file.</p><p>
-				You can't just run a script on the outer page to change things inside the rendered ebook because the ebook is rendered inside an iframe. This mechanism lets you inject things into the iframe and run them after the book is rendered.</p></li>
-                <li><a href="highlights.html">Highlights</a><p>
-				Adds the ability to highlight text in the ebook. This version provides no mechanism for saving highlights after the browser is closed. It is an example of capability rather than a working implementation. It works as follows: When a section of text is selected a rendition.on("selected"...) function notes the location of the beginning and ending of the selected text.  Two things happen. The code adds a new element to the outer page in a list at the bottom describing the selection and providing a "remove" link. The code also paints a yellow block in an SVG overlay to highlight the selected text. Unfortunately as of 5/14/2019 the remove link does remove the yellow overlay from the highlighted text but, does not remove the annotation from the list at the bottom of the page.</p></li>
-                <li><a href="hypothesis.html">Hypothes.is</a><p>
-				Visit their site for an explanation at <a href="https://web.hypothes.is/demos/epubjs/">https://web.hypothes.is/demos/epubjs/</a>.</p></li>
-              </ol>
+        .warning-container {
+            background: #fff3cd;
+            border: 1px solid #ffeeba;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: left;
+        }
 
+        .statistics-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .severity-indicator {
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .severity-icon {
+            width: 30px;
+            height: 30px;
+        }
+
+        /* Estilos para el audio player */
+        .audio-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            border-radius: 50px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .audio-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .audio-button:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        /* Estilos para las alertas de severidad */
+        .severity-low {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .severity-medium {
+            background-color: var(--warning-color);
+            color: black;
+        }
+
+        .severity-high {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        .severity-critical {
+            background-color: var(--severe-color);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    
+    <div class="container">
+        <div class="welcome-screen" id="welcomeScreen">
+            <h1>Bienvenido al Programa de Recuperación</h1>
+            
+            <div class="name-input-container">
+                <input type="text" class="name-input" id="userName" placeholder="Ingresa tu nombre para comenzar" />
             </div>
-          </div>
-		</div>
-    </body>
+
+            <button class="start-button" onclick="startAssessment()">Comenzar Mi Recuperación</button>
+
+            <div class="warning-container">
+                <h3>Información Importante</h3>
+                <p>Este programa está diseñado para ayudarte a superar adicciones que pueden estar afectando seriamente tu vida. Todos los datos son confidenciales y anónimos.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="audio-controls">
+        <button class="audio-button" onclick="toggleAudio()" id="audioButton">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+            </svg>
+        </button>
+    </div>
+
+    <script>
+        // Configuración de partículas
+        particlesJS('particles-js', {
+            particles: {
+                number: {
+                    value: 80,
+                    density: {
+                        enable: true,
+                        value_area: 800
+                    }
+                },
+                color: {
+                    value: '#4CAF50'
+                },
+                shape: {
+                    type: 'circle'
+                },
+                opacity: {
+                    value: 0.5,
+                    random: false
+                },
+                size: {
+                    value: 3,
+                    random: true
+                },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: '#4CAF50',
+                    opacity: 0.4,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: 'none',
+                    random: false,
+                    straight: false,
+                    out_mode: 'out',
+                    bounce: false
+                }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: {
+                    onhover: {
+                        enable: true,
+                        mode: 'repulse'
+                    },
+                    onclick: {
+                        enable: true,
+                        mode: 'push'
+                    },
+                    resize: true
+                }
+            },
+            retina_detect: true
+        });
+
+        // Audio ambient
+        let audio = new Audio();
+        audio.src = 'https://cdnjs.cloudflare.com/ajax/libs/sound-effects/1.0.0/meditation.mp3'; // Ejemplo de URL
+        audio.loop = true;
+        
+        function toggleAudio() {
+            if (audio.paused) {
+                audio.play();
+                document.getElementById('audioButton').style.color = '#4CAF50';
+            } else {
+                audio.pause();
+                document.getElementById('audioButton').style.color = '#333';
+            }
+        }
+
+        // Manejo del nombre de usuario y navegación
+        function startAssessment() {
+            const userName = document.getElementById('userName').value.trim();
+            if (!userName) {
+                alert('Por favor, ingresa tu nombre para continuar');
+                return;
+            }
+            
+            localStorage.setItem('userName', userName);
+            window.location.href = 'assessment.html';
+        }
+
+        // Estadísticas y datos informativos
+        const statistics = {
+            dailyUsers: "42% de los hombres entre 18-35 años",
+            mentalHealth: "78% reporta depresión severa",
+            relationships: "89% tiene problemas en relaciones",
+            productivity: "64% reporta bajo rendimiento laboral",
+            recovery: "92% mejora con apoyo adecuado"
+        };
+
+        // Sistema de severidad
+        function getSeverityLevel(score) {
+            if (score < 30) return {
+                level: 'low',
+                message: 'Nivel de Riesgo Bajo',
+                color: 'var(--primary-color)'
+            };
+            else if (score < 50) return {
+                level: 'medium',
+                message: 'Nivel de Riesgo Medio',
+                color: 'var(--warning-color)'
+            };
+            else if (score < 75) return {
+                level: 'high',
+                message: 'Nivel de Riesgo Alto',
+                color: 'var(--danger-color)'
+            };
+            return {
+                level: 'critical',
+                message: 'Nivel de Riesgo Crítico',
+                color: 'var(--severe-color)'
+            };
+        }
+    </script>
+</body>
 </html>
