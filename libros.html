@@ -6,6 +6,9 @@
     <meta name="description" content="Biblioteca personal digital para gestionar y leer tus libros favoritos">
     <title>Biblioteca Personal | Mi Colección Digital</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Agregamos epub.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/epubjs/dist/epub.min.js"></script>
     <style>
         :root {
             --primary-color: #d53032;
@@ -73,9 +76,7 @@
         .header-title {
             font-size: 2rem;
             font-weight: 700;
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--primary-color);
             text-shadow: 0 2px 4px var(--shadow-color);
         }
 
@@ -147,20 +148,6 @@
             overflow: hidden;
         }
 
-        .book-cover::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(
-                to bottom,
-                transparent 0%,
-                rgba(0, 0, 0, 0.2) 100%
-            );
-        }
-
         .book-info {
             text-align: center;
         }
@@ -206,17 +193,19 @@
         }
 
         .book-viewer.active {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: block;
         }
 
-        .book-viewer iframe {
-            width: 95%;
-            height: 95%;
-            border: none;
-            border-radius: 12px;
+        #viewer {
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+        }
+
+        .epub-container {
             background: white;
+            border-radius: 12px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
         }
 
         .close-viewer {
@@ -240,6 +229,30 @@
         .close-viewer:hover {
             background: var(--primary-hover);
             transform: rotate(90deg);
+        }
+
+        .viewer-controls {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            z-index: 1001;
+        }
+
+        .viewer-controls button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .viewer-controls button:hover {
+            background: var(--primary-hover);
         }
 
         @media (max-width: 768px) {
@@ -309,10 +322,18 @@
     <!-- Visor de libros -->
     <div id="bookViewer" class="book-viewer">
         <div class="close-viewer" onclick="closeViewer()">×</div>
-        <iframe id="bookFrame"></iframe>
+        <div id="viewer"></div>
+        <div class="viewer-controls">
+            <button onclick="book.prev()">Anterior</button>
+            <button onclick="book.next()">Siguiente</button>
+        </div>
     </div>
 
     <script>
+        // Variables globales para el libro
+        let book = null;
+        let rendition = null;
+
         // Gestión del modo oscuro con persistencia
         const modeToggle = document.getElementById('modeToggle');
         const icon = modeToggle.querySelector('i');
@@ -345,34 +366,44 @@
         // Funcionalidad del visor de libros mejorada
         function openBook(bookUrl) {
             const viewer = document.getElementById('bookViewer');
-            const frame = document.getElementById('bookFrame');
-            
-            // Asegúrate de que esta ruta coincida con tu configuración del servidor
-            frame.src = `/visor?file=${encodeURIComponent(bookUrl)}`;
             viewer.classList.add('active');
             document.body.style.overflow = 'hidden';
 
-            // Animación suave de aparición
-            viewer.style.opacity = 0;
-            requestAnimationFrame(() => {
-                viewer.style.transition = 'opacity 0.3s ease';
-                viewer.style.opacity = 1;
+            // Inicializar epub.js
+            book = ePub(bookUrl);
+            rendition = book.renderTo("viewer", {
+                width: "100%",
+                height: "100%",
+                spread: "always"
             });
+
+            rendition.display();
+
+            // Eventos de teclado para navegación
+            document.addEventListener('keydown', handleKeyPress);
         }
 
         function closeViewer() {
             const viewer = document.getElementById('bookViewer');
-            const frame = document.getElementById('bookFrame');
-            
-            // Animación suave de desaparición
-            viewer.style.opacity = 0;
-            
-            setTimeout(() => {
-                frame.src = '';
-                viewer.classList.remove('active');
-                document.body.style.overflow = 'auto';
-                viewer.style.opacity = '';
-            }, 300);
+            viewer.classList.remove('active');
+            document.body.style.overflow = 'auto';
+
+            // Limpiar el visor
+            if (book) {
+                book.destroy();
+                book = null;
+                rendition = null;
+            }
+            document.getElementById('viewer').innerHTML = '';
+
+            // Remover evento de teclado
+            document.removeEventListener('keydown', handleKeyPress);
+        }
+
+        function handleKeyPress(e) {
+            if (e.key === 'ArrowLeft') book.prev();
+            if (e.key === 'ArrowRight') book.next();
+            if (e.key === 'Escape') closeViewer();
         }
 
         // Cerrar visor con tecla Escape
