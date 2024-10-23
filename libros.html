@@ -7,29 +7,25 @@
     <title>Biblioteca Personal Premium | Mi Colección Digital</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-minimal@5/minimal.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/epubjs/dist/epub.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #2563eb;
-            --primary-hover: #1d4ed8;
-            --text-color: #1e293b;
-            --bg-color: #f8fafc;
+            --primary-color: #d53032;
+            --primary-hover: #bf2c2e;
+            --text-color: #2c3e50;
+            --bg-color: #f8f9fa;
             --card-bg: #ffffff;
-            --shadow-color: rgba(0, 0, 0, 0.1);
-            --card-border: rgba(0, 0, 0, 0.05);
+            --shadow-color: rgba(0, 0, 0, 0.00);
+            --card-border: rgba(0, 0, 0, 0.06);
             --header-height: 80px;
-            --premium-gradient: linear-gradient(135deg, #f59e0b, #d97706);
-            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --premium-gradient: linear-gradient(135deg, #ffd700, #ffa500);
         }
 
         .dark-mode {
-            --text-color: #f1f5f9;
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
+            --text-color: #ecf0f1;
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
             --shadow-color: rgba(0, 0, 0, 0.3);
             --card-border: rgba(255, 255, 255, 0.1);
         }
@@ -44,25 +40,19 @@
             font-family: 'Poppins', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
-            transition: var(--transition-smooth);
+            transition: all 0.3s ease;
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
 
+        /* Header Styles */
         header {
             position: fixed;
             width: 100%;
             z-index: 1000;
             top: 0;
             left: 0;
-            backdrop-filter: blur(8px);
-            background-color: rgba(255, 255, 255, 0.8);
-            transition: var(--transition-smooth);
-        }
-
-        .dark-mode header {
-            background-color: rgba(15, 23, 42, 0.8);
         }
 
         .header-content {
@@ -73,21 +63,25 @@
             justify-content: space-between;
             align-items: center;
             height: var(--header-height);
-            transition: var(--transition-smooth);
+            min-height: 60px;
+            transition: all 0.3s ease;
+           
         }
+
 
         .header-title {
             font-family: 'Playfair Display', serif;
             font-size: 2rem;
             color: var(--primary-color);
             font-weight: 700;
-            transition: var(--transition-smooth);
+            transition: all 0.3s ease;
             letter-spacing: 0.5px;
         }
 
+        /* Clase para el efecto de desvanecimiento */
         .header-title.fade-out {
             opacity: 0;
-            transform: translateY(-20px);
+            transform: translateY(-20px); /* Menor desplazamiento en móviles */
         }
 
         .header-nav {
@@ -96,92 +90,88 @@
             align-items: center;
         }
 
+        /* Buttons */
         .btn {
             background: var(--primary-color);
             color: white;
             border: none;
             padding: 0.8rem 1.5rem;
-            border-radius: 0.75rem;
+            border-radius: 8px;
             font-weight: 500;
             cursor: pointer;
-            transition: var(--transition-smooth);
+            transition: all 0.2s ease;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
             font-size: 0.95rem;
-            box-shadow: 0 2px 4px rgba(37, 99, 235, 0.1);
         }
 
         .btn:hover {
             background: var(--primary-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+            transform: translateY(-20px) scale(0.8);
+            box-shadow: 0 4px 12px rgba(213, 48, 50, 0.2);
         }
 
         .btn-icon {
-            font-size: 1rem;
+            font-size: 0.9rem;
         }
 
+        /* Main Content */
         main {
             max-width: 1400px;
-            margin: calc(var(--header-height) + 2rem) auto 2rem;
+            margin: calc(var(--header-height) + 2rem) auto 2rem; /* Ajusta el margen superior */
             padding: 0 2rem;
-            min-height: calc(100vh - var(--header-height));
+            min-height: calc(100vh - var(--header-height)); /* Asegura altura mínima */
         }
 
         .section-title {
-            font-size: 1.75rem;
-            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            color: var(--text-color);
-            font-weight: 600;
+            gap: 0.5rem;
         }
 
         .premium-badge {
             background: var(--premium-gradient);
-            padding: 0.4rem 1rem;
-            border-radius: 2rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
             font-size: 0.8rem;
-            color: white;
+            color: #000;
             font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            box-shadow: 0 2px 4px rgba(245, 158, 11, 0.2);
         }
 
+        /* Books Grid */
         .books-section {
-            margin-bottom: 4rem;
+            margin-bottom: 3rem;
         }
 
         .books-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
         }
 
         .book-card {
             background: var(--card-bg);
-            border-radius: 1rem;
+            border-radius: 12px;
             overflow: hidden;
-            transition: var(--transition-smooth);
+            transition: all 0.3s ease;
             border: 1px solid var(--card-border);
-            box-shadow: 0 4px 6px var(--shadow-color);
         }
 
         .book-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 24px var(--shadow-color);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px var(--shadow-color);
         }
 
         .book-cover {
             position: relative;
             width: 100%;
-            height: 320px;
-            background: var(--bg-color);
+            height: 260px;
+            background: #f0f0f0;
             overflow: hidden;
         }
 
@@ -189,7 +179,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: var(--transition-smooth);
+            transition: transform 0.3s ease;
         }
 
         .book-card:hover .book-cover img {
@@ -197,30 +187,31 @@
         }
 
         .book-info {
-            padding: 1.5rem;
+            padding: 1rem;
         }
 
         .book-title {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
             line-height: 1.4;
-            height: 3em;
+            height: 2.8em;
             overflow: hidden;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
-            color: var(--text-color);
+            color: var(--text-color); /* Asegura color correcto */
         }
 
+        /* Reader Styles */
         .book-viewer {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(12px);
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(8px);
             display: none;
             z-index: 2000;
         }
@@ -231,28 +222,25 @@
         }
 
         .viewer-header {
-            background: rgba(15, 23, 42, 0.9);
-            padding: 1.5rem;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 1rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            backdrop-filter: blur(8px);
         }
 
         .viewer-title {
             color: white;
-            font-size: 1.25rem;
-            font-weight: 500;
+            font-size: 1.2rem;
         }
 
         #viewer {
             flex: 1;
             position: relative;
             background: white;
-            margin: 1.5rem;
-            border-radius: 1rem;
+            margin: 1rem;
+            border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
         .viewer-controls {
@@ -262,33 +250,29 @@
             transform: translateX(-50%);
             display: flex;
             gap: 1rem;
-            background: rgba(15, 23, 42, 0.9);
-            padding: 1rem;
-            border-radius: 3rem;
-            backdrop-filter: blur(8px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            transition: var(--transition-smooth);
+            background: rgba(0, 0, 0, 0.8);
+            padding: 0.8rem;
+            border-radius: 50px;
+            backdrop-filter: blur(4px);
         }
 
         .viewer-btn {
             background: var(--primary-color);
             color: white;
             border: none;
-            width: 48px;
-            height: 48px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: var(--transition-smooth);
-            font-size: 1.1rem;
+            transition: all 0.2s ease;
         }
 
         .viewer-btn:hover {
             background: var(--primary-hover);
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
         }
 
         .loading-overlay {
@@ -297,100 +281,21 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(15, 23, 42, 0.9);
+            background: rgba(0, 0, 0, 0.8);
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 2001;
-            backdrop-filter: blur(12px);
+            backdrop-filter: blur(4px);
         }
 
         .loading-spinner {
-            width: 60px;
-            height: 60px;
-            border: 4px solid rgba(255, 255, 255, 0.1);
-            border-top: 4px solid var(--primary-color);
+            width: 50px;
+            height: 50px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--primary-color);
             border-radius: 50%;
             animation: spin 1s linear infinite;
-        }
-
-        .premium-access {
-            background: var(--card-bg);
-            padding: 3rem;
-            border-radius: 1rem;
-            margin: 3rem auto;
-            max-width: 600px;
-            text-align: center;
-            border: 1px solid var(--card-border);
-            transition: var(--transition-smooth);
-            box-shadow: 0 8px 16px var(--shadow-color);
-        }
-
-        .premium-access.hidden {
-            display: none;
-        }
-
-        .premium-form-title {
-            color: var(--primary-color);
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-            font-family: 'Playfair Display', serif;
-        }
-
-        .premium-input {
-            width: 100%;
-            max-width: 400px;
-            padding: 1rem;
-            margin: 1.5rem 0;
-            border: 2px solid var(--card-border);
-            border-radius: 0.75rem;
-            font-family: 'Poppins', sans-serif;
-            background: var(--bg-color);
-            color: var(--text-color);
-            font-size: 1.1rem;
-            text-align: center;
-            letter-spacing: 2px;
-            transition: var(--transition-smooth);
-        }
-
-        .premium-input:focus {
-            border-color: var(--primary-color);
-            outline: none;
-            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
-        }
-
-        .premium-info {
-            color: var(--text-color);
-            opacity: 0.8;
-            margin-top: 1.5rem;
-            font-size: 0.9rem;
-        }
-
-        .btn-premium {
-            background: var(--premium-gradient);
-            color: white;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            padding: 1rem 2rem;
-            margin-top: 1rem;
-        }
-
-        .btn-premium:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
-        }
-
-        .book-card.premium-locked .btn {
-            background: #64748b;
-            cursor: not-allowed;
-            box-shadow: none;
-        }
-
-        .book-card.premium-locked .btn:hover {
-            background: #475569;
-            transform: none;
-            box-shadow: none;
         }
 
         @keyframes spin {
@@ -400,58 +305,46 @@
 
         @media (max-width: 768px) {
             .header-content {
-                padding: 0.75rem 1rem;
+                padding: 0.5rem 1rem;
+                height: auto;
             }
             
             .header-title {
-                font-size: 1.5rem;
+                font-size: 1.6rem;
+                transition: opacity 0.2s ease, transform 0.2s ease;
             }
 
             .btn {
-                padding: 0.6rem 1rem;
-                font-size: 0.9rem;
+                padding: 0.4rem 0.6rem;
+                font-size: 0.75rem;
             }
 
             main {
                 padding: 0 1rem;
-                margin-top: calc(var(--header-height) + 1rem);
+                margin-top: calc(var(--header-height));
             }
 
             .books-grid {
-                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
                 gap: 1rem;
             }
 
             .book-cover {
-                height: 240px;
-            }
-
-            .book-info {
-                padding: 1rem;
-            }
-
-            .book-title {
-                font-size: 1rem;
-            }
-
-            .premium-access {
-                padding: 2rem 1rem;
-                margin: 2rem 1rem;
+                height: 200px;
             }
         }
 
         @media (max-width: 480px) {
             .header-nav .btn span {
-                display: none;
+                display: none; /* Oculta el texto del botón */
             }
 
             .header-nav .btn {
-                padding: 0.5rem;
+             padding: 0.3rem;
             }
 
             .header-nav .btn-icon {
-                margin: 0;
-                font-size: 1.2rem;
+             margin: 0.8rem;
             }
          }
         
@@ -459,18 +352,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div id="premiumAccess" class="premium-access"></div>
-        <h2 class="premium-form-title">Acceso Premium</h2>
-        <div class="premium-info">Ingresa tu código de licencia para acceder al contenido exclusivo</div>
-        <input type="text" id="licenseKey" class="premium-input" placeholder="XXXX-XXXX-XXXX" maxlength="7">
-        <button onclick="activatePremium()" class="btn btn-premium"></button>
-            <i class="fas fa-crown btn-icon"></i>
-            Activar Premium
-    </button>
-    <div class="premium-info">Un código, un usuario a la vez</div>
-    </div>
-
-    
+    <header>
         <div class="header-content" id="headerContent">
             <h1 class="header-title" id="headerTitle">Mi Biblioteca</h1>
             <nav class="header-nav">
@@ -528,107 +410,6 @@
     </div>
 
     <script>
-        // Control de licencias Premium
-        const validLicenses = ['X7J9L2A', 'Q5M4N1Z', 'P9T8R3K', 'H2V7X9F', 'W1Z5K6M'];
-        const activeLicenses = new Map();
-        let isPremiumActive = false;
-        let controlsTimeout;
-
-        // Actualización de la configuración de libros
-        const books = {
-            free: [
-                {
-                   title: "El arte de la guerra",
-                   path: "Libros/El arte de la guerra - Sun Tzu.epub",
-                   id: "arteguerra"
-                },
-                {
-                   title: "Hábitos atómicos",
-                   path: "Libros/James Clear - Hábitos atómicos (2019) - libgen.li.epub",
-                   id: "habitos"
-                }
-                ],
-            premium: [
-                {
-                    title: "Mentalidad de Titán",
-                    path: "Libros/Mentalidad de Titán.epub",
-                    id: "titan"
-                },
-                {
-                    title: "Ragnarok: El camino de un hombre",
-                    path: "Libros/Ragnarok. El camino de un hombre - Hombres Peligrosos.epub",
-                    id: "ragnarok"
-                },
-                {
-                    title: "Método ATENEA",
-                    path: "Libros/Método ATENEA Guía de Autodefensa Contra Testimonios Engañosos y Alegaciones (Spanish Edition) - Alejandro Flores Maya.epub",
-                    id: "atenea"
-                },
-                {
-                    title: "Cómo ser más Masculino",
-                    path: "Libros/Cómo ser más Masculino_ Descubre cómo transformarte en el hombre alfa que las mujeres desean y los demás respetan - Unknown.epub",
-                    id: "masculino"
-                }
-            ]
-        };
-
-        // Función para activar premium
-        function activatePremium() {
-            const licenseKey = document.getElementById('licenseKey').value.trim();
-    
-        if (!validLicenses.includes(licenseKey)) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Licencia Inválida',
-                text: 'Por favor, verifica tu código de licencia'
-            });
-            return;
-        }
-
-        if (activeLicenses.has(licenseKey)) {
-            const lastAccess = activeLicenses.get(licenseKey);
-            const now = Date.now();
-            if (now - lastAccess < 1000 * 60 * 60) { // 1 hora de cooldown
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Licencia en Uso',
-                    text: 'Esta licencia está siendo utilizada. Por favor, intenta más tarde.'
-                });
-                return;
-            }
-        }
-
-        activeLicenses.set(licenseKey, Date.now());
-        isPremiumActive = true;
-        document.getElementById('premiumAccess').classList.add('hidden');
-    
-        Swal.fire({
-            icon: 'success',
-            title: '¡Bienvenido a Premium!',
-            text: 'Ahora tienes acceso a todo el contenido exclusivo',
-            confirmButtonColor: '#d53032'
-        });
-    
-        initializeLibrary(); // Reinicializar la biblioteca
-    }
-
-    // Función para manejar los controles del visor
-    function setupViewerControls() {
-        const controls = document.querySelector('.viewer-controls');
-    
-        function showControls() {
-            controls.style.opacity = '1';
-            clearTimeout(controlsTimeout);
-            controlsTimeout = setTimeout(() => {
-                controls.style.opacity = '0';
-            }, 3000);
-        }
-
-        document.getElementById('bookViewer').addEventListener('click', showControls);
-        document.getElementById('bookViewer').addEventListener('mousemove', showControls);
-        showControls();
-}
-
         // Añade esto al inicio de tus scripts existentes
         document.addEventListener('DOMContentLoaded', function() {
             const headerContent = document.getElementById('headerContent');
@@ -717,24 +498,16 @@
         // Crear tarjeta de libro
         function createBookCard(bookData, isPremium = false) {
             const card = document.createElement('div');
-            card.className = 'book-card' + (isPremium && !isPremiumActive ? ' premium-locked' : '');
-
-
-            const buttonText = isPremium && !isPremiumActive ? 'Requiere Premium' : 'Leer Ahora';
-            const buttonOnClick = isPremium && !isPremiumActive ? 
-                'Swal.fire({icon:"info",title:"Contenido Premium",text:"Necesitas una suscripción premium para acceder a este contenido"})' : 
-                `openBook('${bookData.id}', '${bookData.title}')`;
-
-
+            card.className = 'book-card';
             card.innerHTML = `
                 <div class="book-cover" id="cover-${bookData.id}">
                     <img src="/api/placeholder/200/260" alt="${bookData.title}">
                 </div>
                 <div class="book-info">
                     <h3 class="book-title">${bookData.title}</h3>
-                    <button onclick="${buttonOnClick}" class="btn">
-                        <i class="fas fa-${isPremium && !isPremiumActive ? 'lock' : 'book-reader'} btn-icon"></i>
-                        ${buttonText}
+                    <button onclick="openBook('${bookData.id}', '${bookData.title}')" class="btn">
+                        <i class="fas fa-book-reader btn-icon"></i>
+                        Leer Ahora
                     </button>
                 </div>
             `;
@@ -781,21 +554,7 @@
 
         // Abrir libro
         async function openBook(bookId, title) {
-            if (books.premium.some(b => b.id === bookId) && !isPremiumActive) {
-                Swal.fire({
-                    icon: 'info',
-                    title: 'Contenido Premium',
-                    text: 'Necesitas una suscripción premium para acceder a este contenido',
-                    confirmButtonColor: '#d53032'
-                });
-                return;
-            }
             const viewer = document.getElementById('bookViewer');
-            const loadingOverlay = document.getElementById('loadingOverlay');
-            loadingOverlay.style.display = 'flex';
-            document.getElementById('currentBookTitle').textContent = title;
-
-            try {
             
         const loadingOverlay = document.getElementById('loadingOverlay');
             loadingOverlay.style.display = 'flex';
@@ -868,20 +627,7 @@
             } finally {
                 loadingOverlay.style.display = 'none';
             }
-            setupViewerControls(); // Añadir esta línea al final
-        } catch (error) {
-            console.error('Error al abrir el libro:', error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Error al cargar el libro. Por favor, inténtalo de nuevo.',
-                confirmButtonColor: '#d53032'
-            });
-        } finally {
-            loadingOverlay.style.display = 'none';
         }
-
-    }
 
         // Guardar progreso de lectura
         function saveProgress(location) {
