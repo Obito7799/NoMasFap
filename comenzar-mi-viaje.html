@@ -282,6 +282,25 @@
             background: #D53F8C;  
         }  
 
+        /* Estilos para el Carrusel de Imágenes */  
+        .image-carousel {  
+            position: relative;  
+            overflow: hidden;  
+            border-radius: var(--border-radius);  
+            max-width: 600px;  
+            margin: 20px auto;  
+        }  
+
+        .image-carousel img {  
+            width: 100%;  
+            border-radius: var(--border-radius);  
+            display: none;  
+        }  
+
+        .image-carousel img.active {  
+            display: block;  
+        }  
+
         @media (max-width: 768px) {  
             .header {  
                 flex-direction: column;  
@@ -357,6 +376,12 @@
                     <i class="fas fa-cog"></i>  
                     <span>Configuración</span>  
                 </a>  
+            </section>  
+
+            <section class="image-carousel">  
+                <img src="svg/imagenes web/MarcGasch_BCXPDTN3_171021__DSC7077_edited-754x444.jpg" class="active" alt="Imagen 1">  
+                <img src="svg/imagenes web/mujer-leyendo-libro-hierba-arbol_1153744-93085.avif" alt="Imagen 2">  
+                <img src="svg/imagenes web/pareja-joven-disfrutando-atardecer-montana_1150-45127.jpg" alt="Imagen 3">  
             </section>  
 
             <section class="testimonials">  
@@ -465,6 +490,18 @@
                 dot.classList.add('active');  
             }  
         });  
+
+        // Script para el Carrusel de Imágenes  
+        let currentIndex = 0;  
+        const images = document.querySelectorAll('.image-carousel img');  
+
+        function showNextImage() {  
+            images[currentIndex].classList.remove('active');  
+            currentIndex = (currentIndex + 1) % images.length;  
+            images[currentIndex].classList.add('active');  
+        }  
+
+        setInterval(showNextImage, 5000);  
     </script>  
 </body>  
 </html>
