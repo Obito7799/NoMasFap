@@ -7,8 +7,10 @@
     <title>Biblioteca Personal Premium | Mi Colección Digital</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-minimal@5/minimal.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/epubjs/dist/epub.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         :root {
             --primary-color: #d53032;
@@ -298,6 +300,96 @@
             animation: spin 1s linear infinite;
         }
 
+        /* Estilos para el formulario de acceso Premium */
+        .premium-access {
+         background: var(--card-bg);
+         padding: 2rem;
+         border-radius: 12px;
+         margin: 2rem auto;
+         max-width: 600px;
+         text-align: center;
+         border: 1px solid var(--card-border);
+         transition: all 0.3s ease;
+         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .premium-access.hidden {
+            display: none;
+        }
+
+        .premium-form-title {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .premium-input {
+            width: 100%;
+            max-width: 400px;
+            padding: 1rem;
+            margin: 1rem 0;
+            border: 2px solid var(--card-border);
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+            font-size: 1.1rem;
+            text-align: center;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .premium-input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(213, 48, 50, 0.1);
+        }
+
+        .premium-info {
+            color: var(--text-color);
+            opacity: 0.8;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+            /* Estilos para los controles del visor */
+        .viewer-controls {
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .viewer-controls.fade-out {
+            opacity: 0;
+        }
+
+            /* Modificación del estilo del botón premium */
+        .btn-premium {
+            background: var(--premium-gradient);
+            color: #000;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 1rem 2rem;
+        }
+
+        .btn-premium:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+        }
+
+            /* Estilo para libros premium bloqueados */
+        .book-card.premium-locked .btn {
+            background: #808080;
+            cursor: not-allowed;
+        }
+
+        .book-card.premium-locked .btn:hover {
+            background: #707070;
+            transform: none;
+            box-shadow: none;
+        }
+
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
@@ -352,7 +444,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <header>
+    <div id="premiumAccess" class="premium-access"></div>
+        <h2 class="premium-form-title">Acceso Premium</h2>
+        <div class="premium-info">Ingresa tu código de licencia para acceder al contenido exclusivo</div>
+        <input type="text" id="licenseKey" class="premium-input" placeholder="XXXX-XXXX-XXXX" maxlength="7">
+        <button onclick="activatePremium()" class="btn btn-premium"></button>
+            <i class="fas fa-crown btn-icon"></i>
+            Activar Premium
+    </button>
+    <div class="premium-info">Un código, un usuario a la vez</div>
+    </div>
+
+    
         <div class="header-content" id="headerContent">
             <h1 class="header-title" id="headerTitle">Mi Biblioteca</h1>
             <nav class="header-nav">
@@ -410,6 +513,107 @@
     </div>
 
     <script>
+        // Control de licencias Premium
+        const validLicenses = ['X7J9L2A', 'Q5M4N1Z', 'P9T8R3K', 'H2V7X9F', 'W1Z5K6M'];
+        const activeLicenses = new Map();
+        let isPremiumActive = false;
+        let controlsTimeout;
+
+        // Actualización de la configuración de libros
+        const books = {
+            free: [
+                {
+                   title: "El arte de la guerra",
+                   path: "Libros/El arte de la guerra - Sun Tzu.epub",
+                   id: "arteguerra"
+                },
+                {
+                   title: "Hábitos atómicos",
+                   path: "Libros/James Clear - Hábitos atómicos (2019) - libgen.li.epub",
+                   id: "habitos"
+                }
+                ],
+            premium: [
+                {
+                    title: "Mentalidad de Titán",
+                    path: "Libros/Mentalidad de Titán.epub",
+                    id: "titan"
+                },
+                {
+                    title: "Ragnarok: El camino de un hombre",
+                    path: "Libros/Ragnarok. El camino de un hombre - Hombres Peligrosos.epub",
+                    id: "ragnarok"
+                },
+                {
+                    title: "Método ATENEA",
+                    path: "Libros/Método ATENEA Guía de Autodefensa Contra Testimonios Engañosos y Alegaciones (Spanish Edition) - Alejandro Flores Maya.epub",
+                    id: "atenea"
+                },
+                {
+                    title: "Cómo ser más Masculino",
+                    path: "Libros/Cómo ser más Masculino_ Descubre cómo transformarte en el hombre alfa que las mujeres desean y los demás respetan - Unknown.epub",
+                    id: "masculino"
+                }
+            ]
+        };
+
+        // Función para activar premium
+        function activatePremium() {
+            const licenseKey = document.getElementById('licenseKey').value.trim();
+    
+        if (!validLicenses.includes(licenseKey)) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Licencia Inválida',
+                text: 'Por favor, verifica tu código de licencia'
+            });
+            return;
+        }
+
+        if (activeLicenses.has(licenseKey)) {
+            const lastAccess = activeLicenses.get(licenseKey);
+            const now = Date.now();
+            if (now - lastAccess < 1000 * 60 * 60) { // 1 hora de cooldown
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Licencia en Uso',
+                    text: 'Esta licencia está siendo utilizada. Por favor, intenta más tarde.'
+                });
+                return;
+            }
+        }
+
+        activeLicenses.set(licenseKey, Date.now());
+        isPremiumActive = true;
+        document.getElementById('premiumAccess').classList.add('hidden');
+    
+        Swal.fire({
+            icon: 'success',
+            title: '¡Bienvenido a Premium!',
+            text: 'Ahora tienes acceso a todo el contenido exclusivo',
+            confirmButtonColor: '#d53032'
+        });
+    
+        initializeLibrary(); // Reinicializar la biblioteca
+    }
+
+    // Función para manejar los controles del visor
+    function setupViewerControls() {
+        const controls = document.querySelector('.viewer-controls');
+    
+        function showControls() {
+            controls.style.opacity = '1';
+            clearTimeout(controlsTimeout);
+            controlsTimeout = setTimeout(() => {
+                controls.style.opacity = '0';
+            }, 3000);
+        }
+
+        document.getElementById('bookViewer').addEventListener('click', showControls);
+        document.getElementById('bookViewer').addEventListener('mousemove', showControls);
+        showControls();
+}
+
         // Añade esto al inicio de tus scripts existentes
         document.addEventListener('DOMContentLoaded', function() {
             const headerContent = document.getElementById('headerContent');
@@ -498,16 +702,24 @@
         // Crear tarjeta de libro
         function createBookCard(bookData, isPremium = false) {
             const card = document.createElement('div');
-            card.className = 'book-card';
+            card.className = 'book-card' + (isPremium && !isPremiumActive ? ' premium-locked' : '');
+
+
+            const buttonText = isPremium && !isPremiumActive ? 'Requiere Premium' : 'Leer Ahora';
+            const buttonOnClick = isPremium && !isPremiumActive ? 
+                'Swal.fire({icon:"info",title:"Contenido Premium",text:"Necesitas una suscripción premium para acceder a este contenido"})' : 
+                `openBook('${bookData.id}', '${bookData.title}')`;
+
+
             card.innerHTML = `
                 <div class="book-cover" id="cover-${bookData.id}">
                     <img src="/api/placeholder/200/260" alt="${bookData.title}">
                 </div>
                 <div class="book-info">
                     <h3 class="book-title">${bookData.title}</h3>
-                    <button onclick="openBook('${bookData.id}', '${bookData.title}')" class="btn">
-                        <i class="fas fa-book-reader btn-icon"></i>
-                        Leer Ahora
+                    <button onclick="${buttonOnClick}" class="btn">
+                        <i class="fas fa-${isPremium && !isPremiumActive ? 'lock' : 'book-reader'} btn-icon"></i>
+                        ${buttonText}
                     </button>
                 </div>
             `;
@@ -554,7 +766,21 @@
 
         // Abrir libro
         async function openBook(bookId, title) {
+            if (books.premium.some(b => b.id === bookId) && !isPremiumActive) {
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Contenido Premium',
+                    text: 'Necesitas una suscripción premium para acceder a este contenido',
+                    confirmButtonColor: '#d53032'
+                });
+                return;
+            }
             const viewer = document.getElementById('bookViewer');
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            loadingOverlay.style.display = 'flex';
+            document.getElementById('currentBookTitle').textContent = title;
+
+            try {
             
         const loadingOverlay = document.getElementById('loadingOverlay');
             loadingOverlay.style.display = 'flex';
@@ -627,7 +853,20 @@
             } finally {
                 loadingOverlay.style.display = 'none';
             }
+            setupViewerControls(); // Añadir esta línea al final
+        } catch (error) {
+            console.error('Error al abrir el libro:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Error al cargar el libro. Por favor, inténtalo de nuevo.',
+                confirmButtonColor: '#d53032'
+            });
+        } finally {
+            loadingOverlay.style.display = 'none';
         }
+
+    }
 
         // Guardar progreso de lectura
         function saveProgress(location) {
