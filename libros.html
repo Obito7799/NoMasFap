@@ -44,7 +44,6 @@
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            padding-top: var(--header-height);
         }
 
         /* Header Styles */
@@ -54,8 +53,6 @@
             z-index: 1000;
             top: 0;
             left: 0;
-            background-color: var(--card-bg);
-            box-shadow: 0 2px 10px var(--shadow-color);
         }
 
         .header-content {
@@ -67,14 +64,24 @@
             align-items: center;
             height: var(--header-height);
             min-height: 60px;
+            transition: all 0.3s ease;
+           
         }
+
 
         .header-title {
             font-family: 'Playfair Display', serif;
             font-size: 2rem;
             color: var(--primary-color);
             font-weight: 700;
+            transition: all 0.3s ease;
             letter-spacing: 0.5px;
+        }
+
+        /* Clase para el efecto de desvanecimiento */
+        .header-title.fade-out {
+            opacity: 0;
+            transform: translateY(-20px); /* Menor desplazamiento en móviles */
         }
 
         .header-nav {
@@ -83,43 +90,88 @@
             align-items: center;
         }
 
-        /* Main Content Styles */
-        .main-content {
+        /* Buttons */
+        .btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-20px) scale(0.8);
+            box-shadow: 0 4px 12px rgba(213, 48, 50, 0.2);
+        }
+
+        .btn-icon {
+            font-size: 0.9rem;
+        }
+
+        /* Main Content */
+        main {
             max-width: 1400px;
-            margin: 2rem auto;
+            margin: calc(var(--header-height) + 2rem) auto 2rem; /* Ajusta el margen superior */
             padding: 0 2rem;
+            min-height: calc(100vh - var(--header-height)); /* Asegura altura mínima */
         }
 
         .section-title {
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
-            color: var(--text-color);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .premium-badge {
+            background: var(--premium-gradient);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: #000;
+            font-weight: 600;
+        }
+
+        /* Books Grid */
+        .books-section {
+            margin-bottom: 3rem;
         }
 
         .books-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
         }
 
-        /* Book Card Styles */
         .book-card {
             background: var(--card-bg);
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 4px 6px var(--shadow-color);
-            transition: transform 0.3s ease;
+            transition: all 0.3s ease;
             border: 1px solid var(--card-border);
         }
 
         .book-card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 8px 20px var(--shadow-color);
         }
 
         .book-cover {
+            position: relative;
             width: 100%;
-            height: 300px;
+            height: 260px;
+            background: #f0f0f0;
             overflow: hidden;
         }
 
@@ -127,102 +179,121 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .book-card:hover .book-cover img {
+            transform: scale(1.05);
         }
 
         .book-info {
-            padding: 1.5rem;
+            padding: 1rem;
         }
 
         .book-title {
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
-            color: var(--text-color);
-        }
-
-        .btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            width: 100%;
-            padding: 0.8rem;
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
             font-size: 1rem;
-            transition: background-color 0.3s ease;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+            height: 2.8em;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            color: var(--text-color); /* Asegura color correcto */
         }
 
-        .btn:hover {
-            background: var(--primary-hover);
-        }
-
-        .btn-icon {
-            font-size: 1.1rem;
-        }
-
-        /* Viewer Styles */
-        #bookViewer {
+        /* Reader Styles */
+        .book-viewer {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: var(--bg-color);
-            z-index: 1500;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(8px);
             display: none;
-        }
-
-        #bookViewer.active {
-            display: block;
-        }
-
-        #viewer {
-            width: 100%;
-            height: calc(100% - var(--header-height));
-            margin-top: var(--header-height);
-        }
-
-        .viewer-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background: var(--card-bg);
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 10px var(--shadow-color);
-            z-index: 1600;
-        }
-
-        #currentBookTitle {
-            font-size: 1.2rem;
-            color: var(--text-color);
-        }
-
-        /* Loading Overlay */
-        #loadingOverlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            display: none;
-            justify-content: center;
-            align-items: center;
             z-index: 2000;
         }
 
-        .loader {
+        .book-viewer.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .viewer-header {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .viewer-title {
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        #viewer {
+            flex: 1;
+            position: relative;
+            background: white;
+            margin: 1rem;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .viewer-controls {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 0.8rem;
+            border-radius: 50px;
+            backdrop-filter: blur(4px);
+        }
+
+        .viewer-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .viewer-btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2001;
+            backdrop-filter: blur(4px);
+        }
+
+        .loading-spinner {
             width: 50px;
             height: 50px;
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid var(--primary-color);
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--primary-color);
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
@@ -232,130 +303,164 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* Premium Section Styles */
-        .premium-section {
-            opacity: 0.5;
-            pointer-events: none;
-            transition: all 0.3s ease;
-        }
-
-        .premium-section.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        /* Responsive Design */
         @media (max-width: 768px) {
             .header-content {
-                padding: 1rem;
+                padding: 0.5rem 1rem;
+                height: auto;
+            }
+            
+            .header-title {
+                font-size: 1.6rem;
+                transition: opacity 0.2s ease, transform 0.2s ease;
             }
 
-            .main-content {
+            .btn {
+                padding: 0.4rem 0.6rem;
+                font-size: 0.75rem;
+            }
+
+            main {
                 padding: 0 1rem;
+                margin-top: calc(var(--header-height));
             }
 
             .books-grid {
-                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
                 gap: 1rem;
             }
 
             .book-cover {
-                height: 250px;
-            }
-
-            .viewer-controls {
-                bottom: 1rem;
-                padding: 0.5rem;
+                height: 200px;
             }
         }
+
+        @media (max-width: 480px) {
+            .header-nav .btn span {
+                display: none; /* Oculta el texto del botón */
+            }
+
+            .header-nav .btn {
+             padding: 0.3rem;
+            }
+
+            .header-nav .btn-icon {
+             margin: 0.8rem;
+            }
+         }
+        
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <header>
-        <div class="header-content">
-            <h1 class="header-title">Mi Biblioteca</h1>
+        <div class="header-content" id="headerContent">
+            <h1 class="header-title" id="headerTitle">Mi Biblioteca</h1>
             <nav class="header-nav">
-                <button class="btn" onclick="document.getElementById('premiumModal').classList.add('active')">
-                    <i class="fas fa-crown btn-icon"></i>
-                    Premium
+                <button class="btn" id="modeToggle">
+                    <i class="fas fa-moon btn-icon"></i>
+                    <span>Modo Oscuro</span>
                 </button>
             </nav>
         </div>
     </header>
 
-    <main class="main-content">
-        <section>
-            <h2 class="section-title">Libros Gratuitos</h2>
-            <div id="freeBooks" class="books-grid"></div>
+    <main>
+        <!-- Sección Libros Gratuitos -->
+        <section class="books-section">
+            <h2 class="section-title">
+                <i class="fas fa-book"></i>
+                Libros Gratuitos
+            </h2>
+            <div class="books-grid" id="freeBooks"></div>
         </section>
 
-        <section class="premium-section">
-            <h2 class="section-title">Libros Premium</h2>
-            <div id="premiumBooks" class="books-grid"></div>
+        <!-- Sección Premium -->
+        <section class="books-section">
+            <h2 class="section-title">
+                <i class="fas fa-crown"></i>
+                Libros Premium
+                <span class="premium-badge">PREMIUM</span>
+            </h2>
+            <div class="books-grid" id="premiumBooks"></div>
         </section>
     </main>
 
-    <div id="bookViewer">
+    <!-- Visor de libros -->
+    <div id="bookViewer" class="book-viewer">
         <div class="viewer-header">
-            <h2 id="currentBookTitle"></h2>
-            <button class="btn" onclick="closeViewer()">
-                <i class="fas fa-times btn-icon"></i>
-                Cerrar
+            <h3 class="viewer-title" id="currentBookTitle">Leyendo libro</h3>
+            <button class="viewer-btn" onclick="closeViewer()">
+                <i class="fas fa-times"></i>
             </button>
         </div>
         <div id="viewer"></div>
-    </div>
-
-    <div id="loadingOverlay">
-        <div class="loader"></div>
-    </div>
-
-    <!-- Premium Access Modal -->
-    <div id="premiumModal" class="modal">
-        <div class="modal-content">
-            <h2 class="modal-title">Acceso Premium</h2>
-            <input type="text" id="licenseInput" class="license-input" placeholder="Ingresa tu código de licencia">
-            <button class="btn" onclick="validateLicense()">
-                <i class="fas fa-unlock btn-icon"></i>
-                Activar Premium
+        <div class="viewer-controls">
+            <button class="viewer-btn" onclick="prevPage()">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="viewer-btn" onclick="nextPage()">
+                <i class="fas fa-chevron-right"></i>
             </button>
         </div>
     </div>
 
-    <!-- Display Settings -->
-    <div id="displaySettings" class="display-settings">
-        <button class="display-option" onclick="toggleDisplayMode('single')">
-            <i class="fas fa-book-open"></i>
-        </button>
-        <button class="display-option" onclick="toggleDisplayMode('spread')">
-            <i class="fas fa-books"></i>
-        </button>
-        <button class="display-option" onclick="adjustFontSize(1)">
-            <i class="fas fa-plus"></i>
-        </button>
-        <button class="display-option" onclick="adjustFontSize(-1)">
-            <i class="fas fa-minus"></i>
-        </button>
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+        <div class="loading-spinner"></div>
     </div>
 
     <script>
-        // Variables globales
-        let currentBook = null;
-        let rendition = null;
-        const preloadedBooks = new Map();
+        // Añade esto al inicio de tus scripts existentes
+        document.addEventListener('DOMContentLoaded', function() {
+            const headerContent = document.getElementById('headerContent');
+            const headerTitle = document.getElementById('headerTitle');
+            const modeToggle = document.getElementById('modeToggle');
+            let lastScrollPosition = 0;
+            let ticking = false;
 
+            // Función para manejar el scroll
+            function handleScroll() {
+                const currentScroll = window.pageYOffset;
+            
+            // Mostrar/ocultar título basado en la posición del scroll
+                if (currentScroll > 50) { // Ajusta este valor según prefieras
+                    headerContent.classList.add('fade-out');
+                    headerTitle.classList.add('fade-out');
+                    modeToggle.classList.add('fade-out');
+                } else {
+                    headerContent.classList.remove('fade-out');
+                    headerTitle.classList.remove('fade-out');
+                    modeToggle.classList.remove('fade-out');
+                }
+
+                lastScrollPosition = currentScroll;
+                ticking = false;
+           }
+
+              // Evento de scroll con optimización de rendimiento
+           window.addEventListener('scroll', function() {
+               if (!ticking) {
+                   window.requestAnimationFrame(function() {
+                       handleScroll();
+                   });
+                   ticking = true;
+               }
+            });
+ 
+            // Asegurarse de que el título sea visible al cargar la página
+            headerContent.classList.remove('fade-out');
+            headerTitle.classList.remove('fade-out');
+            modeToggle.classList.remove('fade-out');
+        });
+
+        
         // Configuración de libros
         const books = {
             free: [
                 {
-                    title: "El arte de la guerra",
-                    path: "Libros/El arte de la guerra - Sun Tzu.epub",
-                    id: "arteguerra"
-                },
-                {
-                    title: "Hábitos atómicos",
-                    path: "Libros/James Clear - Hábitos atómicos (2019) - libgen.li.epub",
-                    id: "habitos"
+                    title: "Ragnarok: El camino de un hombre",
+                    path: "Libros/Ragnarok. El camino de un hombre - Hombres Peligrosos.epub",
+                    id: "ragnarok"
                 }
             ],
             premium: [
@@ -363,250 +468,158 @@
                     title: "Mentalidad de Titán",
                     path: "Libros/Mentalidad de Titán.epub",
                     id: "titan"
-                },
-                {
-                    title: "Ragnarok: El camino de un hombre",
-                    path: "Libros/Ragnarok. El camino de un hombre - Hombres Peligrosos.epub",
-                    id: "ragnarok"
-                },
-                {
-                    title: "Método ATENEA",
-                    path: "Libros/Método ATENEA Guía de Autodefensa Contra Testimonios Engañosos y Alegaciones (Spanish Edition) - Alejandro Flores Maya.epub",
-                    id: "atenea"
-                },
-                {
-                    title: "Cómo ser más Masculino",
-                    path: "Libros/Cómo ser más Masculino_ Descubre cómo transformarte en el hombre alfa que las mujeres desean y los demás respetan - Unknown.epub",
-                    id: "masculino"
                 }
             ]
         };
 
-        // Inicialización de la biblioteca
-        function initializeLibrary() {
-            const freeSection = document.getElementById('freeBooks');
-            const premiumSection = document.getElementById('premiumBooks');
+        let currentBook = null;
+        let rendition = null;
+        const preloadedBooks = new Map();
 
-            // Limpiar secciones
-            freeSection.innerHTML = '';
-            premiumSection.innerHTML = '';
+        // Función para precargar libros
+        async function preloadBooks() {
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            loadingOverlay.style.display = 'flex';
+
+            try {
+                const allBooks = [...books.free, ...books.premium];
+                for (const book of allBooks) {
+                    const epubBook = ePub(book.path);
+                    await epubBook.ready;
+                    preloadedBooks.set(book.id, epubBook);
+                }
+            } catch (error) {
+                console.error('Error preloading books:', error);
+            } finally {
+                loadingOverlay.style.display = 'none';
+            }
+        }
+
+        // Crear tarjeta de libro
+        function createBookCard(bookData, isPremium = false) {
+            const card = document.createElement('div');
+            card.className = 'book-card';
+            card.innerHTML = `
+                <div class="book-cover" id="cover-${bookData.id}">
+                    <img src="/api/placeholder/200/260" alt="${bookData.title}">
+                </div>
+                <div class="book-info">
+                    <h3 class="book-title">${bookData.title}</h3>
+                    <button onclick="openBook('${bookData.id}', '${bookData.title}')" class="btn">
+                        <i class="fas fa-book-reader btn-icon"></i>
+                        Leer Ahora
+                    </button>
+                </div>
+            `;
+            return card;
+        }
+
+        // Cargar portadas de libros
+        async function loadBookCover(bookData) {
+            try {
+                const book = preloadedBooks.get(bookData.id) || ePub(bookData.path);
+                const coverUrl = await book.coverUrl();
+                
+                if (coverUrl) {
+                    const coverImg = document.querySelector(`#cover-${bookData.id} img`);
+                    if (coverImg) {
+                        coverImg.src = coverUrl;
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading cover:', error);
+            }
+        }
+
+        // Inicializar la biblioteca
+        async function initializeLibrary() {
+            const freeBooksGrid = document.getElementById('freeBooks');
+            const premiumBooksGrid = document.getElementById('premiumBooks');
 
             // Cargar libros gratuitos
             books.free.forEach(book => {
-                freeSection.appendChild(createBookCard(book));
+                freeBooksGrid.appendChild(createBookCard(book));
+                loadBookCover(book);
             });
 
             // Cargar libros premium
             books.premium.forEach(book => {
-                premiumSection.appendChild(createBookCard(book, true));
+                premiumBooksGrid.appendChild(createBookCard(book, true));
+                loadBookCover(book);
             });
 
-            // Precargar libros gratuitos
-            books.free.forEach(book => {
-                preloadedBooks.set(book.id, ePub(book.path));
-            });
-
-            // Restaurar progreso guardado
-            restoreProgress();
+            // Precargar libros
+            await preloadBooks();
         }
 
-        // Guardar progreso de lectura
-        function saveProgress(location) {
-            if (currentBook && location) {
-                const progress = {
-                    bookId: currentBook.id,
-                    location: location,
-                    timestamp: Date.now()
-                };
-                localStorage.setItem('readingProgress', JSON.stringify(progress));
-            }
-        }
-
-        // Restaurar progreso de lectura
-        function restoreProgress() {
-            const savedProgress = localStorage.getItem('readingProgress');
-            if (savedProgress) {
-                const progress = JSON.parse(savedProgress);
-                // Implementar la lógica para restaurar la última posición de lectura
-            }
-        }
-
-        // Event Listeners
-        document.addEventListener('DOMContentLoaded', () => {
-            const activeLicense = localStorage.getItem('activeLicense');
-            if (activeLicense && validLicenses.includes(activeLicense)) {
-                activeLicenses.set(activeLicense, Date.now());
-                enablePremiumAccess();
-            }
-            initializeLibrary();
-
-            // Keyboard navigation
-            document.addEventListener('keydown', (e) => {
-                if (document.getElementById('bookViewer').classList.contains('active')) {
-                    switch(e.key) {
-                        case 'ArrowLeft':
-                            prevPage();
-                            break;
-                        case 'ArrowRight':
-                            nextPage();
-                            break;
-                        case 'Escape':
-                            closeViewer();
-                            break;
-                    }
-                }
-            });
-
-            // Limpiar al cerrar el visor
-            document.getElementById('viewer').addEventListener('unload', () => {
-                document.getElementById('displaySettings').style.display = 'none';
-                if (window.innerWidth <= 768) {
-                    document.getElementById('viewer').removeEventListener('touchstart', handleTouchStart);
-                    document.getElementById('viewer').removeEventListener('touchend', handleTouchEnd);
-                }
-            });
-        });
-
-        // Manejo de gestos táctiles
-        let touchStartX = 0;
-        let touchEndX = 0;
-
-        function handleTouchStart(e) {
-            touchStartX = e.touches[0].clientX;
-        }
-
-        function handleTouchEnd(e) {
-            touchEndX = e.changedTouches[0].clientX;
-            handleSwipe();
-        }
-
-        function handleSwipe() {
-            const swipeThreshold = 50;
-            const swipeDistance = touchEndX - touchStartX;
-
-            if (Math.abs(swipeDistance) > swipeThreshold) {
-                if (swipeDistance > 0) {
-                    prevPage();
-                } else {
-                    nextPage();
-                }
-            }
-        }
-
-        // Configuración de visualización
-        let currentFontSize = 100; // porcentaje
-        let currentDisplayMode = 'single';
-
-        function toggleDisplayMode(mode) {
-            currentDisplayMode = mode;
-            if (rendition) {
-                rendition.spread(mode === 'spread' ? 'auto' : 'none');
-            }
-        }
-
-        function adjustFontSize(delta) {
-            currentFontSize = Math.max(50, Math.min(200, currentFontSize + (delta * 10)));
-            if (rendition) {
-                rendition.themes.fontSize(`${currentFontSize}%`);
-            }
-        }
-
-        // Gestión de licencias
-        const validLicenses = [
-            'X7J9L2A', 'Q5M4N1Z', 'P9T8R3K', 'H2V7X9F', 'W1Z5K6M',
-            'R4J8Q7P', 'L9F3T2V', 'C7M2X8L', 'V5Z6N3B', 'T2K7Q1R'
-        ];
-
-        const activeLicenses = new Map();
-
-        function validateLicense() {
-            const licenseInput = document.getElementById('licenseInput').value.toUpperCase();
-            if (validLicenses.includes(licenseInput)) {
-                if (activeLicenses.has(licenseInput)) {
-                    alert('Esta licencia ya está en uso.');
-                    return;
-                }
-
-                activeLicenses.set(licenseInput, Date.now());
-                localStorage.setItem('activeLicense', licenseInput);
-                document.getElementById('premiumModal').classList.remove('active');
-                enablePremiumAccess();
-                alert('¡Licencia premium activada correctamente!');
-            } else {
-                alert('Código de licencia inválido.');
-            }
-        }
-
-        function enablePremiumAccess() {
-            const premiumSection = document.querySelector('.premium-section');
-            if (premiumSection) {
-                premiumSection.classList.add('active');
-            }
-            
-            const premiumBooks = document.querySelectorAll('#premiumBooks .book-card');
-            premiumBooks.forEach(card => {
-                card.classList.remove('premium-locked');
-            });
-        }
-
-        // Función para abrir libros
+        // Abrir libro
         async function openBook(bookId, title) {
-            const bookData = [...books.free, ...books.premium].find(b => b.id === bookId);
-            if (!bookData) {
-                alert('Libro no encontrado');
-                return;
-            }
-
-            if (books.premium.some(b => b.id === bookId) && !localStorage.getItem('activeLicense')) {
-                document.getElementById('premiumModal').classList.add('active');
-                return;
-            }
-
             const viewer = document.getElementById('bookViewer');
-            const loadingOverlay = document.getElementById('loadingOverlay');
+            
+        const loadingOverlay = document.getElementById('loadingOverlay');
             loadingOverlay.style.display = 'flex';
             document.getElementById('currentBookTitle').textContent = title;
 
             try {
                 viewer.classList.add('active');
                 document.body.style.overflow = 'hidden';
-                document.getElementById('displaySettings').style.display = 'flex';
 
+                // Usar libro precargado o cargar nuevo
                 if (currentBook) {
                     currentBook.destroy();
                 }
 
-                currentBook = preloadedBooks.get(bookId) || ePub(bookData.path);
+                currentBook = preloadedBooks.get(bookId) || ePub(books.free.concat(books.premium).find(b => b.id === bookId).path);
                 
+                // Configurar el renderizado
                 rendition = currentBook.renderTo("viewer", {
                     width: "100%",
                     height: "100%",
-                    spread: currentDisplayMode === 'spread' ? 'auto' : 'none',
+                    spread: "auto",
                     flow: "paginated",
                     minSpreadWidth: 800
                 });
 
-                // Eventos táctiles para móvil
-                if (window.innerWidth <= 768) {
-                    document.getElementById('viewer').addEventListener('touchstart', handleTouchStart);
-                    document.getElementById('viewer').addEventListener('touchend', handleTouchEnd);
-                }
-
-                rendition.themes.fontSize(`${currentFontSize}%`);
-                
-                // Restaurar el último progreso de lectura
-                const savedProgress = localStorage.getItem(`progress-${bookId}`);
-                if (savedProgress) {
-                    await rendition.display(savedProgress);
-                } else {
-                    await rendition.display();
-                }
-
-                // Animación de cambio de página
-                rendition.hooks.render.register(function(contents) {
-                    const body = contents.document.body;
-                    body.style.transition = 'transform 0.3s ease';
+                // Aplicar estilos al contenido del libro
+                rendition.themes.register("default", {
+                    body: {
+                        color: "#2c3e50",
+                        background: "#ffffff",
+                        'font-family': "'Poppins', sans-serif",
+                        padding: "1em",
+                        'line-height': "1.6"
+                    }
                 });
+
+                // Aplicar tema oscuro si está activo
+                if (document.body.classList.contains('dark-mode')) {
+                    rendition.themes.register("dark", {
+                        body: {
+                            color: "#ecf0f1",
+                            background: "#1a1a1a"
+                        }
+                    });
+                    rendition.themes.select("dark");
+                } else {
+                    rendition.themes.select("default");
+                }
+
+                await rendition.display();
+
+                // Configurar eventos
+                rendition.on("keyup", handleKeyPress);
+                rendition.on("relocated", saveProgress);
+                
+                // Restaurar progreso anterior si existe
+                const savedProgress = localStorage.getItem(`book-progress-${bookId}`);
+                if (savedProgress) {
+                    try {
+                        const progress = JSON.parse(savedProgress);
+                        await rendition.display(progress.cfi);
+                    } catch (e) {
+                        console.error('Error restaurando progreso:', e);
+                    }
+                }
 
             } catch (error) {
                 console.error('Error al abrir el libro:', error);
@@ -616,40 +629,28 @@
             }
         }
 
-        // Navegación de páginas
-        function prevPage() {
-            if (rendition) {
-                const view = document.querySelector('.epub-view');
-                view.classList.add('page-turn-left');
-                setTimeout(() => {
-                    rendition.prev();
-                    view.classList.remove('page-turn-left');
-                }, 150);
+        // Guardar progreso de lectura
+        function saveProgress(location) {
+            if (currentBook) {
+                const progress = {
+                    cfi: location.start.cfi,
+                    percentage: location.start.percentage
+                };
+                localStorage.setItem(`book-progress-${currentBook.key()}`, JSON.stringify(progress));
             }
         }
 
-        function nextPage() {
-            if (rendition) {
-                const view = document.querySelector('.epub-view');
-                view.classList.add('page-turn-right');
-                setTimeout(() => {
-                    rendition.next();
-                    view.classList.remove('page-turn-right');
-                }, 150);
-            }
-        }
-
-        // Cerrar el visor
+        // Cerrar visor
         function closeViewer() {
             const viewer = document.getElementById('bookViewer');
             viewer.classList.remove('active');
             document.body.style.overflow = 'auto';
-            document.getElementById('displaySettings').style.display = 'none';
 
             if (currentBook) {
+                // Guardar último progreso antes de cerrar
                 const currentLocation = rendition.currentLocation();
                 if (currentLocation) {
-                    localStorage.setItem(`progress-${currentBook.id}`, currentLocation.start.cfi);
+                    saveProgress(currentLocation);
                 }
             }
 
@@ -659,39 +660,71 @@
             }
             
             document.getElementById('viewer').innerHTML = '';
+        }
 
-            if (window.innerWidth <= 768) {
-                document.getElementById('viewer').removeEventListener('touchstart', handleTouchStart);
-                document.getElementById('viewer').removeEventListener('touchend', handleTouchEnd);
+        // Navegación
+        function prevPage() {
+            if (rendition) {
+                rendition.prev();
             }
         }
 
-        // Crear tarjetas de libros
-        function createBookCard(bookData, isPremium = false) {
-            const card = document.createElement('div');
-            card.className = 'book-card' + (isPremium && !localStorage.getItem('activeLicense') ? ' premium-locked' : '');
-            
-            const buttonHtml = isPremium && !localStorage.getItem('activeLicense') 
-                ? `<button onclick="document.getElementById('premiumModal').classList.add('active')" class="btn">
-                    <i class="fas fa-lock btn-icon"></i>
-                    Contenido Premium
-                   </button>`
-                : `<button onclick="openBook('${bookData.id}', '${bookData.title}')" class="btn">
-                    <i class="fas fa-book-reader btn-icon"></i>
-                    Leer Ahora
-                   </button>`;
-
-            card.innerHTML = `
-                <div class="book-cover" id="cover-${bookData.id}">
-                    <img src="/api/placeholder/200/260" alt="${bookData.title}">
-                </div>
-                <div class="book-info">
-                    <h3 class="book-title">${bookData.title}</h3>
-                    ${buttonHtml}
-                </div>
-            `;
-            return card;
+        function nextPage() {
+            if (rendition) {
+                rendition.next();
+            }
         }
+
+        // Manejo de eventos de teclado
+        function handleKeyPress(e) {
+            if (e.key === 'ArrowLeft') prevPage();
+            if (e.key === 'ArrowRight') nextPage();
+            if (e.key === 'Escape') closeViewer();
+        }
+
+        // Gestión del modo oscuro
+        const modeToggle = document.getElementById('modeToggle');
+        const icon = modeToggle.querySelector('i');
+        const text = modeToggle.querySelector('span');
+
+        // Cargar preferencia guardada
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateModeToggle(true);
+        }
+
+        modeToggle.addEventListener('click', () => {
+            const isDarkMode = document.body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', isDarkMode);
+            updateModeToggle(isDarkMode);
+
+            // Actualizar tema del libro si está abierto
+            if (rendition) {
+                rendition.themes.select(isDarkMode ? "dark" : "default");
+            }
+        });
+
+        function updateModeToggle(isDarkMode) {
+            if (isDarkMode) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                text.textContent = 'Modo Claro';
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                text.textContent = 'Modo Oscuro';
+            }
+        }
+
+        // Iniciar la aplicación
+        document.addEventListener('DOMContentLoaded', initializeLibrary);
+
+        // Manejar eventos de teclado globales
+        document.addEventListener('keydown', (e) => {
+            if (document.getElementById('bookViewer').classList.contains('active')) {
+                handleKeyPress(e);
+            }
+        });
     </script>
 </body>
 </html>
