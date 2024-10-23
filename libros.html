@@ -46,33 +46,6 @@
             -moz-osx-font-smoothing: grayscale;
         }
 
-        /* Premium Access Form */
-        .premium-access {
-            background: var(--card-bg);
-            padding: 1rem;
-            border-radius: 8px;
-            margin: 1rem auto;
-            max-width: 500px;
-            text-align: center;
-            border: 1px solid var(--card-border);
-            transition: all 0.3s ease;
-        }
-
-        .premium-access.hidden {
-            display: none;
-        }
-
-        .premium-input {
-            width: 100%;
-            padding: 0.8rem;
-            margin: 0.5rem 0;
-            border: 1px solid var(--card-border);
-            border-radius: 4px;
-            font-family: 'Poppins', sans-serif;
-            background: var(--bg-color);
-            color: var(--text-color);
-        }
-
         /* Header Styles */
         header {
             position: fixed;
@@ -92,13 +65,9 @@
             height: var(--header-height);
             min-height: 60px;
             transition: all 0.3s ease;
-            opacity: 1;
+           
         }
 
-        .header-content.fade-out {
-            opacity: 0;
-            transform: translateY(-20px);
-        }
 
         .header-title {
             font-family: 'Playfair Display', serif;
@@ -107,12 +76,12 @@
             font-weight: 700;
             transition: all 0.3s ease;
             letter-spacing: 0.5px;
-            opacity: 1;
         }
 
+        /* Clase para el efecto de desvanecimiento */
         .header-title.fade-out {
             opacity: 0;
-            transform: translateY(-20px);
+            transform: translateY(-20px); /* Menor desplazamiento en móviles */
         }
 
         .header-nav {
@@ -121,23 +90,268 @@
             align-items: center;
         }
 
-        /* Rest of your existing styles... */
-        /* [Previous CSS remains exactly the same] */
+        /* Buttons */
+        .btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+        }
 
+        .btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-20px) scale(0.8);
+            box-shadow: 0 4px 12px rgba(213, 48, 50, 0.2);
+        }
+
+        .btn-icon {
+            font-size: 0.9rem;
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1400px;
+            margin: calc(var(--header-height) + 2rem) auto 2rem; /* Ajusta el margen superior */
+            padding: 0 2rem;
+            min-height: calc(100vh - var(--header-height)); /* Asegura altura mínima */
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .premium-badge {
+            background: var(--premium-gradient);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: #000;
+            font-weight: 600;
+        }
+
+        /* Books Grid */
+        .books-section {
+            margin-bottom: 3rem;
+        }
+
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .book-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid var(--card-border);
+        }
+
+        .book-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px var(--shadow-color);
+        }
+
+        .book-cover {
+            position: relative;
+            width: 100%;
+            height: 260px;
+            background: #f0f0f0;
+            overflow: hidden;
+        }
+
+        .book-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .book-card:hover .book-cover img {
+            transform: scale(1.05);
+        }
+
+        .book-info {
+            padding: 1rem;
+        }
+
+        .book-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+            height: 2.8em;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            color: var(--text-color); /* Asegura color correcto */
+        }
+
+        /* Reader Styles */
+        .book-viewer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(8px);
+            display: none;
+            z-index: 2000;
+        }
+
+        .book-viewer.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .viewer-header {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .viewer-title {
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        #viewer {
+            flex: 1;
+            position: relative;
+            background: white;
+            margin: 1rem;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .viewer-controls {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 0.8rem;
+            border-radius: 50px;
+            backdrop-filter: blur(4px);
+        }
+
+        .viewer-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .viewer-btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2001;
+            backdrop-filter: blur(4px);
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                padding: 0.5rem 1rem;
+                height: auto;
+            }
+            
+            .header-title {
+                font-size: 1.6rem;
+                transition: opacity 0.2s ease, transform 0.2s ease;
+            }
+
+            .btn {
+                padding: 0.4rem 0.6rem;
+                font-size: 0.75rem;
+            }
+
+            main {
+                padding: 0 1rem;
+                margin-top: calc(var(--header-height));
+            }
+
+            .books-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                gap: 1rem;
+            }
+
+            .book-cover {
+                height: 200px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-nav .btn span {
+                display: none; /* Oculta el texto del botón */
+            }
+
+            .header-nav .btn {
+             padding: 0.3rem;
+            }
+
+            .header-nav .btn-icon {
+             margin: 0.8rem;
+            }
+         }
+        
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- Premium Access Form -->
-    <div id="premiumAccess" class="premium-access">
-        <h2>Activar Premium</h2>
-        <input type="text" id="licenseKey" class="premium-input" placeholder="Ingresa tu código de licencia">
-        <button onclick="activatePremium()" class="btn">
-            <i class="fas fa-crown btn-icon"></i>
-            Activar
-        </button>
-    </div>
-
     <header>
         <div class="header-content" id="headerContent">
             <h1 class="header-title" id="headerTitle">Mi Biblioteca</h1>
@@ -150,134 +364,53 @@
         </div>
     </header>
 
-    <!-- [Rest of your HTML remains exactly the same until the script tag] -->
+    <main>
+        <!-- Sección Libros Gratuitos -->
+        <section class="books-section">
+            <h2 class="section-title">
+                <i class="fas fa-book"></i>
+                Libros Gratuitos
+            </h2>
+            <div class="books-grid" id="freeBooks"></div>
+        </section>
+
+        <!-- Sección Premium -->
+        <section class="books-section">
+            <h2 class="section-title">
+                <i class="fas fa-crown"></i>
+                Libros Premium
+                <span class="premium-badge">PREMIUM</span>
+            </h2>
+            <div class="books-grid" id="premiumBooks"></div>
+        </section>
+    </main>
+
+    <!-- Visor de libros -->
+    <div id="bookViewer" class="book-viewer">
+        <div class="viewer-header">
+            <h3 class="viewer-title" id="currentBookTitle">Leyendo libro</h3>
+            <button class="viewer-btn" onclick="closeViewer()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div id="viewer"></div>
+        <div class="viewer-controls">
+            <button class="viewer-btn" onclick="prevPage()">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="viewer-btn" onclick="nextPage()">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+        <div class="loading-spinner"></div>
+    </div>
 
     <script>
-        // Variables para el control de licencias
-        const validLicenses = ['X7J9L2A', 'Q5M4N1Z', 'P9T8R3K', 'H2V7X9F', 'W1Z5K6M'];
-        const activeLicenses = new Map();
-        let isPremiumActive = false;
-
-        // Configuración de libros actualizada
-        const books = {
-            free: [
-                {
-                    title: "El arte de la guerra",
-                    path: "Libros/El arte de la guerra - Sun Tzu.epub",
-                    id: "arteguerra"
-                },
-                {
-                    title: "Hábitos atómicos",
-                    path: "Libros/James Clear - Hábitos atómicos (2019) - libgen.li.epub",
-                    id: "habitos"
-                }
-            ],
-            premium: [
-                {
-                    title: "Mentalidad de Titán",
-                    path: "Libros/Mentalidad de Titán.epub",
-                    id: "titan"
-                },
-                {
-                    title: "Ragnarok: El camino de un hombre",
-                    path: "Libros/Ragnarok. El camino de un hombre - Hombres Peligrosos.epub",
-                    id: "ragnarok"
-                },
-                {
-                    title: "Método ATENEA",
-                    path: "Libros/Método ATENEA Guía de Autodefensa Contra Testimonios Engañosos y Alegaciones (Spanish Edition) - Alejandro Flores Maya.epub",
-                    id: "atenea"
-                },
-                {
-                    title: "Cómo ser más Masculino",
-                    path: "Libros/Cómo ser más Masculino_ Descubre cómo transformarte en el hombre alfa que las mujeres desean y los demás respetan - Unknown.epub",
-                    id: "masculino"
-                }
-            ]
-        };
-
-        // Función para activar premium
-        async function activatePremium() {
-            const licenseKey = document.getElementById('licenseKey').value.trim();
-            
-            if (!validLicenses.includes(licenseKey)) {
-                alert('Licencia inválida');
-                return;
-            }
-
-            if (activeLicenses.has(licenseKey)) {
-                const lastAccess = activeLicenses.get(licenseKey);
-                const now = Date.now();
-                if (now - lastAccess < 1000 * 60 * 60) { // 1 hora de cooldown
-                    alert('Esta licencia está en uso. Por favor, intenta más tarde.');
-                    return;
-                }
-            }
-
-            activeLicenses.set(licenseKey, Date.now());
-            isPremiumActive = true;
-            document.getElementById('premiumAccess').classList.add('hidden');
-            alert('¡Bienvenido a Premium! Ahora tienes acceso a todo el contenido.');
-            initializeLibrary(); // Reinicializar la biblioteca para actualizar los botones
-        }
-
-        // Modificar la función createBookCard para manejar contenido premium
-        function createBookCard(bookData, isPremium = false) {
-            const card = document.createElement('div');
-            card.className = 'book-card';
-            const buttonText = isPremium && !isPremiumActive ? 'Requiere Premium' : 'Leer Ahora';
-            const buttonOnClick = isPremium && !isPremiumActive ? 
-                'alert("Necesitas una suscripción premium para acceder a este contenido")' : 
-                `openBook('${bookData.id}', '${bookData.title}')`;
-            
-            card.innerHTML = `
-                <div class="book-cover" id="cover-${bookData.id}">
-                    <img src="/api/placeholder/200/260" alt="${bookData.title}">
-                </div>
-                <div class="book-info">
-                    <h3 class="book-title">${bookData.title}</h3>
-                    <button onclick="${buttonOnClick}" class="btn">
-                        <i class="fas fa-book-reader btn-icon"></i>
-                        ${buttonText}
-                    </button>
-                </div>
-            `;
-            return card;
-        }
-
-        // Manejo del desvanecimiento de los controles del visor
-        let controlsTimeout;
-        function setupViewerControls() {
-            const controls = document.querySelector('.viewer-controls');
-            
-            function showControls() {
-                controls.style.opacity = '1';
-                clearTimeout(controlsTimeout);
-                controlsTimeout = setTimeout(() => {
-                    controls.style.opacity = '0';
-                }, 3000);
-            }
-
-            document.getElementById('bookViewer').addEventListener('click', showControls);
-            document.getElementById('bookViewer').addEventListener('mousemove', showControls);
-            
-            // Iniciar el temporizador inicial
-            showControls();
-        }
-
-        // Modificar la función openBook para configurar los controles
-        const originalOpenBook = openBook;
-        async function openBook(bookId, title) {
-            if (books.premium.some(b => b.id === bookId) && !isPremiumActive) {
-                alert('Necesitas una suscripción premium para acceder a este contenido');
-                return;
-            }
-            
-            await originalOpenBook(bookId, title);
-            setupViewerControls();
-        }
-
-        // Manejo del desvanecimiento del header
+        // Añade esto al inicio de tus scripts existentes
         document.addEventListener('DOMContentLoaded', function() {
             const headerContent = document.getElementById('headerContent');
             const headerTitle = document.getElementById('headerTitle');
@@ -285,10 +418,12 @@
             let lastScrollPosition = 0;
             let ticking = false;
 
+            // Función para manejar el scroll
             function handleScroll() {
                 const currentScroll = window.pageYOffset;
-                
-                if (currentScroll > 50) {
+            
+            // Mostrar/ocultar título basado en la posición del scroll
+                if (currentScroll > 50) { // Ajusta este valor según prefieras
                     headerContent.classList.add('fade-out');
                     headerTitle.classList.add('fade-out');
                     modeToggle.classList.add('fade-out');
@@ -300,21 +435,296 @@
 
                 lastScrollPosition = currentScroll;
                 ticking = false;
-            }
+           }
 
-            window.addEventListener('scroll', function() {
-                if (!ticking) {
-                    window.requestAnimationFrame(function() {
-                        handleScroll();
-                    });
-                    ticking = true;
-                }
+              // Evento de scroll con optimización de rendimiento
+           window.addEventListener('scroll', function() {
+               if (!ticking) {
+                   window.requestAnimationFrame(function() {
+                       handleScroll();
+                   });
+                   ticking = true;
+               }
             });
+ 
+            // Asegurarse de que el título sea visible al cargar la página
+            headerContent.classList.remove('fade-out');
+            headerTitle.classList.remove('fade-out');
+            modeToggle.classList.remove('fade-out');
         });
 
-        // [Rest of your JavaScript remains exactly the same]
-        // [Include all previous functions without modification]
+        
+        // Configuración de libros
+        const books = {
+            free: [
+                {
+                    title: "Ragnarok: El camino de un hombre",
+                    path: "Libros/Ragnarok. El camino de un hombre - Hombres Peligrosos.epub",
+                    id: "ragnarok"
+                }
+            ],
+            premium: [
+                {
+                    title: "Mentalidad de Titán",
+                    path: "Libros/Mentalidad de Titán.epub",
+                    id: "titan"
+                }
+            ]
+        };
 
+        let currentBook = null;
+        let rendition = null;
+        const preloadedBooks = new Map();
+
+        // Función para precargar libros
+        async function preloadBooks() {
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            loadingOverlay.style.display = 'flex';
+
+            try {
+                const allBooks = [...books.free, ...books.premium];
+                for (const book of allBooks) {
+                    const epubBook = ePub(book.path);
+                    await epubBook.ready;
+                    preloadedBooks.set(book.id, epubBook);
+                }
+            } catch (error) {
+                console.error('Error preloading books:', error);
+            } finally {
+                loadingOverlay.style.display = 'none';
+            }
+        }
+
+        // Crear tarjeta de libro
+        function createBookCard(bookData, isPremium = false) {
+            const card = document.createElement('div');
+            card.className = 'book-card';
+            card.innerHTML = `
+                <div class="book-cover" id="cover-${bookData.id}">
+                    <img src="/api/placeholder/200/260" alt="${bookData.title}">
+                </div>
+                <div class="book-info">
+                    <h3 class="book-title">${bookData.title}</h3>
+                    <button onclick="openBook('${bookData.id}', '${bookData.title}')" class="btn">
+                        <i class="fas fa-book-reader btn-icon"></i>
+                        Leer Ahora
+                    </button>
+                </div>
+            `;
+            return card;
+        }
+
+        // Cargar portadas de libros
+        async function loadBookCover(bookData) {
+            try {
+                const book = preloadedBooks.get(bookData.id) || ePub(bookData.path);
+                const coverUrl = await book.coverUrl();
+                
+                if (coverUrl) {
+                    const coverImg = document.querySelector(`#cover-${bookData.id} img`);
+                    if (coverImg) {
+                        coverImg.src = coverUrl;
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading cover:', error);
+            }
+        }
+
+        // Inicializar la biblioteca
+        async function initializeLibrary() {
+            const freeBooksGrid = document.getElementById('freeBooks');
+            const premiumBooksGrid = document.getElementById('premiumBooks');
+
+            // Cargar libros gratuitos
+            books.free.forEach(book => {
+                freeBooksGrid.appendChild(createBookCard(book));
+                loadBookCover(book);
+            });
+
+            // Cargar libros premium
+            books.premium.forEach(book => {
+                premiumBooksGrid.appendChild(createBookCard(book, true));
+                loadBookCover(book);
+            });
+
+            // Precargar libros
+            await preloadBooks();
+        }
+
+        // Abrir libro
+        async function openBook(bookId, title) {
+            const viewer = document.getElementById('bookViewer');
+            
+        const loadingOverlay = document.getElementById('loadingOverlay');
+            loadingOverlay.style.display = 'flex';
+            document.getElementById('currentBookTitle').textContent = title;
+
+            try {
+                viewer.classList.add('active');
+                document.body.style.overflow = 'hidden';
+
+                // Usar libro precargado o cargar nuevo
+                if (currentBook) {
+                    currentBook.destroy();
+                }
+
+                currentBook = preloadedBooks.get(bookId) || ePub(books.free.concat(books.premium).find(b => b.id === bookId).path);
+                
+                // Configurar el renderizado
+                rendition = currentBook.renderTo("viewer", {
+                    width: "100%",
+                    height: "100%",
+                    spread: "auto",
+                    flow: "paginated",
+                    minSpreadWidth: 800
+                });
+
+                // Aplicar estilos al contenido del libro
+                rendition.themes.register("default", {
+                    body: {
+                        color: "#2c3e50",
+                        background: "#ffffff",
+                        'font-family': "'Poppins', sans-serif",
+                        padding: "1em",
+                        'line-height': "1.6"
+                    }
+                });
+
+                // Aplicar tema oscuro si está activo
+                if (document.body.classList.contains('dark-mode')) {
+                    rendition.themes.register("dark", {
+                        body: {
+                            color: "#ecf0f1",
+                            background: "#1a1a1a"
+                        }
+                    });
+                    rendition.themes.select("dark");
+                } else {
+                    rendition.themes.select("default");
+                }
+
+                await rendition.display();
+
+                // Configurar eventos
+                rendition.on("keyup", handleKeyPress);
+                rendition.on("relocated", saveProgress);
+                
+                // Restaurar progreso anterior si existe
+                const savedProgress = localStorage.getItem(`book-progress-${bookId}`);
+                if (savedProgress) {
+                    try {
+                        const progress = JSON.parse(savedProgress);
+                        await rendition.display(progress.cfi);
+                    } catch (e) {
+                        console.error('Error restaurando progreso:', e);
+                    }
+                }
+
+            } catch (error) {
+                console.error('Error al abrir el libro:', error);
+                alert('Error al cargar el libro. Por favor, inténtalo de nuevo.');
+            } finally {
+                loadingOverlay.style.display = 'none';
+            }
+        }
+
+        // Guardar progreso de lectura
+        function saveProgress(location) {
+            if (currentBook) {
+                const progress = {
+                    cfi: location.start.cfi,
+                    percentage: location.start.percentage
+                };
+                localStorage.setItem(`book-progress-${currentBook.key()}`, JSON.stringify(progress));
+            }
+        }
+
+        // Cerrar visor
+        function closeViewer() {
+            const viewer = document.getElementById('bookViewer');
+            viewer.classList.remove('active');
+            document.body.style.overflow = 'auto';
+
+            if (currentBook) {
+                // Guardar último progreso antes de cerrar
+                const currentLocation = rendition.currentLocation();
+                if (currentLocation) {
+                    saveProgress(currentLocation);
+                }
+            }
+
+            if (rendition) {
+                rendition.destroy();
+                rendition = null;
+            }
+            
+            document.getElementById('viewer').innerHTML = '';
+        }
+
+        // Navegación
+        function prevPage() {
+            if (rendition) {
+                rendition.prev();
+            }
+        }
+
+        function nextPage() {
+            if (rendition) {
+                rendition.next();
+            }
+        }
+
+        // Manejo de eventos de teclado
+        function handleKeyPress(e) {
+            if (e.key === 'ArrowLeft') prevPage();
+            if (e.key === 'ArrowRight') nextPage();
+            if (e.key === 'Escape') closeViewer();
+        }
+
+        // Gestión del modo oscuro
+        const modeToggle = document.getElementById('modeToggle');
+        const icon = modeToggle.querySelector('i');
+        const text = modeToggle.querySelector('span');
+
+        // Cargar preferencia guardada
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            updateModeToggle(true);
+        }
+
+        modeToggle.addEventListener('click', () => {
+            const isDarkMode = document.body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', isDarkMode);
+            updateModeToggle(isDarkMode);
+
+            // Actualizar tema del libro si está abierto
+            if (rendition) {
+                rendition.themes.select(isDarkMode ? "dark" : "default");
+            }
+        });
+
+        function updateModeToggle(isDarkMode) {
+            if (isDarkMode) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                text.textContent = 'Modo Claro';
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                text.textContent = 'Modo Oscuro';
+            }
+        }
+
+        // Iniciar la aplicación
+        document.addEventListener('DOMContentLoaded', initializeLibrary);
+
+        // Manejar eventos de teclado globales
+        document.addEventListener('keydown', (e) => {
+            if (document.getElementById('bookViewer').classList.contains('active')) {
+                handleKeyPress(e);
+            }
+        });
     </script>
 </body>
 </html>
