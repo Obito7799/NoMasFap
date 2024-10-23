@@ -44,6 +44,7 @@
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            padding-top: var(--header-height);
         }
 
         /* Header Styles */
@@ -53,6 +54,8 @@
             z-index: 1000;
             top: 0;
             left: 0;
+            background-color: var(--card-bg);
+            box-shadow: 0 2px 10px var(--shadow-color);
         }
 
         .header-content {
@@ -64,7 +67,6 @@
             align-items: center;
             height: var(--header-height);
             min-height: 60px;
-            transition: all 0.3s ease;
         }
 
         .header-title {
@@ -72,7 +74,6 @@
             font-size: 2rem;
             color: var(--primary-color);
             font-weight: 700;
-            transition: all 0.3s ease;
             letter-spacing: 0.5px;
         }
 
@@ -82,146 +83,232 @@
             align-items: center;
         }
 
-        /* Premium Access Modal */
-        .modal {
-            display: none;
+        /* Main Content Styles */
+        .main-content {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
+        }
+
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Book Card Styles */
+        .book-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px var(--shadow-color);
+            transition: transform 0.3s ease;
+            border: 1px solid var(--card-border);
+        }
+
+        .book-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .book-cover {
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+        }
+
+        .book-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .book-info {
+            padding: 1.5rem;
+        }
+
+        .book-title {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background: var(--primary-hover);
+        }
+
+        .btn-icon {
+            font-size: 1.1rem;
+        }
+
+        /* Viewer Styles */
+        #bookViewer {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 2000;
+            background: var(--bg-color);
+            z-index: 1500;
+            display: none;
+        }
+
+        #bookViewer.active {
+            display: block;
+        }
+
+        #viewer {
+            width: 100%;
+            height: calc(100% - var(--header-height));
+            margin-top: var(--header-height);
+        }
+
+        .viewer-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: var(--card-bg);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px var(--shadow-color);
+            z-index: 1600;
+        }
+
+        #currentBookTitle {
+            font-size: 1.2rem;
+            color: var(--text-color);
+        }
+
+        /* Loading Overlay */
+        #loadingOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
             justify-content: center;
             align-items: center;
+            z-index: 2000;
         }
 
-        .modal.active {
-            display: flex;
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
         }
 
-        .modal-content {
-            background-color: var(--card-bg);
-            padding: 2rem;
-            border-radius: 12px;
-            max-width: 400px;
-            width: 90%;
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        .modal-title {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: var(--text-color);
+        /* Premium Section Styles */
+        .premium-section {
+            opacity: 0.5;
+            pointer-events: none;
+            transition: all 0.3s ease;
         }
 
-        .license-input {
-            width: 100%;
-            padding: 0.8rem;
-            margin-bottom: 1rem;
-            border: 1px solid var(--card-border);
-            border-radius: 8px;
-            font-size: 1rem;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-        }
-
-        /* Viewer Controls */
-        .viewer-controls {
-            position: fixed;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 1rem;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 0.8rem;
-            border-radius: 50px;
-            backdrop-filter: blur(4px);
-            opacity: 0.6;
-            transition: opacity 0.3s ease;
-        }
-
-        .viewer-controls:hover {
+        .premium-section.active {
             opacity: 1;
+            pointer-events: auto;
         }
 
+        /* Responsive Design */
         @media (max-width: 768px) {
+            .header-content {
+                padding: 1rem;
+            }
+
+            .main-content {
+                padding: 0 1rem;
+            }
+
+            .books-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 1rem;
+            }
+
+            .book-cover {
+                height: 250px;
+            }
+
             .viewer-controls {
-                display: none; /* Hide controls on mobile */
+                bottom: 1rem;
+                padding: 0.5rem;
             }
         }
-
-        /* Display Settings */
-        .display-settings {
-            position: fixed;
-            top: 50%;
-            right: 1rem;
-            transform: translateY(-50%);
-            background: rgba(0, 0, 0, 0.3);
-            padding: 0.8rem;
-            border-radius: 12px;
-            backdrop-filter: blur(4px);
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            z-index: 2001;
-        }
-
-        .display-option {
-            background: none;
-            border: none;
-            color: white;
-            padding: 0.5rem;
-            cursor: pointer;
-            border-radius: 6px;
-            transition: background-color 0.2s ease;
-        }
-
-        .display-option:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        /* Page turn animation */
-        .epub-view {
-            transition: transform 0.3s ease;
-        }
-
-        .page-turn-right {
-            animation: turnPageRight 0.3s ease-in-out;
-        }
-
-        .page-turn-left {
-            animation: turnPageLeft 0.3s ease-in-out;
-        }
-
-        @keyframes turnPageRight {
-            from {
-                transform: translateX(0);
-                opacity: 1;
-            }
-            to {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-        }
-
-        @keyframes turnPageLeft {
-            from {
-                transform: translateX(0);
-                opacity: 1;
-            }
-            to {
-                transform: translateX(-100%);
-                opacity: 0;
-            }
-        }
-
-        /* Rest of your existing styles... */
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- Your existing header and main content... -->
+    <header>
+        <div class="header-content">
+            <h1 class="header-title">Mi Biblioteca</h1>
+            <nav class="header-nav">
+                <button class="btn" onclick="document.getElementById('premiumModal').classList.add('active')">
+                    <i class="fas fa-crown btn-icon"></i>
+                    Premium
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <section>
+            <h2 class="section-title">Libros Gratuitos</h2>
+            <div id="freeBooks" class="books-grid"></div>
+        </section>
+
+        <section class="premium-section">
+            <h2 class="section-title">Libros Premium</h2>
+            <div id="premiumBooks" class="books-grid"></div>
+        </section>
+    </main>
+
+    <div id="bookViewer">
+        <div class="viewer-header">
+            <h2 id="currentBookTitle"></h2>
+            <button class="btn" onclick="closeViewer()">
+                <i class="fas fa-times btn-icon"></i>
+                Cerrar
+            </button>
+        </div>
+        <div id="viewer"></div>
+    </div>
+
+    <div id="loadingOverlay">
+        <div class="loader"></div>
+    </div>
 
     <!-- Premium Access Modal -->
     <div id="premiumModal" class="modal">
@@ -236,7 +323,7 @@
     </div>
 
     <!-- Display Settings -->
-    <div id="displaySettings" class="display-settings" style="display: none;">
+    <div id="displaySettings" class="display-settings">
         <button class="display-option" onclick="toggleDisplayMode('single')">
             <i class="fas fa-book-open"></i>
         </button>
@@ -252,34 +339,12 @@
     </div>
 
     <script>
-        // License management
-        const validLicenses = [
-            'X7J9L2A', 'Q5M4N1Z', 'P9T8R3K', 'H2V7X9F', 'W1Z5K6M',
-            'R4J8Q7P', 'L9F3T2V', 'C7M2X8L', 'V5Z6N3B', 'T2K7Q1R'
-        ];
+        // Variables globales
+        let currentBook = null;
+        let rendition = null;
+        const preloadedBooks = new Map();
 
-        const activeLicenses = new Map(); // Store active licenses and their timestamps
-
-        function validateLicense() {
-            const licenseInput = document.getElementById('licenseInput').value.toUpperCase();
-            if (validLicenses.includes(licenseInput)) {
-                // Check if license is already in use
-                if (activeLicenses.has(licenseInput)) {
-                    alert('Esta licencia ya está en uso.');
-                    return;
-                }
-
-                // Activate license
-                activeLicenses.set(licenseInput, Date.now());
-                localStorage.setItem('activeLicense', licenseInput);
-                document.getElementById('premiumModal').classList.remove('active');
-                enablePremiumAccess();
-            } else {
-                alert('Código de licencia inválido.');
-            }
-        }
-
-        // Updated books configuration
+        // Configuración de libros
         const books = {
             free: [
                 {
@@ -317,7 +382,92 @@
             ]
         };
 
-        // Touch handling for mobile
+        // Inicialización de la biblioteca
+        function initializeLibrary() {
+            const freeSection = document.getElementById('freeBooks');
+            const premiumSection = document.getElementById('premiumBooks');
+
+            // Limpiar secciones
+            freeSection.innerHTML = '';
+            premiumSection.innerHTML = '';
+
+            // Cargar libros gratuitos
+            books.free.forEach(book => {
+                freeSection.appendChild(createBookCard(book));
+            });
+
+            // Cargar libros premium
+            books.premium.forEach(book => {
+                premiumSection.appendChild(createBookCard(book, true));
+            });
+
+            // Precargar libros gratuitos
+            books.free.forEach(book => {
+                preloadedBooks.set(book.id, ePub(book.path));
+            });
+
+            // Restaurar progreso guardado
+            restoreProgress();
+        }
+
+        // Guardar progreso de lectura
+        function saveProgress(location) {
+            if (currentBook && location) {
+                const progress = {
+                    bookId: currentBook.id,
+                    location: location,
+                    timestamp: Date.now()
+                };
+                localStorage.setItem('readingProgress', JSON.stringify(progress));
+            }
+        }
+
+        // Restaurar progreso de lectura
+        function restoreProgress() {
+            const savedProgress = localStorage.getItem('readingProgress');
+            if (savedProgress) {
+                const progress = JSON.parse(savedProgress);
+                // Implementar la lógica para restaurar la última posición de lectura
+            }
+        }
+
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            const activeLicense = localStorage.getItem('activeLicense');
+            if (activeLicense && validLicenses.includes(activeLicense)) {
+                activeLicenses.set(activeLicense, Date.now());
+                enablePremiumAccess();
+            }
+            initializeLibrary();
+
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (document.getElementById('bookViewer').classList.contains('active')) {
+                    switch(e.key) {
+                        case 'ArrowLeft':
+                            prevPage();
+                            break;
+                        case 'ArrowRight':
+                            nextPage();
+                            break;
+                        case 'Escape':
+                            closeViewer();
+                            break;
+                    }
+                }
+            });
+
+            // Limpiar al cerrar el visor
+            document.getElementById('viewer').addEventListener('unload', () => {
+                document.getElementById('displaySettings').style.display = 'none';
+                if (window.innerWidth <= 768) {
+                    document.getElementById('viewer').removeEventListener('touchstart', handleTouchStart);
+                    document.getElementById('viewer').removeEventListener('touchend', handleTouchEnd);
+                }
+            });
+        });
+
+        // Manejo de gestos táctiles
         let touchStartX = 0;
         let touchEndX = 0;
 
@@ -343,8 +493,8 @@
             }
         }
 
-        // Display settings
-        let currentFontSize = 100; // percentage
+        // Configuración de visualización
+        let currentFontSize = 100; // porcentaje
         let currentDisplayMode = 'single';
 
         function toggleDisplayMode(mode) {
@@ -361,16 +511,57 @@
             }
         }
 
-        // Modified book opening function
+        // Gestión de licencias
+        const validLicenses = [
+            'X7J9L2A', 'Q5M4N1Z', 'P9T8R3K', 'H2V7X9F', 'W1Z5K6M',
+            'R4J8Q7P', 'L9F3T2V', 'C7M2X8L', 'V5Z6N3B', 'T2K7Q1R'
+        ];
+
+        const activeLicenses = new Map();
+
+        function validateLicense() {
+            const licenseInput = document.getElementById('licenseInput').value.toUpperCase();
+            if (validLicenses.includes(licenseInput)) {
+                if (activeLicenses.has(licenseInput)) {
+                    alert('Esta licencia ya está en uso.');
+                    return;
+                }
+
+                activeLicenses.set(licenseInput, Date.now());
+                localStorage.setItem('activeLicense', licenseInput);
+                document.getElementById('premiumModal').classList.remove('active');
+                enablePremiumAccess();
+                alert('¡Licencia premium activada correctamente!');
+            } else {
+                alert('Código de licencia inválido.');
+            }
+        }
+
+        function enablePremiumAccess() {
+            const premiumSection = document.querySelector('.premium-section');
+            if (premiumSection) {
+                premiumSection.classList.add('active');
+            }
+            
+            const premiumBooks = document.querySelectorAll('#premiumBooks .book-card');
+            premiumBooks.forEach(card => {
+                card.classList.remove('premium-locked');
+            });
+        }
+
+        // Función para abrir libros
         async function openBook(bookId, title) {
-            // Check premium access for premium books
             const bookData = [...books.free, ...books.premium].find(b => b.id === bookId);
+            if (!bookData) {
+                alert('Libro no encontrado');
+                return;
+            }
+
             if (books.premium.some(b => b.id === bookId) && !localStorage.getItem('activeLicense')) {
                 document.getElementById('premiumModal').classList.add('active');
                 return;
             }
 
-            // Rest of your existing openBook function...
             const viewer = document.getElementById('bookViewer');
             const loadingOverlay = document.getElementById('loadingOverlay');
             loadingOverlay.style.display = 'flex';
@@ -395,18 +586,23 @@
                     minSpreadWidth: 800
                 });
 
-                // Add touch events for mobile
+                // Eventos táctiles para móvil
                 if (window.innerWidth <= 768) {
                     document.getElementById('viewer').addEventListener('touchstart', handleTouchStart);
                     document.getElementById('viewer').addEventListener('touchend', handleTouchEnd);
                 }
 
-                // Apply current display settings
                 rendition.themes.fontSize(`${currentFontSize}%`);
                 
-                await rendition.display();
+                // Restaurar el último progreso de lectura
+                const savedProgress = localStorage.getItem(`progress-${bookId}`);
+                if (savedProgress) {
+                    await rendition.display(savedProgress);
+                } else {
+                    await rendition.display();
+                }
 
-                // Add page turn animation
+                // Animación de cambio de página
                 rendition.hooks.render.register(function(contents) {
                     const body = contents.document.body;
                     body.style.transition = 'transform 0.3s ease';
@@ -420,40 +616,7 @@
             }
         }
 
-        // Initialize premium access on load
-        document.addEventListener('DOMContentLoaded', () => {
-            const activeLicense = localStorage.getItem('activeLicense');
-            if (activeLicense && validLicenses.includes(activeLicense)) {
-                activeLicenses.set(activeLicense, Date.now());
-                enablePremiumAccess();
-            }
-            initializeLibrary
-            // Cleanup on viewer close
-            document.getElementById('viewer').addEventListener('unload', () => {
-                document.getElementById('displaySettings').style.display = 'none';
-                if (window.innerWidth <= 768) {
-                    document.getElementById('viewer').removeEventListener('touchstart', handleTouchStart);
-                    document.getElementById('viewer').removeEventListener('touchend', handleTouchEnd);
-                }
-            });
-        });
-
-        function enablePremiumAccess() {
-            // Enable access to premium content
-            const premiumSection = document.querySelector('.premium-section');
-            if (premiumSection) {
-                premiumSection.style.opacity = '1';
-                premiumSection.style.pointerEvents = 'auto';
-            }
-            
-            // Update premium book cards to be clickable
-            const premiumBooks = document.querySelectorAll('#premiumBooks .book-card');
-            premiumBooks.forEach(card => {
-                card.classList.remove('premium-locked');
-            });
-        }
-
-        // Modified prevPage and nextPage functions with animation
+        // Navegación de páginas
         function prevPage() {
             if (rendition) {
                 const view = document.querySelector('.epub-view');
@@ -476,7 +639,7 @@
             }
         }
 
-        // Modified closeViewer function
+        // Cerrar el visor
         function closeViewer() {
             const viewer = document.getElementById('bookViewer');
             viewer.classList.remove('active');
@@ -486,7 +649,7 @@
             if (currentBook) {
                 const currentLocation = rendition.currentLocation();
                 if (currentLocation) {
-                    saveProgress(currentLocation);
+                    localStorage.setItem(`progress-${currentBook.id}`, currentLocation.start.cfi);
                 }
             }
 
@@ -497,14 +660,13 @@
             
             document.getElementById('viewer').innerHTML = '';
 
-            // Remove touch events
             if (window.innerWidth <= 768) {
                 document.getElementById('viewer').removeEventListener('touchstart', handleTouchStart);
                 document.getElementById('viewer').removeEventListener('touchend', handleTouchEnd);
             }
         }
 
-        // Modified createBookCard function
+        // Crear tarjetas de libros
         function createBookCard(bookData, isPremium = false) {
             const card = document.createElement('div');
             card.className = 'book-card' + (isPremium && !localStorage.getItem('activeLicense') ? ' premium-locked' : '');
@@ -530,46 +692,6 @@
             `;
             return card;
         }
-
-        // Add these additional styles
-        const additionalStyles = document.createElement('style');
-        additionalStyles.textContent = `
-            .premium-locked {
-                position: relative;
-                opacity: 0.7;
-            }
-
-            .premium-locked::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: rgba(0,0,0,0.1);
-                z-index: 1;
-                border-radius: 12px;
-            }
-
-            .premium-locked .btn {
-                background: var(--premium-gradient);
-                color: #000;
-            }
-
-            .epub-view {
-                transition: transform 0.3s ease, opacity 0.3s ease;
-            }
-
-            @media (max-width: 768px) {
-                #viewer {
-                    touch-action: pan-y pinch-zoom;
-                }
-            }
-        `;
-        document.head.appendChild(additionalStyles);
-
-        // Initialize the library
-        initializeLibrary();
     </script>
 </body>
 </html>
